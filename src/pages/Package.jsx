@@ -1,4 +1,4 @@
-// パッケージの詳細ページコンポーネント
+// 包详情页面组件
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { open } from '@tauri-apps/plugin-shell';
@@ -29,7 +29,7 @@ import ErrorDialog from '../components/ErrorDialog.jsx';
 import ProgressCircle from '../components/ProgressCircle.jsx';
 import { buildLicenseBody } from '../utils/licenseTemplates.js';
 
-// パスがmdファイルパスかどうか判定
+// 判断路径是否为markdown文件路径
 function isMarkdownFilePath(path) {
   if (typeof path !== 'string') return false;
   const trimmedPath = path.trim();
@@ -37,15 +37,15 @@ function isMarkdownFilePath(path) {
   return /\.md$/i.test(trimmedPath);
 }
 
-// 相対パスの場合絶対パスに変更
+// 相对路径转换为绝对路径
 function resolveMarkdownURL(path, baseUrl) {
   const trimmed = String(path || '').trim();
   if (!trimmed) throw new Error('Empty markdown path');
-  // 絶対URLならそのまま返す
+  // 如果是绝对URL则直接返回
   try {
     return new URL(trimmed).toString();
   } catch {}
-  // 相対URLならbaseUrlを基準に解決
+  // 如果是相对URL则基于baseUrl解析
   try {
     return new URL(trimmed, baseUrl).toString();
   } catch {}
@@ -62,11 +62,11 @@ function LicenseModal({ license, onClose }) {
       aria-modal="true"
       aria-labelledby="license-modal-title"
     >
-      <button type="button" aria-label="閉じる" className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <button type="button" aria-label="关闭" className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative w-full max-w-2xl rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
         <div className="border-b border-slate-100 px-6 py-4 dark:border-slate-800">
           <h3 id="license-modal-title" className="text-lg font-bold">
-            ライセンス: {license.type || '不明'}
+            许可证: {license.type || '未知'}
           </h3>
         </div>
         <div className="px-6 py-4">
@@ -75,12 +75,12 @@ function LicenseModal({ license, onClose }) {
               {body}
             </pre>
           ) : (
-            <div className="text-sm text-slate-500 dark:text-slate-400">ライセンス本文がありません。</div>
+            <div className="text-sm text-slate-500 dark:text-slate-400">无许可证正文。</div>
           )}
         </div>
         <div className="flex justify-end border-t border-slate-100 px-6 py-4 dark:border-slate-800">
           <button type="button" className="btn btn--secondary" onClick={onClose}>
-            閉じる
+            关闭
           </button>
         </div>
       </div>
@@ -88,8 +88,8 @@ function LicenseModal({ license, onClose }) {
   );
 }
 
-// パッケージ詳細ページコンポーネント
-// 指定されたパッケージの詳細情報を表示し、インストール・更新・削除機能を提供
+// 包详情页面组件
+// 显示指定包的详细信息，并提供安装、更新、删除功能
 export default function Package() {
   const { id } = useParams();
   const location = useLocation();
@@ -98,7 +98,7 @@ export default function Package() {
   const fromSearch = typeof location.state?.fromSearch === 'string' ? location.state.fromSearch : '';
   const listLink = useMemo(() => (fromSearch ? { pathname: '/', search: fromSearch } : '/'), [fromSearch]);
 
-  // URLパラメータのIDに基づいてアイテムを検索
+  // 根据URL参数ID查找项目
   const item = useMemo(() => items.find((i) => i.id === id), [items, id]);
   const imageGroups = useMemo(() => (Array.isArray(item?.images) ? item.images : []), [item]);
   const heroImage = useMemo(() => {
@@ -124,7 +124,7 @@ export default function Package() {
   }, [imageGroups]);
   const descriptionSource = item?.description || '';
 
-  // UI状態管理（エラー/処理中フラグ）
+  // UI状态管理（错误/处理中标志）
   const [error, setError] = useState('');
   const [downloading, setDownloading] = useState(false);
   const [updating, setUpdating] = useState(false);
@@ -142,7 +142,7 @@ export default function Package() {
   const autoInstallRef = useRef('');
 
   const baseURL = 'https://raw.githubusercontent.com/Neosku/aviutl2-catalog-data/main/md/';
-  // MarkdownファイルのベースURL（相対パス解決用）
+  // Markdown文件的基础URL（用于相对路径解析）
   useEffect(() => {
     let cancelled = false;
     const raw = descriptionSource;
@@ -174,8 +174,8 @@ export default function Package() {
         }
       } catch {
         if (!cancelled) {
-          setDescriptionHtml(renderMarkdown('詳細説明を読み込めませんでした。'));
-          setDescriptionError('詳細説明を読み込めませんでした。');
+          setDescriptionHtml(renderMarkdown('无法加载详细说明。'));
+          setDescriptionError('无法加载详细说明。');
         }
       } finally {
         if (!cancelled) {
@@ -188,14 +188,14 @@ export default function Package() {
     };
   }, [descriptionSource, baseURL]);
 
-  // インストール可能かどうかの判定
+  // 判断是否可安装
   const canInstall = item ? hasInstaller(item) || !!item.downloadURL : false;
   const downloadRatio = downloadProgress?.ratio ?? 0;
   const downloadPercent = downloadProgress?.percent ?? Math.round(downloadRatio * 100);
-  const downloadLabel = downloadProgress?.label ?? '準備中…';
+  const downloadLabel = downloadProgress?.label ?? '准备中…';
   const updateRatio = updateProgress?.ratio ?? 0;
   const updatePercent = updateProgress?.percent ?? Math.round(updateRatio * 100);
-  const updateLabel = updateProgress?.label ?? '準備中…';
+  const updateLabel = updateProgress?.label ?? '准备中…';
   const licenseEntries = useMemo(() => {
     if (!item) return [];
     const rawLicenses = Array.isArray(item.licenses) ? item.licenses : [];
@@ -221,18 +221,18 @@ export default function Package() {
     return types.length ? types.join(', ') : '?';
   }, [item]);
 
-  // ダウンロード/インストール処理
+  // 下载/安装处理
   async function onDownload() {
     try {
       setDownloading(true);
-      setDownloadProgress({ ratio: 0, percent: 0, label: '準備中…', phase: 'init' });
+      setDownloadProgress({ ratio: 0, percent: 0, label: '准备中…', phase: 'init' });
       if (hasInstaller(item)) {
         await runInstallerForItem(item, dispatch, setDownloadProgress);
       } else {
-        throw new Error('インストールが未実装です');
+        throw new Error('安装功能未实现');
       }
     } catch (err) {
-      setError(`更新に失敗しました\n\n${err?.message || String(err) || '原因不明のエラー'}`);
+      setError(`更新失败\n\n${err?.message || String(err) || '原因不明のエラー'}`);
     } finally {
       setDownloading(false);
       setDownloadProgress(null);
@@ -253,41 +253,41 @@ export default function Package() {
     void onDownload();
   }, [item, location.search, canInstall, downloading]);
 
-  // アイテムが見つからない場合のエラー表示
+  // 未找到项目时的错误显示
   if (!item) {
     if (loading || items.length === 0) {
       return (
         <div className="max-w-3xl mx-auto">
-          <div className="p-6 text-slate-500 dark:text-slate-400">読み込み中…</div>
+          <div className="p-6 text-slate-500 dark:text-slate-400">加载中…</div>
         </div>
       );
     }
     return (
       <div className="max-w-3xl mx-auto">
-        <div className="error">パッケージが見つかりませんでした。</div>
+        <div className="error">未找到包。</div>
       </div>
     );
   }
 
-  // 更新処理（最新版で上書きインストール）
+  // 更新处理（用最新版覆盖安装）
   async function onUpdate() {
     try {
       setUpdating(true);
-      setUpdateProgress({ ratio: 0, percent: 0, label: '準備中…', phase: 'init' });
+      setUpdateProgress({ ratio: 0, percent: 0, label: '准备中…', phase: 'init' });
       if (hasInstaller(item)) {
         await runInstallerForItem(item, dispatch, setUpdateProgress);
       } else {
-        throw new Error('インストールが未実装です');
+        throw new Error('安装功能未实现');
       }
     } catch (err) {
-      setError(`更新に失敗しました\n\n${err?.message || String(err) || '原因不明のエラー'}`);
+      setError(`更新失败\n\n${err?.message || String(err) || '原因不明のエラー'}`);
     } finally {
       setUpdating(false);
       setUpdateProgress(null);
     }
   }
 
-  // 削除処理（アンインストーラがある場合は実行、無い場合は状態のみクリア）
+  // 删除处理（有卸载器则执行，无则仅清除状态）
   async function onRemove() {
     try {
       setRemoving(true);
@@ -303,8 +303,8 @@ export default function Package() {
         dispatch({ type: 'SET_DETECTED_ONE', payload: { id: item.id, version: detected } });
       }
     } catch (err) {
-      const msg = (err && (err.message || err.toString())) || '原因不明のエラー';
-      setError(`削除に失敗しました\n\n${msg}`);
+      const msg = (err && (err.message || err.toString())) || '原因不明的错误';
+      setError(`删除失败\n\n${msg}`);
     } finally {
       setRemoving(false);
       setDownloadProgress(null);
@@ -312,7 +312,7 @@ export default function Package() {
     }
   }
 
-  // 表示用のフォーマット済み情報を準備
+  // 准备用于显示的格式化信息
   const updated = item.updatedAt ? formatDate(item.updatedAt).replace(/-/g, '/') : '?';
   const latest = latestVersionOf(item) || '?';
 
@@ -320,7 +320,7 @@ export default function Package() {
     <div className="space-y-6 max-w-6xl mx-auto min-h-[calc(100vh-6rem)] flex flex-col">
       <nav className="flex items-center text-sm text-slate-500 dark:text-slate-400">
         <Link to={listLink} className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
-          パッケージ一覧
+          包列表
         </Link>
         <ChevronRight size={16} className="mx-2" />
         <span className="font-medium text-slate-900 dark:text-slate-100 truncate">{item.name}</span>
@@ -336,14 +336,14 @@ export default function Package() {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                {item.type || '未分類'}
+                {item.type || '未分类'}
               </span>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{item.name}</h1>
               {item.summary && <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">{item.summary}</p>}
             </div>
             {item.installed && (
               <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/40 dark:text-green-300">
-                <CheckCircle2 size={14} /> 導入済
+                <CheckCircle2 size={14} /> 已安装
               </span>
             )}
           </div>
@@ -361,7 +361,7 @@ export default function Package() {
 
       {carouselImages.length ? (
         <section className="space-y-3">
-          <h2 className="text-lg font-bold">スクリーンショット</h2>
+          <h2 className="text-lg font-bold">截图</h2>
           <ImageCarousel images={carouselImages} />
         </section>
       ) : null}
@@ -375,9 +375,9 @@ export default function Package() {
 
           {item.description && (
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <h2 className="text-lg font-bold mb-3">詳細説明</h2>
+              <h2 className="text-lg font-bold mb-3">详细说明</h2>
               {descriptionLoading ? (
-                <p className="text-sm text-slate-500 dark:text-slate-400">詳細説明を読み込み中です…</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">正在加载详细说明…</p>
               ) : (
                 <div
                   className="prose prose-slate max-w-none dark:prose-invert"
@@ -409,7 +409,7 @@ export default function Package() {
 
           {item.dependencies?.length ? (
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <h2 className="text-lg font-bold mb-2">依存関係</h2>
+              <h2 className="text-lg font-bold mb-2">依赖关系</h2>
               <p className="text-sm text-slate-600 dark:text-slate-400">{item.dependencies.join(', ')}</p>
             </section>
           ) : null}
@@ -426,30 +426,30 @@ export default function Package() {
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-                <span>更新日</span>
+                <span>更新日期</span>
                 <span className="flex items-center gap-2 text-slate-800 dark:text-slate-200">
                   <Calendar size={14} />
                   {updated}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-                <span>最新バージョン</span>
+                <span>最新版本</span>
                 <span className="text-slate-800 dark:text-slate-200">{latest}</span>
               </div>
               {item.installedVersion ? (
                 <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-                  <span>現在のバージョン</span>
+                  <span>当前版本</span>
                   <span className="text-slate-800 dark:text-slate-200">{item.installedVersion}</span>
                 </div>
               ) : null}
               {item.niconiCommonsId ? (
                 <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-                  <span>ニコニコモンズID</span>
+                  <span>NicoNico Commons ID</span>
                   <span className="text-slate-800 dark:text-slate-200 font-mono">{item.niconiCommonsId}</span>
                 </div>
               ) : null}
               <div className="space-y-2">
-                <span className="text-sm text-slate-600 dark:text-slate-400">ライセンス</span>
+                <span className="text-sm text-slate-600 dark:text-slate-400">许可证</span>
                 <div className="flex flex-wrap gap-2">
                   {renderableLicenses.length ? (
                     renderableLicenses.map((license) => (
@@ -458,9 +458,9 @@ export default function Package() {
                         key={license.key}
                         className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 hover:border-blue-400 hover:text-blue-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:text-blue-400"
                         onClick={() => setOpenLicense(license)}
-                        aria-label={`ライセンス ${license.type || '不明'} の本文を表示`}
+                        aria-label={`显示许可证 ${license.type || '未知'} 正文`}
                       >
-                        {license.type || '不明'}
+                        {license.type || '未知'}
                       </button>
                     ))
                   ) : (
@@ -514,10 +514,10 @@ export default function Package() {
                   )}
                   <button className="btn btn--danger w-full" onClick={onRemove} disabled={removing} type="button">
                     {removing ? (
-                      '削除中…'
+                      '删除中…'
                     ) : (
                       <>
-                        <Trash2 size={18} /> 削除
+                        <Trash2 size={18} /> 删除
                       </>
                     )}
                   </button>
@@ -541,7 +541,7 @@ export default function Package() {
                     </span>
                   ) : (
                     <>
-                      <Download size={18} /> インストール
+                      <Download size={18} /> 安装
                     </>
                   )}
                 </button>
@@ -550,7 +550,7 @@ export default function Package() {
           </div>
           <div className="contents lg:block lg:sticky lg:bottom-0 lg:z-10 lg:mt-auto lg:pt-4">
             <Link to={listLink} className="btn btn--secondary w-full justify-center flex items-center gap-2">
-              <ArrowLeft size={18} /> パッケージ一覧に戻る
+              <ArrowLeft size={18} /> 返回包列表
             </Link>
           </div>
         </aside>
