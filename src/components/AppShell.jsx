@@ -22,10 +22,10 @@ import aviutl2Icon from '../../src-tauri/icons/aviutl2.png';
 import appIcon from '../../src-tauri/icons/icon.svg';
 
 export const SORT_OPTIONS = [
-  { value: 'popularity_desc', label: '人気順' },
-  { value: 'trend_desc', label: 'トレンド順' },
-  { value: 'added_desc', label: '新着順' },
-  { value: 'updated_desc', label: '最終更新日順' },
+  { value: 'popularity_desc', label: '人气排序' },
+  { value: 'trend_desc', label: '趋势排序' },
+  { value: 'added_desc', label: '最新排序' },
+  { value: 'updated_desc', label: '最后更新排序' },
 ];
 
 function sortOrderFromQuery(sortKey, _dir) {
@@ -232,7 +232,7 @@ export default function AppShell() {
 
   // Derived state from URL (Single Source of Truth)
   const filterInstalled = parseQuery.installed;
-  const selectedCategory = parseQuery.type || 'すべて';
+  const selectedCategory = parseQuery.type || '全部';
   const selectedTags = parseQuery.tags;
   const sortOrder = sortOrderFromQuery(parseQuery.sortKey, parseQuery.dir);
 
@@ -313,18 +313,18 @@ export default function AppShell() {
     el.style.scrollBehavior = previous;
   }, [isHome]);
 
-  const categories = useMemo(() => ['すべて', ...(allTypes || [])], [allTypes]);
+  const categories = useMemo(() => ['全部', ...(allTypes || [])], [allTypes]);
 
   const filteredPackages = useMemo(() => {
     const base = searchQuery ? items.filter((item) => matchQuery(item, searchQuery)) : items;
-    const category = selectedCategory === 'すべて' ? '' : selectedCategory;
+    const category = selectedCategory === '全部' ? '' : selectedCategory;
     const afterTag = filterByTagsAndType(base, selectedTags, category ? [category] : []);
     const afterInstalled = filterInstalled ? afterTag.filter((item) => item.installed) : afterTag;
     const sorter = getSorter(parseQuery.sortKey, parseQuery.dir);
     return afterInstalled.toSorted(sorter);
   }, [items, searchQuery, selectedTags, selectedCategory, filterInstalled, parseQuery]);
 
-  const isFilterActive = filterInstalled || selectedCategory !== 'すべて' || selectedTags.length > 0;
+  const isFilterActive = filterInstalled || selectedCategory !== '全部' || selectedTags.length > 0;
   const updateAvailableCount = useMemo(() => items.filter((item) => item.installed && !item.isLatest).length, [items]);
 
   const toggleTag = (tag) => {
@@ -347,7 +347,7 @@ export default function AppShell() {
       const dirs = await invoke('get_app_dirs');
       const target = dirs && typeof dirs.aviutl2_data === 'string' ? dirs.aviutl2_data.trim() : '';
       if (!target) {
-        setError('データフォルダの場所を取得できませんでした。設定画面で AviUtl2 のフォルダを確認してください。');
+        setError('无法获取数据文件夹位置。请在设置界面确认 AviUtl2 文件夹。');
         return;
       }
       const shell = await import('@tauri-apps/plugin-shell');
@@ -358,7 +358,7 @@ export default function AppShell() {
       }
       setError('エクスプローラーを起動できませんでした。');
     } catch {
-      setError('データフォルダを開けませんでした。設定を確認してください。');
+      setError('无法打开数据文件夹。请检查设置。');
     }
   }
 
@@ -496,12 +496,12 @@ export default function AppShell() {
       >
         <div className="border-b border-slate-100 dark:border-slate-800 h-16 flex items-center shrink-0 overflow-hidden">
           <div className="w-20 shrink-0 flex items-center justify-center">
-            <img src={appIcon} alt="AviUtl2カタログ" className="h-7 w-7 object-contain" />
+            <img src={appIcon} alt="AviUtl2目录" className="h-7 w-7 object-contain" />
           </div>
           {!isSidebarCollapsed && (
             <div className="flex-1 flex items-center min-w-0 pr-4">
               <span className="font-bold text-lg text-slate-900 dark:text-slate-50 truncate tracking-tight">
-                AviUtl2カタログ
+                AviUtl2目录
               </span>
             </div>
           )}
@@ -509,11 +509,11 @@ export default function AppShell() {
 
         <div className="flex-1 overflow-y-auto flex flex-col">
           <div className="p-3 space-y-1">
-            <SidebarSectionLabel label="メインメニュー" isCollapsed={isSidebarCollapsed} hideDivider className="mb-1" />
+            <SidebarSectionLabel label="主菜单" isCollapsed={isSidebarCollapsed} hideDivider className="mb-1" />
 
             <SidebarButton
               icon={PackageSearch}
-              label="パッケージ一覧"
+              label="包列表"
               isActive={activePage === 'home'}
               isCollapsed={isSidebarCollapsed}
               onClick={() => navigate('/')}
@@ -522,7 +522,7 @@ export default function AppShell() {
 
             <SidebarButton
               icon={RefreshCw}
-              label="アップデートセンター"
+              label="更新中心"
               isActive={activePage === 'updates'}
               isCollapsed={isSidebarCollapsed}
               onClick={() => navigate('/updates')}
@@ -532,7 +532,7 @@ export default function AppShell() {
 
             <SidebarButton
               icon={niconiCommonsIcon}
-              label="ニコニコモンズ"
+              label="Niconi Commons"
               variant="ghost"
               isActive={activePage === 'niconi-commons'}
               isCollapsed={isSidebarCollapsed}
@@ -541,7 +541,7 @@ export default function AppShell() {
 
             <SidebarButton
               icon={PlusCircle}
-              label="パッケージ登録"
+              label="包注册"
               variant="ghost"
               isActive={activePage === 'register'}
               isCollapsed={isSidebarCollapsed}
@@ -552,11 +552,11 @@ export default function AppShell() {
 
           <div className="p-3 pt-2 mt-auto sm:mt-0">
             <div className="space-y-1">
-              <SidebarSectionLabel label="ショートカット" isCollapsed={isSidebarCollapsed} className="mt-2 mb-1" />
+              <SidebarSectionLabel label="快捷方式" isCollapsed={isSidebarCollapsed} className="mt-2 mb-1" />
 
               <SidebarButton
                 icon={AviUtlIcon}
-                label="AviUtl2を起動"
+                label="启动AviUtl2"
                 isActive={false}
                 isCollapsed={isSidebarCollapsed}
                 onClick={launchAviUtl2}
@@ -566,7 +566,7 @@ export default function AppShell() {
 
               <SidebarButton
                 icon={FolderOpen}
-                label="データフォルダを開く"
+                label="打开数据文件夹"
                 isActive={false}
                 isCollapsed={isSidebarCollapsed}
                 onClick={openDataDir}
@@ -580,7 +580,7 @@ export default function AppShell() {
         <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 flex flex-col gap-1">
           <SidebarButton
             icon={MessagesSquare}
-            label="フィードバック"
+            label="反馈"
             variant="ghost"
             isActive={activePage === 'feedback'}
             isCollapsed={isSidebarCollapsed}
@@ -589,7 +589,7 @@ export default function AppShell() {
           />
           <SidebarButton
             icon={Settings}
-            label="設定"
+            label="设置"
             variant="ghost"
             isActive={activePage === 'settings'}
             isCollapsed={isSidebarCollapsed}
@@ -598,7 +598,7 @@ export default function AppShell() {
           />
           <SidebarButton
             icon={isSidebarCollapsed ? PanelLeftOpen : PanelLeftClose}
-            label={isSidebarCollapsed ? 'サイドバーを開く' : 'サイドバーを閉じる'}
+            label={isSidebarCollapsed ? '打开侧边栏' : '关闭侧边栏'}
             variant="ghost"
             isCollapsed={isSidebarCollapsed}
             onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
@@ -615,7 +615,7 @@ export default function AppShell() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input
                   type="text"
-                  placeholder="パッケージ名、作者、キーワードで検索..."
+                  placeholder="按包名、作者、关键词搜索..."
                   className="w-full pl-10 pr-10 py-2 bg-white/95 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 shadow-sm"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

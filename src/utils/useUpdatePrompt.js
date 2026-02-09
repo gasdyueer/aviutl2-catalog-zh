@@ -85,15 +85,15 @@ export function useUpdatePrompt(options = {}) {
       } catch {
         try {
           const { message } = await import('@tauri-apps/plugin-dialog');
-          await message('アップデートを適用しました。アプリを再起動してください。', {
-            title: 'アップデート',
+          await message('更新已应用。请重启应用程序。', {
+            title: '更新',
             kind: 'info',
           });
         } catch {}
       }
       setUpdateInfo(null);
     } catch (e) {
-      setUpdateError('アップデートに失敗しました。ネットワークや権限をご確認ください。');
+      setUpdateError('更新失败。请检查网络连接或权限。');
       try {
         await logError(`[updater] download/install failed: ${e?.message || e}`);
       } catch {}

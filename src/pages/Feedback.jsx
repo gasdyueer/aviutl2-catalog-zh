@@ -18,7 +18,7 @@ const SUBMIT_ACTIONS = {
   inquiry: 'feedback',
 };
 
-const DeleteButton = memo(function DeleteButton({ onClick, ariaLabel = '削除', title }) {
+const DeleteButton = memo(function DeleteButton({ onClick, ariaLabel = '删除', title }) {
   return (
     <button
       type="button"
@@ -33,7 +33,7 @@ const DeleteButton = memo(function DeleteButton({ onClick, ariaLabel = '削除',
 });
 
 function VisibilityBadge({ type = 'public', label }) {
-  const text = label || (type === 'public' ? '公開' : '非公開');
+  const text = label || (type === 'public' ? '公开' : '非公开');
   const tone =
     type === 'public'
       ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/20 dark:text-emerald-300'
@@ -89,7 +89,7 @@ export default function Feedback() {
     };
   }, []);
 
-  // バグ報告モードのときだけ、端末情報やログを読み込む
+  // 仅在错误报告模式下，加载设备信息和日志
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -177,17 +177,17 @@ export default function Feedback() {
     setSuccessDialog({ open: false, message: '', url: '' });
   }, []);
 
-  // モード別に payload を組み立て、フォームデータと添付を送信
+  // 根据模式构建 payload，发送表单数据和附件
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       setError('');
       if (!submitEndpoint) {
-        setError('VITE_SUBMIT_ENDPOINT が設定されていません。');
+        setError('VITE_SUBMIT_ENDPOINT 未设置。');
         return;
       }
       if (!/^https:\/\//i.test(submitEndpoint)) {
-        setError('VITE_SUBMIT_ENDPOINT には https:// で始まるURLを設定してください。');
+        setError('VITE_SUBMIT_ENDPOINT 必须设置为以 https:// 开头的URL。');
         return;
       }
       try {
@@ -195,7 +195,7 @@ export default function Feedback() {
         const formData = new FormData();
         if (mode === 'bug') {
           if (!bug.title.trim() || !bug.detail.trim()) {
-            setError('タイトルと詳細は必須です');
+            setError('标题和详情是必填项');
             return;
           }
           const lines = [];
@@ -239,12 +239,12 @@ export default function Feedback() {
           }
         } else {
           if (!inq.title.trim() || !inq.detail.trim()) {
-            setError('タイトルと詳細は必須です');
+            setError('标题和详情是必填项');
             return;
           }
           payload = {
             action: SUBMIT_ACTIONS.inquiry,
-            title: `問い合わせ: ${inq.title.trim()}`,
+            title: `询问: ${inq.title.trim()}`,
             body: inq.detail.trim(),
             labels: ['inquiry', 'from-client'],
             contact: inq.contact.trim() || undefined,
@@ -277,8 +277,8 @@ export default function Feedback() {
         const successUrl = responseJson?.pr_url || responseJson?.public_issue_url || responseJson?.url;
         const defaultMessage =
           mode === 'bug'
-            ? '不具合報告を送信しました。ご協力ありがとうございます。'
-            : '意見/問い合わせを送信しました。ありがとうございます。';
+            ? '错误报告已发送。感谢您的协助。'
+            : '意见/询问已发送。谢谢您。';
         const friendlyMessage = responseJson?.message || responseText || defaultMessage;
         setSuccessDialog({
           open: true,
@@ -287,7 +287,7 @@ export default function Feedback() {
         });
       } catch (err) {
         console.error(err);
-        setError(err?.message || '送信に失敗しました。ネットワークや設定をご確認ください。');
+        setError(err?.message || '发送失败。请检查网络和设置。');
       } finally {
         setSubmitting(false);
       }
@@ -295,7 +295,7 @@ export default function Feedback() {
     [mode, bug, appVersion, device, pluginsPreview, attachments, appLog, inq, submitEndpoint],
   );
 
-  const successPrimaryText = successDialog.message || '送信が完了しました。';
+  const successPrimaryText = successDialog.message || '发送完成。';
 
   const inputClass =
     'w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow select-text';
@@ -313,7 +313,7 @@ export default function Feedback() {
           >
             <button
               type="button"
-              aria-label="閉じる"
+              aria-label="关闭"
               className="absolute inset-0 bg-black/30 backdrop-blur-[2px] cursor-pointer"
               onClick={closeSuccessDialog}
             />
@@ -338,7 +338,7 @@ export default function Feedback() {
                     rel="noreferrer noopener"
                   >
                     <ExternalLink size={16} />
-                    公開ページを開く
+                    打开公开页面
                   </a>
                 )}
                 <button
@@ -346,7 +346,7 @@ export default function Feedback() {
                   className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-blue-500 shadow-sm cursor-pointer"
                   onClick={closeSuccessDialog}
                 >
-                  閉じる
+                  关闭
                 </button>
               </div>
             </div>
@@ -356,8 +356,8 @@ export default function Feedback() {
 
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">フィードバック</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">不具合のご報告やご意見をお寄せください</p>
+          <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">反馈</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm">请报告错误或提供意见</p>
         </div>
         <a
           href="https://github.com/Neosku/aviutl2-catalog/issues"
@@ -366,7 +366,7 @@ export default function Feedback() {
           className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
         >
           <ExternalLink size={16} />
-          報告済みの不具合
+          已报告的错误
         </a>
       </div>
 
@@ -393,7 +393,7 @@ export default function Feedback() {
               }`}
             >
               <Bug size={16} />
-              不具合報告
+              错误报告
             </button>
             <button
               type="button"
@@ -405,7 +405,7 @@ export default function Feedback() {
               }`}
             >
               <MessageSquare size={16} />
-              意見・問い合わせ
+              意见・询问
             </button>
           </div>
         )}
@@ -417,18 +417,18 @@ export default function Feedback() {
                 <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-900/30 dark:bg-blue-900/10 dark:text-blue-200">
                   <div className="flex items-center gap-2 mb-1 font-semibold">
                     <VisibilityBadge type="public" />
-                    <span>公開設定</span>
+                    <span>公开设置</span>
                   </div>
                   <div className="opacity-90 text-xs leading-relaxed">
-                    <strong>タイトル</strong> と <strong>詳細</strong>{' '}
-                    は公開されます。連絡先、添付ファイル、デバイス情報などのメタデータは公開されません
+                    <strong>标题</strong> 和 <strong>详情</strong>{' '}
+                    将公开。联系方式、附件、设备信息等元数据不会公开
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <label className={labelClass} htmlFor="bug-title">
-                      タイトル <span className="text-red-500">*</span>
+                      标题 <span className="text-red-500">*</span>
                     </label>
                     <input
                       id="bug-title"
@@ -436,14 +436,14 @@ export default function Feedback() {
                       value={bug.title}
                       onChange={handleBugChange}
                       required
-                      placeholder="不具合の概要を入力してください"
+                      placeholder="请输入错误概要"
                       className={inputClass}
                     />
                   </div>
 
                   <div>
                     <label className={labelClass} htmlFor="bug-detail">
-                      詳細 <span className="text-red-500">*</span>
+                      详情 <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       id="bug-detail"
@@ -451,21 +451,21 @@ export default function Feedback() {
                       value={bug.detail}
                       onChange={handleBugChange}
                       required
-                      placeholder="発生状況、再現手順、期待する動作などを詳しく入力してください"
+                      placeholder="请详细输入发生情况、重现步骤、期望行为等"
                       className={`${inputClass} min-h-[160px] resize-y`}
                     />
                   </div>
 
                   <div>
                     <label className={labelClass} htmlFor="bug-contact">
-                      連絡先 <span className="text-slate-400 font-normal text-xs ml-1">(任意)</span>
+                      联系方式 <span className="text-slate-400 font-normal text-xs ml-1">(可选)</span>
                     </label>
                     <input
                       id="bug-contact"
                       name="contact"
                       value={bug.contact}
                       onChange={handleBugChange}
-                      placeholder="メールアドレスやXアカウント（開発者から連絡する場合があります）"
+                      placeholder="邮箱或X账号（开发者可能会联系您）"
                       className={inputClass}
                     />
                   </div>
@@ -476,7 +476,7 @@ export default function Feedback() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
                       <Paperclip size={16} className="text-slate-500" />
-                      添付ファイル
+                      附件
                     </div>
                     <div className="space-y-3">
                       <input
@@ -501,7 +501,7 @@ export default function Feedback() {
                                 </div>
                                 <div className="text-[10px] text-slate-400">{(f.size / 1024).toFixed(1)} KB</div>
                               </div>
-                              <DeleteButton onClick={() => removeAttachment(i)} ariaLabel="添付ファイルを削除" />
+                              <DeleteButton onClick={() => removeAttachment(i)} ariaLabel="删除附件" />
                             </div>
                           ))}
                         </div>
@@ -517,7 +517,7 @@ export default function Feedback() {
                     </div>
 
                     {loadingDiag ? (
-                      <div className="text-xs text-slate-500 animate-pulse">情報を収集中...</div>
+                      <div className="text-xs text-slate-500 animate-pulse">正在收集信息...</div>
                     ) : (
                       <div className="grid gap-4 sm:grid-cols-2">
                         {/* App Info Toggle */}
@@ -537,13 +537,13 @@ export default function Feedback() {
                               ></div>
                             </div>
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              アプリ情報を添付
+                              附加应用信息
                             </span>
                           </div>
                           {bug.includeApp && (
                             <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 space-y-1 pl-1 border-l-2 border-slate-200 dark:border-slate-700 ml-1">
                               <div>Version: {appVersion || 'Unknown'}</div>
-                              <div>パッケージ一覧: {pluginsCount}個</div>
+                              <div>包列表: {pluginsCount}个</div>
                             </div>
                           )}
                         </label>
@@ -565,7 +565,7 @@ export default function Feedback() {
                               ></div>
                             </div>
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                              デバイス情報を添付
+                              附加设备信息
                             </span>
                           </div>
                           {bug.includeDevice && (
@@ -601,7 +601,7 @@ export default function Feedback() {
                                   </div>
                                 </div>
                               )}
-                              {!device && <div>デバイス情報を取得できませんでした</div>}
+                              {!device && <div>无法获取设备信息</div>}
                             </div>
                           )}
                         </label>
@@ -613,10 +613,10 @@ export default function Feedback() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
                       <FileText size={16} className="text-slate-500" />
-                      ログファイル
+                      日志文件
                     </div>
                     {loadingDiag ? (
-                      <div className="text-xs text-slate-500 animate-pulse">情報を収集中...</div>
+                      <div className="text-xs text-slate-500 animate-pulse">正在收集信息...</div>
                     ) : (
                       <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
                         <label className="flex items-center gap-3 cursor-pointer">
@@ -633,7 +633,7 @@ export default function Feedback() {
                               className={`absolute left-1 top-1 h-3 w-3 rounded-full bg-white transition-transform ${bug.includeLog ? 'translate-x-4' : ''}`}
                             ></div>
                           </div>
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">app.log を添付</span>
+                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">附加 app.log</span>
                         </label>
                         {bug.includeLog && (
                           <div className="mt-3">
@@ -642,7 +642,7 @@ export default function Feedback() {
                                 {appLog}
                               </pre>
                             ) : (
-                              <div className="text-xs text-slate-400 italic mt-1">ログを取得できませんでした。</div>
+                              <div className="text-xs text-slate-400 italic mt-1">无法获取日志。</div>
                             )}
                           </div>
                         )}
@@ -658,17 +658,17 @@ export default function Feedback() {
                 <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
                   <div className="flex items-center gap-2 mb-1 font-semibold">
                     <VisibilityBadge type="private" />
-                    <span>非公開設定</span>
+                    <span>非公开设置</span>
                   </div>
                   <div className="opacity-90 text-xs leading-relaxed">
-                    ご意見・お問い合わせの内容は公開されません。開発者のみが確認します
+                    意见/询问内容不会公开。仅开发者可见
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <label className={labelClass} htmlFor="inq-title">
-                      タイトル <span className="text-red-500">*</span>
+                      标题 <span className="text-red-500">*</span>
                     </label>
                     <input
                       id="inq-title"
@@ -676,14 +676,14 @@ export default function Feedback() {
                       value={inq.title}
                       onChange={handleInqChange}
                       required
-                      placeholder="件名を入力してください"
+                      placeholder="请输入主题"
                       className={inputClass}
                     />
                   </div>
 
                   <div>
                     <label className={labelClass} htmlFor="inq-detail">
-                      詳細 <span className="text-red-500">*</span>
+                      详情 <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       id="inq-detail"
@@ -691,21 +691,21 @@ export default function Feedback() {
                       value={inq.detail}
                       onChange={handleInqChange}
                       required
-                      placeholder="ご意見やお問い合わせ内容を詳しく入力してください"
+                      placeholder="请详细输入意见或询问内容"
                       className={`${inputClass} min-h-[160px] resize-y`}
                     />
                   </div>
 
                   <div>
                     <label className={labelClass} htmlFor="inq-contact">
-                      連絡先 <span className="text-slate-400 font-normal text-xs ml-1">(任意)</span>
+                      联系方式 <span className="text-slate-400 font-normal text-xs ml-1">(可选)</span>
                     </label>
                     <input
                       id="inq-contact"
                       name="contact"
                       value={inq.contact}
                       onChange={handleInqChange}
-                      placeholder="メールアドレスやXアカウント（必要に応じて開発者から連絡します）"
+                      placeholder="邮箱或X账号（开发者会根据需要联系您）"
                       className={inputClass}
                     />
                   </div>
@@ -715,7 +715,7 @@ export default function Feedback() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
                       <Paperclip size={16} className="text-slate-500" />
-                      添付ファイル <span className="text-slate-400 font-normal text-xs">(任意)</span>
+                      附件 <span className="text-slate-400 font-normal text-xs">(可选)</span>
                     </div>
                     <div className="space-y-3">
                       <input
@@ -740,7 +740,7 @@ export default function Feedback() {
                                 </div>
                                 <div className="text-[10px] text-slate-400">{(f.size / 1024).toFixed(1)} KB</div>
                               </div>
-                              <DeleteButton onClick={() => removeAttachment(i)} ariaLabel="添付ファイルを削除" />
+                              <DeleteButton onClick={() => removeAttachment(i)} ariaLabel="删除附件" />
                             </div>
                           ))}
                         </div>
@@ -763,7 +763,7 @@ export default function Feedback() {
                     送信中...
                   </>
                 ) : (
-                  <>送信する</>
+                  <>发送</>
                 )}
               </button>
             </div>

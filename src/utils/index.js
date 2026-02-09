@@ -1,26 +1,26 @@
-// アプリ全体で用いるユーティリティをまとめたファイル
+// 汇总应用程序整体使用的工具函数
 
 // -------------------------
-// 基本的なユーティリティ関数
+// 基本工具函数
 // -------------------------
 
-// テキスト正規化関数
-// 全角→半角変換、カタカナ→ひらがな変換など統一的な検索処理のために使用
+// 文本标准化函数
+// 用于统一的搜索处理，如全角→半角转换、片假名→平假名转换等
 export function normalize(input) {
   if (!input) return '';
-  // 文字列に変換し前後の空白を削除して小文字化
+  // 转换为字符串，删除前后空白并小写化
   let s = String(input).trim().toLowerCase();
-  // 全角英数記号を半角に変換
+  // 全角英数符号转换为半角
   s = s.replace(/[！-～]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
-  // 全角スペースを半角スペースに変換
+  // 全角空格转换为半角空格
   s = s.replace(/　/g, ' ');
-  // カタカナをひらがなに変換
+  // 片假名转换为平假名
   s = s.replace(/[ァ-ヶ]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
   return s;
 }
 
-// 名前を昇順で比較する関数
-// aの名前がbの名前より辞書順で後の時1、前の時-1、同じ時0を返す
+// 按名称升序比较的函数
+// 当a的名称在字典顺序中位于b之后时返回1，之前时返回-1，相同时返回0
 function cmpNameAsc(a, b) {
   const x = a.nameKey || '';
   const y = b.nameKey || '';
@@ -34,9 +34,9 @@ function toFiniteNumber(value) {
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
-// タイムスタンプから "YYYY-MM-DD" の形式に変換する関数
-// 無効な値(null, undefined, NaNなど)や不正な日付は空文字列を返す
-// 必要か要件等
+// 将时间戳转换为 "YYYY-MM-DD" 格式的函数
+// 无效值（null、undefined、NaN等）或非法日期返回空字符串
+// 根据需求等
 export function formatDate(ts) {
   if (ts == null) return '';
   const d = new Date(ts);
@@ -45,12 +45,12 @@ export function formatDate(ts) {
 }
 
 // -------------------------
-// 検索・フィルタリング・ソート
+// 搜索・筛选・排序
 // -------------------------
 
-// 検索を行う関数
-// 検索クエリをアイテムの name/author/summary に対して AND 条件で部分一致検索
-// JavaScript側での実装を維持（高速化は将来的にRust側で実装）
+// 执行搜索的函数
+// 对项目的 name/author/summary 进行 AND 条件的部分匹配搜索
+// 保持 JavaScript 侧实现（未来将在 Rust 侧实现以加速）
 export function matchQuery(item, q) {
   if (!q) return true;
   const keys = [item.nameKey, item.authorKey, item.summaryKey];
@@ -58,9 +58,9 @@ export function matchQuery(item, q) {
   return terms.every((t) => keys.some((k) => k.includes(t)));
 }
 
-// 絞り込みを行う関数
-// 種類とタグでの絞り込みを行う
-// JavaScript側での実装を維持（高速化は将来的にRust側で実装）
+// 执行筛选的函数
+// 按类型和标签进行筛选
+// 保持 JavaScript 侧实现（未来将在 Rust 侧实现以加速）
 export function filterByTagsAndType(items, tags = [], types = []) {
   return items.filter((it) => {
     const tagOk = !tags?.length || (it.tags || []).some((t) => tags.includes(t));
@@ -69,9 +69,9 @@ export function filterByTagsAndType(items, tags = [], types = []) {
   });
 }
 
-// ソート基準と方向に応じて比較結果を返す関数
-// key='name'なら名前の昇順/降順、key='newest'なら更新日時、key='popularity'なら人気順で比較
-// updatedAtがnullのものは常に末尾に回し、同値の場合は名前順で判定する
+// 根据排序标准和方向返回比较结果的函数
+// key='name'则按名称升序/降序，key='newest'则按更新时间，key='popularity'则按人气排序
+// updatedAt为null的项目始终放在末尾，相同值时按名称顺序判断
 export function getSorter(key = 'newest', dir = 'desc') {
   if (key === 'name') {
     if (dir === 'desc') return (a, b) => -cmpNameAsc(a, b);
@@ -154,16 +154,16 @@ export function getSorter(key = 'newest', dir = 'desc') {
 }
 
 // -------------------------
-// インストール状態の記録
+// 安装状态记录
 // -------------------------
 
-// インストールされているプラグインのIDとバージョンをjsonに保存
-// スキーマ: { [id: string]: string /* version */ }
+// 将已安装插件的ID和版本保存到json
+// 模式: { [id: string]: string /* version */ }
 const INSTALLED_FILE = 'installed.json';
 const CATALOG_CACHE_DIR = 'catalog';
 const CATALOG_CACHE_FILE = `${CATALOG_CACHE_DIR}/index.json`;
 
-// カタログキャッシュ(index.json)を読み込み
+// 加载目录缓存(index.json)
 export async function readCatalogCache() {
   const fs = await import('@tauri-apps/plugin-fs');
   const raw = await fs.readTextFile(CATALOG_CACHE_FILE, { baseDir: fs.BaseDirectory.AppConfig });
@@ -317,7 +317,7 @@ export async function loadCatalogData(options = {}) {
   return { items, source };
 }
 
-// installed.jsonからインストールパッケージ一覧を読み込み（RustとJSを統合）
+// 从 installed.json 加载已安装包列表（整合 Rust 和 JS）
 export async function loadInstalledMap() {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -327,7 +327,7 @@ export async function loadInstalledMap() {
   }
 }
 
-// installed.jsonにインストールパッケージ一覧を書き込み(廃止予定)
+// 将已安装包列表写入 installed.json（计划废弃）
 async function writeInstalledMap(map) {
   const fs = await import('@tauri-apps/plugin-fs');
   try {
@@ -340,7 +340,7 @@ async function writeInstalledMap(map) {
   return map;
 }
 
-// installed.jsonにIDとバージョンを追加
+// 向 installed.json 添加 ID 和版本
 async function addInstalledId(id, version = '') {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -352,7 +352,7 @@ async function addInstalledId(id, version = '') {
   }
 }
 
-// installed.jsonから指定IDを削除
+// 从 installed.json 删除指定 ID
 export async function removeInstalledId(id) {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -364,7 +364,7 @@ export async function removeInstalledId(id) {
   }
 }
 
-// 検出したインストール済みパッケージをinstalled.jsonに保存
+// 将检测到的已安装包保存到 installed.json
 export async function saveInstalledSnapshot(detectedMap) {
   const snapshot = {};
   if (detectedMap && typeof detectedMap === 'object') {
@@ -376,8 +376,8 @@ export async function saveInstalledSnapshot(detectedMap) {
   return snapshot;
 }
 
-// latestバージョンを推定する関数
-// 将来的に廃止予定、index.jsonに記載することを検討
+// 估计最新版本的函数
+// 计划未来废弃，考虑在 index.json 中记录
 export function latestVersionOf(item) {
   if (!item) return '';
   const arr = Array.isArray(item.versions) ? item.versions : Array.isArray(item.version) ? item.version : [];
@@ -387,14 +387,14 @@ export function latestVersionOf(item) {
 }
 
 // -------------------------
-// settings.jsonの読み込み
+// settings.json 读取
 // -------------------------
 
-// 設定の永続化（AviUtl2 ルートと主要サブディレクトリなど）
+// 设置持久化（AviUtl2 根目录和主要子目录等）
 const SETTINGS_FILE = 'settings.json';
 
-// UI から利用するエクスポート関数
-// settings.jsonに保存されている設定を読み込み
+// 供 UI 使用的导出函数
+// 读取保存在 settings.json 中的设置
 export async function getSettings() {
   const fs = await import('@tauri-apps/plugin-fs');
   try {
@@ -407,14 +407,14 @@ export async function getSettings() {
     try {
       await logError(`[getSettings] failed: ${e?.message || e}`);
     } catch {
-      /* ログ失敗時は無視 */
+      /* 日志失败时忽略 */
     }
     return {};
   }
 }
 
 // -------------------------
-// パッケージ状態の統計送信
+// 包状态统计发送
 // -------------------------
 
 const PACKAGE_STATE_ENDPOINT = (import.meta.env.VITE_PACKAGE_STATE_ENDPOINT || '').trim();
@@ -424,16 +424,16 @@ const PACKAGE_STATE_SNAPSHOT_INTERVAL_SEC = 60 * 60 * 24 * 7;
 
 let packageStateQueueOp = Promise.resolve();
 let packageStateClientVersion = null;
-// キュー操作を直列化して実行
+// 序列化执行队列操作
 function runPackageStateQueueOp(task) {
   packageStateQueueOp = packageStateQueueOp.then(task, task);
   return packageStateQueueOp;
 }
-// 現在のUnix秒を取得
+// 获取当前 Unix 秒
 function nowUnixSeconds() {
   return Math.floor(Date.now() / 1000);
 }
-// UUIDv4を生成
+// 生成 UUIDv4
 function generateUuidV4() {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -448,7 +448,7 @@ function generateUuidV4() {
   }
   return `uuid-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
-// バージョンをキャッシュ付きで取得
+// 获取带缓存的版本
 async function getClientVersionCached() {
   if (typeof packageStateClientVersion === 'string') return packageStateClientVersion;
   try {
@@ -463,7 +463,7 @@ async function getClientVersionCached() {
   }
   return packageStateClientVersion;
 }
-// JSONファイルを読み込み
+// 读取 JSON 文件
 async function readAppConfigJson(relPath, fallback) {
   const fs = await import('@tauri-apps/plugin-fs');
   try {
@@ -481,7 +481,7 @@ async function readAppConfigJson(relPath, fallback) {
     return fallback;
   }
 }
-// JSONファイルを書き込み
+// 写入 JSON 文件
 async function writeAppConfigJson(relPath, data) {
   const fs = await import('@tauri-apps/plugin-fs');
   try {
@@ -492,7 +492,7 @@ async function writeAppConfigJson(relPath, data) {
     } catch {}
   }
 }
-// JSONファイルを削除
+// 删除 JSON 文件
 async function removeAppConfigFile(relPath) {
   const fs = await import('@tauri-apps/plugin-fs');
   try {
@@ -505,29 +505,29 @@ async function removeAppConfigFile(relPath) {
     } catch {}
   }
 }
-// メタ情報を正規化
+// 标准化元信息
 function normalizePackageStateMeta(raw) {
   const uid = raw && typeof raw.uid === 'string' ? raw.uid : '';
   const ts = Number.isFinite(raw?.last_snapshot_ts) ? raw.last_snapshot_ts : 0;
   return { uid, last_snapshot_ts: ts };
 }
-// メタ情報を読み込み・保存
+// 加载和保存元信息
 async function loadPackageStateMeta() {
   const raw = await readAppConfigJson(PACKAGE_STATE_META_FILE, {});
   return normalizePackageStateMeta(raw);
 }
-// メタ情報を保存
+// 保存元信息
 async function savePackageStateMeta(meta) {
   const normalized = normalizePackageStateMeta(meta || {});
   await writeAppConfigJson(PACKAGE_STATE_META_FILE, normalized);
   return normalized;
 }
-// キューを読み込み・保存
+// 加载和保存队列
 async function loadPackageStateQueue() {
   const raw = await readAppConfigJson(PACKAGE_STATE_PENDING_FILE, []);
   return Array.isArray(raw) ? raw : [];
 }
-// キューを保存
+// 保存队列
 async function savePackageStateQueue(queue) {
   const list = Array.isArray(queue) ? queue : [];
   if (!list.length) {
@@ -537,7 +537,7 @@ async function savePackageStateQueue(queue) {
   await writeAppConfigJson(PACKAGE_STATE_PENDING_FILE, list);
   return list;
 }
-// 現在のウィンドウラベルを取得
+// 获取当前窗口标签
 async function getCurrentWindowLabel() {
   try {
     const mod = await import('@tauri-apps/api/window');
@@ -558,7 +558,7 @@ async function getCurrentWindowLabel() {
   }
   return '';
 }
-// 送信をスキップすべきか判定
+// 判断是否应跳过发送
 async function shouldSkipPackageState() {
   if (!PACKAGE_STATE_ENDPOINT) return true;
   try {
@@ -568,7 +568,7 @@ async function shouldSkipPackageState() {
   const label = await getCurrentWindowLabel();
   return label === 'init-setup';
 }
-// UIDを取得・生成
+// 获取或生成 UID
 async function getOrCreatePackageStateUid() {
   const meta = await loadPackageStateMeta();
   if (meta.uid) return meta.uid;
@@ -576,7 +576,7 @@ async function getOrCreatePackageStateUid() {
   await savePackageStateMeta(meta);
   return meta.uid;
 }
-// パッケージ状態イベントを作成
+// 创建包状态事件
 async function createPackageStateEvent(type, extra) {
   const uid = await getOrCreatePackageStateUid();
   const event_id = generateUuidV4();
@@ -584,7 +584,7 @@ async function createPackageStateEvent(type, extra) {
   const client_version = await getClientVersionCached();
   return { uid, event_id, ts, type, client_version, ...extra };
 }
-// パッケージ状態イベントを送信
+// 发送包状态事件
 async function postPackageStateEvent(event) {
   const res = await fetch(PACKAGE_STATE_ENDPOINT, {
     method: 'POST',
@@ -595,7 +595,7 @@ async function postPackageStateEvent(event) {
     throw new Error(`HTTP ${res.status}`);
   }
 }
-// パッケージ状態イベントの説明を生成
+// 生成包状态事件描述
 function describePackageStateEvent(event) {
   const type = event?.type ? String(event.type) : 'unknown';
   if (type === 'snapshot') {
@@ -605,7 +605,7 @@ function describePackageStateEvent(event) {
   const pkg = event?.package_id ? String(event.package_id) : '';
   return pkg ? `type=${type} package_id=${pkg}` : `type=${type}`;
 }
-// キューをフラッシュ（送信）する内部関数
+// 刷新（发送）队列的内部函数
 async function flushPackageStateQueueInternal(preloadedQueue) {
   if (await shouldSkipPackageState()) return;
   let queue = Array.isArray(preloadedQueue) ? preloadedQueue : await loadPackageStateQueue();
@@ -636,18 +636,18 @@ async function flushPackageStateQueueInternal(preloadedQueue) {
   }
   await savePackageStateQueue(remaining);
 }
-// パッケージ状態イベントをキューに追加
+// 将包状态事件加入队列
 async function enqueuePackageStateEvent(event) {
   const queue = await loadPackageStateQueue();
   queue.push(event);
   await savePackageStateQueue(queue);
   await flushPackageStateQueueInternal(queue);
 }
-// パッケージ状態キューを送信
+// 发送包状态队列
 export async function flushPackageStateQueue() {
   return runPackageStateQueueOp(() => flushPackageStateQueueInternal());
 }
-// パッケージ状態のローカル状態をリセット
+// 重置包状态的本地状态
 export async function resetPackageStateLocalState() {
   return runPackageStateQueueOp(async () => {
     await removeAppConfigFile(PACKAGE_STATE_PENDING_FILE);
@@ -656,7 +656,7 @@ export async function resetPackageStateLocalState() {
     await savePackageStateMeta(meta);
   });
 }
-// パッケージ状態イベントを記録
+// 记录包状态事件
 export async function recordPackageStateEvent(type, packageId) {
   return runPackageStateQueueOp(async () => {
     if (await shouldSkipPackageState()) return;
@@ -666,7 +666,7 @@ export async function recordPackageStateEvent(type, packageId) {
     await enqueuePackageStateEvent(event);
   });
 }
-// インストール済みパッケージのスナップショットを記録
+// 记录已安装包的快照
 export async function maybeSendPackageStateSnapshot(detectedMap) {
   return runPackageStateQueueOp(async () => {
     if (await shouldSkipPackageState()) return;
@@ -688,10 +688,10 @@ export async function maybeSendPackageStateSnapshot(detectedMap) {
 }
 
 // -------------------------
-// ログ出力　OK
+// 日志输出
 // -------------------------
 
-// ログを出力する
+// 输出日志
 export function logInfo(msg) {
   return logLine('INFO', msg);
 }
@@ -699,7 +699,7 @@ export function logError(msg) {
   return logLine('ERROR', msg);
 }
 
-// Rust側の log_cmd を呼び出す
+// 调用 Rust 侧的 log_cmd
 async function logLine(level, msg) {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -708,16 +708,16 @@ async function logLine(level, msg) {
 }
 
 // -------------------------
-// 診断（OS/GPU/インストール済みアプリ、app.log）
-// 診断時のみ実行するためこのままでOK（後回し）
+// 诊断（OS/GPU/已安装应用、app.log）
+// 仅在诊断时执行，因此保持现状即可（稍后处理）
 // -------------------------
 
 const LOG_FILE = 'logs/app.log';
 
-// OS/CPU/GPU/プラグインなどの環境情報を収集
+// 收集 OS/CPU/GPU/插件等环境信息
 export async function collectDeviceInfo() {
   const info = { os: {}, cpu: {}, gpu: {}, installedApps: [], installedPlugins: [] };
-  // OS情報を取得
+  // 获取 OS 信息
   try {
     const shell = await import('@tauri-apps/plugin-shell');
     const ps = shell.Command.create('powershell', [
@@ -746,7 +746,7 @@ export async function collectDeviceInfo() {
     } catch {}
   }
 
-  // CPU情報を取得
+  // 获取 CPU 信息
   try {
     const shell = await import('@tauri-apps/plugin-shell');
     const ps = shell.Command.create('powershell', [
@@ -776,7 +776,7 @@ export async function collectDeviceInfo() {
     } catch {}
   }
 
-  // GPU情報を取得
+  // 获取 GPU 信息
   const shell = await import('@tauri-apps/plugin-shell');
   const ps = shell.Command.create('powershell', [
     '-NoLogo',
@@ -809,7 +809,7 @@ export async function collectDeviceInfo() {
   return info;
 }
 
-// app.logを読み込み
+// 读取 app.log
 export async function readAppLog() {
   try {
     const fs = await import('@tauri-apps/plugin-fs');
@@ -826,10 +826,10 @@ export async function readAppLog() {
 }
 
 // -------------------------
-// ハッシュ計算・インストール済みバージョン検出
+// 哈希计算・已安装版本检测
 // -------------------------
 
-// 指定パッケージのインストール済みバージョンを検出（Rust実装を使用）
+// 检测指定包的已安装版本（使用 Rust 实现）
 export async function detectInstalledVersionsMap(items) {
   const list = Array.isArray(items) ? items : [];
   const { invoke } = await import('@tauri-apps/api/core');
@@ -838,7 +838,7 @@ export async function detectInstalledVersionsMap(items) {
 }
 
 // -------------------------
-// aviutl2.exe の起動確認
+// aviutl2.exe 启动确认
 // -------------------------
 async function ensureAviutlClosed() {
   let running = false;
@@ -846,21 +846,21 @@ async function ensureAviutlClosed() {
     const { invoke } = await import('@tauri-apps/api/core');
     running = !!(await invoke('is_aviutl_running'));
   } catch (e) {
-    const detail = e?.message || (typeof e === 'string' ? e : '不明なエラー');
+    const detail = e?.message || (typeof e === 'string' ? e : '未知错误');
     try {
       await logError(`[process-check] failed to query process state: ${detail}`);
     } catch {}
-    throw new Error(`AviUtl2の起動状況を確認できませんでした: ${detail}`, { cause: e });
+    throw new Error(`无法确认 AviUtl2 的启动状态: ${detail}`, { cause: e });
   }
   if (running) {
     try {
       await logError(`[process-check] aviutl2.exe is running; aborting operation.`);
     } catch {}
-    throw new Error('AviUtl2 が起動中です。\nインストールやアンインストールを行う前にアプリを終了してください。');
+    throw new Error('AviUtl2 正在运行。\n请在安装或卸载前关闭应用程序。');
   }
 }
 
-// 文字列内のマクロに実際の値を埋め込み
+// 在字符串宏中填入实际值
 async function expandMacros(s, ctx) {
   const { invoke } = await import('@tauri-apps/api/core');
   const dirs = await invoke('get_app_dirs');
@@ -875,36 +875,36 @@ async function expandMacros(s, ctx) {
     .replaceAll('{download}', ctx.downloadPath || '');
 }
 
-// インストーラ処理用の一時作業ディレクトリの作成
-// インストーラ処理用の一時作業ディレクトリの作成
+// 创建安装程序处理的临时工作目录
+// 创建安装程序处理的临时工作目录
 async function ensureTmpDir(idVersion) {
   const fs = await import('@tauri-apps/plugin-fs');
   const path = await import('@tauri-apps/api/path');
   const base = 'installer-tmp';
 
-  // ベースディレクトリ作成
+  // 创建基础目录
   await fs.mkdir(base, { baseDir: fs.BaseDirectory.AppConfig, recursive: true });
 
-  // サブディレクトリ作成
+  // 创建子目录
   const sub = `${base}/${idVersion}`;
   await fs.mkdir(sub, { baseDir: fs.BaseDirectory.AppConfig, recursive: true });
 
-  // 絶対パス取得
-  const basePath = await path.appConfigDir(); // AppConfig の絶対パス
-  const absPath = await path.join(basePath, sub); // 絶対パスを連結
+  // 获取绝对路径
+  const basePath = await path.appConfigDir(); // AppConfig 的绝对路径
+  const absPath = await path.join(basePath, sub); // 连接绝对路径
 
   return absPath;
 }
 
 // -------------------------
-// exe実行処理
+// exe 执行处理
 // -------------------------
 
 function psEscape(s) {
   return String(s).replace(/'/g, "''");
 }
 
-// 実行ファイルをウィンドウ非表示で実行する関数
+// 以隐藏窗口执行可执行文件的函数
 async function runInstaller(exeAbsPath, args = [], elevate = false, tmpPath) {
   const shell = await import('@tauri-apps/plugin-shell');
   const fs = await import('@tauri-apps/plugin-fs');
@@ -935,18 +935,18 @@ async function runAuoSetup(exeAbsPath) {
     const _result = await invoke('run_auo_setup', { exePath: exeAbsPath });
   } catch (e) {
     logError(`[runAuoSetup] failed exe=${exeAbsPath}: ${e}`);
-    throw e; // ← 呼び出し元に Rust のエラーを投げる
+    throw e; // ← 将 Rust 的错误抛给调用方
   }
 }
 
-// インストーラーからダウンロードURLを生成
-// GitHub最新リリースのダウンロードURLを取得
+// 从安装程序生成下载URL
+// 获取 GitHub 最新发布的下载URL
 async function fetchGitHubURL(github) {
   const http = await import('@tauri-apps/plugin-http');
   const { owner, repo, pattern } = github;
   const regex = pattern ? new RegExp(pattern) : null;
 
-  // リリースから対象アセットを選ぶ
+  // 从发布中选择目标资产
   const pickAssetFromRelease = (release) => {
     if (!release || !Array.isArray(release.assets)) return null;
     if (regex) {
@@ -956,7 +956,7 @@ async function fetchGitHubURL(github) {
     return release.assets[0] || null;
   };
 
-  // release一覧を走査し「最終更新日時が最も新しいアセット」を返す
+  // 遍历发布列表，返回"最后更新时间最新的资产"
   const findLatestUpdatedAsset = (releases) => {
     if (!Array.isArray(releases) || !releases.length) return null;
     let best = null;
@@ -965,7 +965,7 @@ async function fetchGitHubURL(github) {
       const assets = Array.isArray(rel?.assets) ? rel.assets : [];
       for (const asset of assets) {
         if (regex && !regex.test(asset?.name || '')) continue;
-        // asset.updated_at/created_at、なければ release の日付を比較
+        // 比较 asset.updated_at/created_at，如果没有则使用 release 的日期
         const ts =
           Date.parse(asset?.updated_at || asset?.created_at || rel?.published_at || rel?.created_at || '') || 0;
         if (ts > bestTs) {
@@ -978,7 +978,7 @@ async function fetchGitHubURL(github) {
   };
 
   try {
-    // latest API から取得を試みる
+    // 尝试从 latest API 获取
     const res = await http.fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
     const data = await res.json().catch(() => ({}));
     const asset = pickAssetFromRelease(data);
@@ -992,7 +992,7 @@ async function fetchGitHubURL(github) {
   }
 
   try {
-    // latest が無い場合は release 一覧から最終更新のアセットを選ぶ
+    // 如果没有 latest，则从发布列表中选择最后更新的资产
     const res = await http.fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=30`);
     const list = await res.json().catch(() => []);
     const asset = findLatestUpdatedAsset(list);
@@ -1005,7 +1005,7 @@ async function fetchGitHubURL(github) {
   }
 }
 
-// 絶対パスかどうかを判定
+// 判断是否为绝对路径
 function isAbsPath(p) {
   return /^(?:[a-zA-Z]:[\\/]|\\\\|\/)/.test(String(p || ''));
 }
@@ -1015,17 +1015,17 @@ async function deletePath(absPath) {
   let ok = false;
   let lastErr = null;
   try {
-    // 存在確認
+    // 确认存在
     const exists = await fs.exists(absPath);
     if (!exists) {
-      return false; // 存在しない場合
+      return false; // 不存在的情况
     }
-    // 削除を試みる（ディレクトリも含め再帰的に）
+    // 尝试删除（包括目录，递归）
     try {
       await fs.remove(absPath, { recursive: true });
       ok = true;
     } catch {
-      // 一度失敗したら stat で種類を確認して削除をやり直す
+      // 一旦失败，通过 stat 确认类型并重试删除
       try {
         const st = await fs.stat(absPath);
         if (st.isDirectory) {
@@ -1042,12 +1042,12 @@ async function deletePath(absPath) {
   } catch (e) {
     lastErr = e;
   }
-  // 削除できなかった場合はエラーを投げる
+  // 如果无法删除则抛出错误
   if (!ok) throw lastErr || new Error('remove failed');
   return ok;
 }
 
-// ファイルのダウンロード（Rust経由）
+// 文件下载（通过 Rust）
 export async function downloadFileFromUrl(url, destPath, options = {}) {
   if (!/^https:\/\//i.test(url)) throw new Error(`Only https:// is allowed (got: ${url})`);
   if (typeof destPath !== 'string' || !destPath.trim()) throw new Error('destPath must be an existing directory');
@@ -1096,28 +1096,28 @@ export async function downloadFileFromUrl(url, destPath, options = {}) {
 }
 
 // -------------------------
-// BOOTH認証ウィンドウ管理・ダウンロード
+// BOOTH 认证窗口管理・下载
 // -------------------------
-// BOOTH認証ウィンドウのラベルとイベント名
+// BOOTH 认证窗口的标签和事件名
 const BOOTH_AUTH_WINDOW_LABEL = 'booth-auth';
 const BOOTH_LOGIN_COMPLETE_EVENT = 'booth-auth:login-complete';
-// 認証ウィンドウの作成
+// 创建认证窗口
 async function ensureBoothAuthWindow() {
   const { invoke } = await import('@tauri-apps/api/core');
   await invoke('ensure_booth_auth_window');
 }
-// 認証ウィンドウを閉じる
+// 关闭认证窗口
 async function closeBoothAuthWindow() {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
     await invoke('close_booth_auth_window');
   } catch {}
 }
-// 認証完了イベントを待機
+// 等待认证完成事件
 async function prepareBoothLoginWait() {
   const { listen } = await import('@tauri-apps/api/event');
   let resolveFn;
-  // 1回だけ解決するPromiseを作る
+  // 创建一个只解决一次的 Promise
   const done = new Promise((resolve) => {
     resolveFn = resolve;
   });
@@ -1130,14 +1130,14 @@ async function prepareBoothLoginWait() {
   return done;
 }
 
-// BOOTH 直リンク用ダウンロード（Rust経由 + Cookie）
-// ファイルのダウンロード（BOOTHから）
+// BOOTH 直链下载（通过 Rust + Cookie）
+// 文件下载（从 BOOTH）
 export async function downloadFileFromBoothUrl(url, destPath, options = {}) {
   const { invoke } = await import('@tauri-apps/api/core');
   const { listen } = await import('@tauri-apps/api/event');
 
   const onProgress = typeof options.onProgress === 'function' ? options.onProgress : null;
-  // タスクIDを決定
+  // 确定任务ID
   const taskId =
     options.taskId ||
     (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -1162,7 +1162,7 @@ export async function downloadFileFromBoothUrl(url, destPath, options = {}) {
     });
   }
 
-  // Rust側のBOOTHダウンロードを呼び出す
+  // 调用 Rust 侧的 BOOTH 下载
   const invokeDownload = () =>
     invoke('download_file_to_path_booth', {
       url,
@@ -1180,7 +1180,7 @@ export async function downloadFileFromBoothUrl(url, destPath, options = {}) {
         const detail = e?.message || (typeof e === 'object' ? JSON.stringify(e) : String(e)) || 'unknown error';
         const needsAuth = detail.includes('AUTH_REQUIRED') || detail.includes('AUTH_WINDOW_MISSING');
         if (needsAuth && attempt === 0) {
-          // 未ログイン時のみ、ログイン完了イベントを待って再試行
+          // 仅未登录时，等待登录完成事件并重试
           const waitLogin = prepareBoothLoginWait();
           await ensureBoothAuthWindow();
           await waitLogin;
@@ -1199,7 +1199,7 @@ export async function downloadFileFromBoothUrl(url, destPath, options = {}) {
   }
 }
 
-// ZIPファイルを展開（Rust）
+// 解压 ZIP 文件（Rust）
 async function extractZip(zipPath, destPath) {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -1212,7 +1212,7 @@ async function extractZip(zipPath, destPath) {
   }
 }
 
-// 7-Zip SFX (self extractor) のデータを展開 (Rust)
+// 解压 7-Zip SFX（自解压）数据 (Rust)
 async function extractSevenZipSfx(sfxPath, destPath) {
   try {
     const { invoke } = await import('@tauri-apps/api/core');
@@ -1226,37 +1226,37 @@ async function extractSevenZipSfx(sfxPath, destPath) {
   }
 }
 
-// ファイルのコピー処理関数(Rust)
+// 文件复制处理函数(Rust)
 async function copyPattern(fromPattern, toDirRel) {
   const { invoke } = await import('@tauri-apps/api/core');
   return await invoke('copy_item_js', { srcStr: fromPattern, dstStr: toDirRel });
 }
 
-// インストーラの存在を判定
+// 判断安装程序是否存在
 export function hasInstaller(item) {
-  // 文字列ショートハンド形式の installer も有効とみなす
+  // 字符串简写形式的 installer 也视为有效
   return !!(item && item.installer && (typeof item.installer === 'string' || Array.isArray(item.installer.install)));
 }
 
 // -------------------------
-// インストーラー&アンインストーラーの実行
+// 安装程序&卸载程序的执行
 // -------------------------
 
 const STEP_PROGRESS_LABELS = {
-  download: 'ダウンロード中',
-  extract: '展開中',
-  extract_sfx: '展開中',
-  copy: 'コピー中',
-  run: '実行中',
-  run_auo_setup: '実行中',
+  download: '下载中',
+  extract: '解压中',
+  extract_sfx: '解压中',
+  copy: '复制中',
+  run: '执行中',
+  run_auo_setup: '执行中',
 };
 
 const STEP_PROGRESS_OFFSET = 0;
 
-// インストールの実行
+// 安装执行
 export async function runInstallerForItem(item, dispatch, onProgress) {
   await ensureAviutlClosed();
-  // 実行用コンテキストを構築
+  // 构建执行上下文
   const version = item['latest-version'];
   // logInfo(`item=${JSON.stringify(item)}, version=${version}`);
   const idVersion = `${item.id}-${version || 'latest'}`.replace(/[^A-Za-z0-9._-]/g, '_');
@@ -1264,7 +1264,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
 
   const ctx = {
     tmpDir: tmpDir,
-    downloadPath: '', // ダウンロードしたときに設定
+    downloadPath: '', // 下载时设置
   };
   const steps = Array.isArray(item?.installer?.install) ? item.installer.install : [];
   const totalSteps = steps.length;
@@ -1273,11 +1273,11 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
     const safeUnits = Number.isFinite(completedUnits) ? completedUnits : 0;
     const ratio = totalSteps <= 0 ? (phase === 'done' ? 1 : 0) : Math.min(1, Math.max(0, safeUnits / totalSteps));
     const label = (() => {
-      if (phase === 'done') return '完了';
-      if (phase === 'init') return '準備中…';
-      if (phase === 'error') return 'エラーが発生しました';
+      if (phase === 'done') return '完成';
+      if (phase === 'init') return '准备中…';
+      if (phase === 'error') return '发生错误';
       const action = step?.action;
-      return STEP_PROGRESS_LABELS[action] || '処理中…';
+      return STEP_PROGRESS_LABELS[action] || '处理中…';
     })();
     return {
       ratio,
@@ -1295,7 +1295,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
     try {
       onProgress(buildProgressPayload(completedUnits, step, index, phase));
     } catch {
-      // UI 側の例外は握り潰す
+      // UI 侧的异常被忽略
     }
   };
 
@@ -1312,7 +1312,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
           case 'download': {
             const src = item?.installer?.source;
             if (!src) throw new Error(`Download source is not specified`);
-            // 1. Google Drive ダウンロード
+            // 1. Google Drive 下载
             if (src.GoogleDrive && typeof src.GoogleDrive.id === 'string' && src.GoogleDrive.id) {
               const fileId = src.GoogleDrive.id;
               const stepSpan = 1 - STEP_PROGRESS_OFFSET;
@@ -1358,7 +1358,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
               logInfo(`[installer ${item.id}] downloading from Google Drive fileId=${src.GoogleDrive.id} to ${tmpDir}`);
               break;
             }
-            // 2. BOOTH 直リンクの場合
+            // 2. BOOTH 直链的情况
             if (typeof src.booth === 'string' && src.booth) {
               const boothUrl = src.booth;
               logInfo(`[installer ${item.id}] downloading from BOOTH ${boothUrl} to ${tmpDir}`);
@@ -1382,11 +1382,11 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
               break;
             }
             let url = '';
-            // 3. GitHubの場合
+            // 3. GitHub 的情况
             if (src.github && src.github.owner && src.github.repo) {
               url = await fetchGitHubURL(src.github);
             }
-            // 4. 直接URLの場合
+            // 4. 直接 URL 的情况
             if (typeof src.direct === 'string' && src.direct) {
               url = src.direct;
             }
@@ -1435,7 +1435,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
             }
             break;
           }
-          // aviutl2本体のインストールを対象
+          // 针对 aviutl2 本体的安装
           case 'run': {
             const pRaw = await expandMacros(step.path, ctx);
             const args = await Promise.all((step.args || []).map((a) => expandMacros(String(a), ctx)));
@@ -1462,7 +1462,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
       }
     }
 
-    // インストール済みとして記録し、最新判定のために検出結果を更新
+    // 记录为已安装，并更新检测结果以进行最新判定
     await addInstalledId(item.id, version);
     if (dispatch) {
       const map = await detectInstalledVersionsMap([item]);
@@ -1481,7 +1481,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
     } catch {}
     throw e;
   } finally {
-    // 後始末: パッケージ用の一時作業フォルダ削除（開発環境以外）
+    // 清理：删除包的临时工作文件夹（开发环境除外）
     if (!import.meta.env?.DEV) {
       try {
         await deletePath(ctx.tmpDir);
@@ -1491,7 +1491,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
   }
 }
 
-// アンインストールを実行
+// 执行卸载
 export async function runUninstallerForItem(item, dispatch) {
   await ensureAviutlClosed();
   const version = item['latest-version'];
@@ -1504,7 +1504,7 @@ export async function runUninstallerForItem(item, dispatch) {
 
   try {
     await logInfo(`[uninstall ${item.id}] start steps=${item.installer.uninstall.length}`);
-    // アンインストール手順を順に実行
+    // 按顺序执行卸载步骤
     for (let i = 0; i < item.installer.uninstall.length; i++) {
       const step = item.installer.uninstall[i];
       try {
@@ -1512,7 +1512,7 @@ export async function runUninstallerForItem(item, dispatch) {
           case 'delete': {
             const p = await expandMacros(step.path, ctx);
             try {
-              const abs = isAbsPath(p) ? p : p; // アンインストールのパスは原則絶対パス。相対ならそのまま扱う
+              const abs = isAbsPath(p) ? p : p; // 卸载路径原则上是绝对路径。如果是相对路径则直接使用
               const ok = await deletePath(abs);
               if (ok) await logInfo(`[uninstall ${item.id}] delete ok path="${p}"`);
               else await logInfo(`[uninstall ${item.id}] delete skip (not found) path="${p}"`);
@@ -1549,7 +1549,7 @@ export async function runUninstallerForItem(item, dispatch) {
 
   await removeInstalledId(item.id);
   if (dispatch) {
-    // 状態の正確さを保つため再検出
+    // 为了保持状态准确性而重新检测
     const map = await detectInstalledVersionsMap([item]);
     const detected = String((map && map[item.id]) || '');
     dispatch({ type: 'SET_DETECTED_ONE', payload: { id: item.id, version: detected } });

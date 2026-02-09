@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, Copy, Check } from 'lucide-react';
 
-export default function ErrorDialog({ open, title = 'エラーが発生しました', message = '', onClose }) {
+export default function ErrorDialog({ open, title = '发生错误', message = '', onClose }) {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     if (open) setCopied(false);
@@ -18,7 +18,7 @@ export default function ErrorDialog({ open, title = 'エラーが発生しまし
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" aria-label="閉じる" className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <button type="button" aria-label="关闭" className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-start gap-3 border-b border-slate-100 px-6 py-4 dark:border-slate-800">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300">
@@ -33,8 +33,8 @@ export default function ErrorDialog({ open, title = 'エラーが発生しまし
           <button
             className="rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             onClick={onCopy}
-            aria-label={copied ? 'コピーしました' : 'エラーメッセージをコピー'}
-            title={copied ? 'コピーしました' : 'エラーメッセージをコピー'}
+            aria-label={copied ? '已复制' : '复制错误消息'}
+            title={copied ? '已复制' : '复制错误消息'}
             type="button"
           >
             {copied ? <Check size={16} /> : <Copy size={16} />}
@@ -50,7 +50,7 @@ export default function ErrorDialog({ open, title = 'エラーが発生しまし
         </div>
         <div className="flex justify-end border-t border-slate-100 px-6 py-4 dark:border-slate-800">
           <button className="btn btn--primary" onClick={onClose} type="button">
-            閉じる
+            关闭
           </button>
         </div>
       </div>

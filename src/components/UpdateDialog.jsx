@@ -14,18 +14,18 @@ export default function UpdateDialog({ open, version, notes, busy, error, onConf
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" aria-label="閉じる" className="absolute inset-0 bg-black/50" onClick={handleBackdrop} />
+      <button type="button" aria-label="关闭" className="absolute inset-0 bg-black/50" onClick={handleBackdrop} />
       <div className="relative w-full max-w-2xl rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 px-6 py-4 dark:border-slate-800">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">アップデート</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">更新</span>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100" id="update-title">
-              新しいバージョンが利用可能です
+              新版本可用
             </h3>
             {publishedOn && (
               <p className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                 <Calendar size={14} />
-                <span>公開日 {publishedOn}</span>
+                <span>发布日期 {publishedOn}</span>
               </p>
             )}
           </div>
@@ -42,15 +42,15 @@ export default function UpdateDialog({ open, version, notes, busy, error, onConf
           {markdownHtml ? (
             <div className="prose prose-slate max-w-none dark:prose-invert" dangerouslySetInnerHTML={markdownMarkup} />
           ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-400">更新内容の詳細は取得できませんでした。</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">无法获取更新内容详情。</p>
           )}
         </div>
         <div className="flex justify-end gap-2 border-t border-slate-100 px-6 py-4 dark:border-slate-800">
           <button className="btn" onClick={onCancel} disabled={busy} type="button">
-            後で
+            稍后
           </button>
           <button className="btn btn--primary" onClick={onConfirm} disabled={busy} type="button">
-            {busy ? '更新中…' : '今すぐ更新'}
+            {busy ? '更新中…' : '立即更新'}
           </button>
         </div>
       </div>

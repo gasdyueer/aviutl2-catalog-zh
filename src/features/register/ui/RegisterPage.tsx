@@ -1,5 +1,5 @@
 /**
- * パッケージ登録画面のメインコンポーネント
+ * 包注册画面的主组件
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSettings } from '../../../utils/index.js';
@@ -178,8 +178,8 @@ export default function Register() {
   }, []);
 
   const successPrimaryText = successDialog.packageName
-    ? `${successDialog.packageAction || '送信完了'}: ${successDialog.packageName}`
-    : successDialog.message || '送信が完了しました。';
+    ? `${successDialog.packageAction || '发送完成'}: ${successDialog.packageName}`
+    : successDialog.message || '发送完成。';
   const successSupportText = successDialog.packageName && successDialog.message ? successDialog.message : '';
 
   const sidebarProps = useMemo(

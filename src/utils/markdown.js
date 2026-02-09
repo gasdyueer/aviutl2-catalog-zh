@@ -4,8 +4,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { AlertCircle, AlertOctagon, AlertTriangle, Info, Lightbulb } from 'lucide-react';
 
 const CALLOUT_META = {
-  NOTE: { title: '注記', className: 'note', icon: 'callout-note' },
-  TIP: { title: 'ヒント', className: 'tip', icon: 'callout-tip' },
+  NOTE: { title: '注记', className: 'note', icon: 'callout-note' },
+  TIP: { title: '提示', className: 'tip', icon: 'callout-tip' },
   IMPORTANT: { title: '重要', className: 'important', icon: 'callout-important' },
   WARNING: { title: '警告', className: 'warning', icon: 'callout-warning' },
   CAUTION: { title: '注意', className: 'caution', icon: 'callout-caution' },
@@ -22,7 +22,7 @@ const CALLOUT_ICON_COMPONENTS = {
 };
 
 function escapeHtml(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  return String(s).replace(/&/g, '&').replace(/</g, '<');
 }
 
 export function renderMarkdown(md = '') {

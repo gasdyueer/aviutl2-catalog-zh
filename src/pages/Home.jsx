@@ -31,7 +31,7 @@ export default function Home() {
   }, [location.search, searchQuery]);
 
   // Helper to change category
-  const setCategory = (cat) => updateUrl({ type: cat === 'すべて' ? '' : cat });
+  const setCategory = (cat) => updateUrl({ type: cat === '全部' ? '' : cat });
 
   return (
     <div className="flex flex-col min-h-full select-none">
@@ -44,7 +44,7 @@ export default function Home() {
             <div className="flex items-center gap-2 max-w-full overflow-hidden">
               <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 select-none">
                 <Layers size={14} className="opacity-70" />
-                <span>種類</span>
+                <span>类型</span>
               </div>
               <div className="flex flex-1 items-center gap-1 bg-slate-200/50 dark:bg-slate-800/50 p-1 rounded-lg border border-slate-200 dark:border-slate-800 overflow-x-auto scrollbar-hide">
                 {categories.map((cat) => (
@@ -72,7 +72,7 @@ export default function Home() {
                 <span className="text-lg font-black text-slate-700 dark:text-slate-200 tabular-nums leading-none">
                   {filteredPackages.length}
                 </span>
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1">件</span>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1">个</span>
               </div>
 
               {/* Installed Toggle */}
@@ -92,7 +92,7 @@ export default function Home() {
                     filterInstalled ? 'text-emerald-500 fill-emerald-500/20' : 'text-slate-300 dark:text-slate-600'
                   }
                 />
-                インストール済
+                已安装
               </button>
 
               {/* Filter Toggle Button */}
@@ -107,7 +107,7 @@ export default function Home() {
                 type="button"
               >
                 <Filter size={16} />
-                タグ絞り込み
+                标签筛选
                 {selectedTags.length > 0 && (
                   <span className="ml-1 bg-blue-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm">
                     {selectedTags.length}
@@ -121,12 +121,12 @@ export default function Home() {
                 <button
                   onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 transition-colors whitespace-nowrap cursor-pointer"
-                  title="並び替え"
+                  title="排序"
                   type="button"
                 >
                   <ArrowUpDown size={16} />
                   <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                    {SORT_OPTIONS.find((o) => o.value === sortOrder)?.label || '並び替え'}
+                    {SORT_OPTIONS.find((o) => o.value === sortOrder)?.label || '排序'}
                   </span>
                   <ChevronDown size={14} />
                 </button>
@@ -134,7 +134,7 @@ export default function Home() {
                   <>
                     <button
                       type="button"
-                      aria-label="並び替えメニューを閉じる"
+                      aria-label="关闭排序菜单"
                       className="fixed inset-0 z-10"
                       onClick={() => setIsSortMenuOpen(false)}
                     />
@@ -165,7 +165,7 @@ export default function Home() {
           {/* Row 2: Active Tags Summary (Visible when collapsed & tags selected) */}
           {!isFilterExpanded && selectedTags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 mt-4 animate-in slide-in-from-top-1">
-              <span className="text-sm text-slate-400 font-medium">選択中:</span>
+              <span className="text-sm text-slate-400 font-medium">已选择:</span>
               {selectedTags.map((tag) => (
                 <button
                   key={tag}
@@ -182,7 +182,7 @@ export default function Home() {
                 className="text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 underline decoration-slate-300 underline-offset-2 ml-2 cursor-pointer"
                 type="button"
               >
-                すべてクリア
+                全部清除
               </button>
             </div>
           )}
@@ -193,7 +193,7 @@ export default function Home() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <Tags size={14} />
-                  <span className="text-sm font-bold uppercase tracking-wider">すべてのタグ</span>
+                  <span className="text-sm font-bold uppercase tracking-wider">所有标签</span>
                 </div>
                 {selectedTags.length > 0 && (
                   <button
@@ -201,7 +201,7 @@ export default function Home() {
                     className="text-sm text-red-500 hover:text-red-600 font-medium cursor-pointer"
                     type="button"
                   >
-                    選択をクリア
+                    清除选择
                   </button>
                 )}
               </div>
@@ -238,13 +238,13 @@ export default function Home() {
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl select-none min-h-[300px]">
           <Package size={48} className="mb-4 opacity-50" />
-          <p>条件に一致するパッケージはありません</p>
+          <p>没有符合条件的包</p>
           <button
             onClick={() => updateUrl({ q: '', type: '', tags: [], installed: '' })}
             className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
             type="button"
           >
-            条件をクリア
+            清除条件
           </button>
         </div>
       )}

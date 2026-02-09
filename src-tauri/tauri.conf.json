@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "AviUtl2 カタログ",
+  "productName": "AviUtl2 目录",
   "mainBinaryName": "AviUtl2_Catalog",
   "version": "0.3.1",
   "identifier": "aviutl2-catalog",
@@ -21,7 +21,7 @@
       "certificateThumbprint": null,
       "timestampUrl": null,
       "nsis": {
-        "languages": ["Japanese"],
+        "languages": ["Japanese", "SimpChinese", "TradChinese"],
         "displayLanguageSelector": true,
         "installerIcon": "icons/icon.ico"
       }

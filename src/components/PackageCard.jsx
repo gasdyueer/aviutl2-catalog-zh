@@ -42,7 +42,7 @@ export default function PackageCard({ item, listSearch = '' }) {
   const [updateProgress, setUpdateProgress] = useState(null);
 
   const thumbnail = useMemo(() => pickThumbnail(item), [item]);
-  const category = item.type || 'その他';
+  const category = item.type || '其他';
   const isInstalled = item.installed;
   const hasUpdate = isInstalled && !item.isLatest;
   const canInstall = hasInstaller(item);
@@ -53,14 +53,14 @@ export default function PackageCard({ item, listSearch = '' }) {
     e.stopPropagation();
     try {
       setDownloading(true);
-      setDownloadProgress({ ratio: 0, percent: 0, label: '準備中…', phase: 'init' });
+      setDownloadProgress({ ratio: 0, percent: 0, label: '准备中…', phase: 'init' });
       if (hasInstaller(item)) {
         await runInstallerForItem(item, dispatch, setDownloadProgress);
       } else {
-        throw new Error('インストーラーがありません');
+        throw new Error('没有安装程序');
       }
     } catch (err) {
-      setError(`更新に失敗しました\n\n${err?.message || String(err) || '不明なエラー'}`);
+      setError(`更新失败\n\n${err?.message || String(err) || '未知错误'}`);
     } finally {
       setDownloading(false);
       setDownloadProgress(null);
@@ -71,14 +71,14 @@ export default function PackageCard({ item, listSearch = '' }) {
     e.stopPropagation();
     try {
       setUpdating(true);
-      setUpdateProgress({ ratio: 0, percent: 0, label: '準備中…', phase: 'init' });
+      setUpdateProgress({ ratio: 0, percent: 0, label: '准备中…', phase: 'init' });
       if (hasInstaller(item)) {
         await runInstallerForItem(item, dispatch, setUpdateProgress);
       } else {
-        throw new Error('インストーラーがありません');
+        throw new Error('没有安装程序');
       }
     } catch (err) {
-      setError(`更新に失敗しました\n\n${err?.message || String(err) || '不明なエラー'}`);
+      setError(`更新失败\n\n${err?.message || String(err) || '未知错误'}`);
     } finally {
       setUpdating(false);
       setUpdateProgress(null);
@@ -101,8 +101,8 @@ export default function PackageCard({ item, listSearch = '' }) {
         dispatch({ type: 'SET_DETECTED_ONE', payload: { id: item.id, version: v2 } });
       }
     } catch (err) {
-      const msg = (err && (err.message || err.toString())) || '不明なエラー';
-      setError(`削除に失敗しました\n\n${msg}`);
+      const msg = (err && (err.message || err.toString())) || '未知错误';
+      setError(`删除失败\n\n${msg}`);
     } finally {
       setRemoving(false);
       setDownloadProgress(null);
@@ -215,12 +215,12 @@ export default function PackageCard({ item, listSearch = '' }) {
                   ) : (
                     <div className="h-9 flex-1 bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-lg flex items-center justify-center gap-1 cursor-default border border-slate-200 dark:border-slate-700">
                       <CheckCircle2 size={14} />
-                      <span>導入済</span>
+                      <span>已安装</span>
                     </div>
                   )}
                   <button
                     className="h-9 w-9 shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
-                    title="削除"
+                    title="删除"
                     onClick={onRemove}
                     disabled={removing}
                   >
@@ -238,7 +238,7 @@ export default function PackageCard({ item, listSearch = '' }) {
                   ) : (
                     <Download size={14} strokeWidth={2.5} />
                   )}
-                  <span>インストール</span>
+                  <span>安装</span>
                 </button>
               )}
             </div>

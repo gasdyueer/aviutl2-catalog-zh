@@ -26,7 +26,7 @@ export default function Updates() {
     if (bulkUpdating || !updatableItems.length) return;
     setBulkUpdating(true);
     setError('');
-    setBulkProgress({ ratio: 0, percent: 0, label: '準備中…', current: 0, total: updatableItems.length });
+    setBulkProgress({ ratio: 0, percent: 0, label: '准备中…', current: 0, total: updatableItems.length });
 
     const targets = updatableItems.slice();
     const total = targets.length || 1;
@@ -38,7 +38,7 @@ export default function Updates() {
         ratio: 0,
         percent: 0,
         itemName: item.name,
-        status: '準備中…',
+        status: '准备中…',
         current: i + 1,
         total,
       });
@@ -47,7 +47,7 @@ export default function Updates() {
         await runInstallerForItem(item, dispatch, (progress) => {
           const stepRatio = progress && Number.isFinite(progress.ratio) ? Math.min(1, Math.max(0, progress.ratio)) : 0;
           const percent = Math.round(stepRatio * 100);
-          const label = progress?.label || '処理中…';
+          const label = progress?.label || '处理中…';
           setBulkProgress({
             ratio: stepRatio,
             percent,
@@ -61,12 +61,12 @@ export default function Updates() {
           ratio: 1,
           percent: 100,
           itemName: item.name,
-          status: '完了',
+          status: '完成',
           current: i + 1,
           total,
         });
       } catch (err) {
-        const msg = err?.message || String(err) || '不明なエラー';
+        const msg = err?.message || String(err) || '未知错误';
         failed.push({ item, msg });
         try {
           await logError(`[BulkUpdate] ${item.id}: ${msg}`);
@@ -75,7 +75,7 @@ export default function Updates() {
           ratio: 1,
           percent: 100,
           itemName: item.name,
-          status: 'エラー',
+          status: '错误',
           current: i + 1,
           total,
         });
@@ -84,7 +84,7 @@ export default function Updates() {
 
     if (failed.length) {
       const example = failed[0];
-      setError(`${failed.length}件のプラグインで更新に失敗しました（例: ${example.item.name}: ${example.msg}）`);
+      setError(`${failed.length}个插件更新失败（例如: ${example.item.name}: ${example.msg}）`);
     }
     setBulkProgress(null);
     setBulkUpdating(false);
@@ -93,19 +93,19 @@ export default function Updates() {
   async function handleUpdate(item) {
     if (itemProgress[item.id]) return;
     setError('');
-    setItemProgress((prev) => ({ ...prev, [item.id]: { ratio: 0, label: '準備中…' } }));
+    setItemProgress((prev) => ({ ...prev, [item.id]: { ratio: 0, label: '准备中…' } }));
     try {
       await runInstallerForItem(item, dispatch, (progress) => {
         if (progress) {
           setItemProgress((prev) => ({
             ...prev,
-            [item.id]: { ratio: progress.ratio, label: progress.label || '処理中…' },
+            [item.id]: { ratio: progress.ratio, label: progress.label || '处理中…' },
           }));
         }
       });
     } catch (err) {
-      const msg = err?.message || String(err) || '不明なエラー';
-      setError(`更新に失敗しました\n\n${msg}`);
+      const msg = err?.message || String(err) || '未知错误';
+      setError(`更新失败\n\n${msg}`);
     } finally {
       setItemProgress((prev) => {
         const next = { ...prev };
@@ -120,8 +120,8 @@ export default function Updates() {
       <div className="max-w-3xl mx-auto select-none">
         <div className="flex flex-wrap justify-between items-end gap-4 mb-6">
           <div>
-            <h2 className="text-xl font-bold mb-1">アップデートセンター</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">更新可能なパッケージを確認します</p>
+            <h2 className="text-xl font-bold mb-1">更新中心</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">检查可更新的包</p>
           </div>
           <button
             className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg transition-all text-sm font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -129,7 +129,7 @@ export default function Updates() {
             disabled={bulkUpdating || !updatableItems.length}
             type="button"
           >
-            すべて更新
+            全部更新
           </button>
         </div>
 
@@ -172,17 +172,17 @@ export default function Updates() {
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
           {updatableItems.length === 0 ? (
             <div className="p-8 text-center text-slate-500 dark:text-slate-400">
-              <p>すべて最新の状態です</p>
+              <p>全部已是最新状态</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <div className="min-w-[760px]">
                 <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide grid grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)_7.5rem] gap-2">
-                  <span>パッケージ</span>
+                  <span>包</span>
                   <span>作者</span>
-                  <span>種類</span>
+                  <span>类型</span>
                   <span>更新前</span>
-                  <span>更新後</span>
+                  <span>更新后</span>
                   <span className="text-right"></span>
                 </div>
                 <div className="divide-y divide-slate-100 dark:divide-slate-800">

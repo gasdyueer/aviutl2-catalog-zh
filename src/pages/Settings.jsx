@@ -100,7 +100,7 @@ export default function Settings() {
       const p = await dialog.open({ directory: true, multiple: false, title });
       if (p) setForm((prev) => ({ ...prev, [field]: String(p) }));
     } catch {
-      setError('ディレクトリ選択に失敗しました');
+      setError('目录选择失败');
     }
   }
 
@@ -111,7 +111,7 @@ export default function Settings() {
     try {
       const resolved = await invoke('resolve_aviutl2_root', { raw: String(form.aviutl2Root || '') });
       const aviutl2Root = String(resolved || '').trim();
-      if (!aviutl2Root) throw new Error('AviUtl2 のフォルダを指定してください。');
+      if (!aviutl2Root) throw new Error('请指定 AviUtl2 文件夹。');
 
       await invoke('update_settings', {
         aviutl2Root,
@@ -132,10 +132,10 @@ export default function Settings() {
         dispatch({ type: 'SET_DETECTED_MAP', payload: detected });
       } catch {}
 
-      setSuccess('設定を保存しました。');
+      setSuccess('设置已保存。');
       setTimeout(() => setSuccess(''), 3000);
     } catch (e) {
-      setError(e?.message ? String(e.message) : '保存に失敗しました。権限やパスをご確認ください。');
+      setError(e?.message ? String(e.message) : '保存失败。请检查权限和路径。');
       try {
         await logError(`[settings] save failed: ${e?.message || e}`);
       } catch {}
@@ -148,7 +148,7 @@ export default function Settings() {
     if (syncBusy) return;
     setError('');
     setSyncBusy(true);
-    setSyncStatus('エクスポート先を選択しています…');
+    setSyncStatus('正在选择导出位置…');
     try {
       const dialog = await import('@tauri-apps/plugin-dialog');
       const now = new Date();
@@ -159,22 +159,22 @@ export default function Settings() {
       ].join('');
       const defaultPath = `installed-export-${stamp}.json`;
       const outPath = await dialog.save({
-        title: 'パッケージ一覧のエクスポート',
+        title: '包列表导出',
         defaultPath,
         filters: [{ name: 'JSON', extensions: ['json'] }],
       });
       const savePath = Array.isArray(outPath) ? outPath[0] : outPath;
       if (!savePath) return;
-      setSyncStatus('エクスポートを作成中…');
+      setSyncStatus('正在创建导出…');
       const installed = await loadInstalledMap();
       const fs = await import('@tauri-apps/plugin-fs');
       const payload = JSON.stringify(installed || {}, null, 2);
       await fs.writeTextFile(String(savePath), payload);
       try {
-        await dialog.message('エクスポートを保存しました。', { title: 'エクスポート', kind: 'info' });
+        await dialog.message('导出已保存。', { title: '导出', kind: 'info' });
       } catch {}
     } catch (e) {
-      setError('エクスポートに失敗しました。\n権限や保存先を確認してください。');
+      setError('导出失败。\n请检查权限和保存位置。');
       try {
         await logError(`[settings] export failed: ${e?.message || e}`);
       } catch {}
@@ -188,17 +188,17 @@ export default function Settings() {
     if (syncBusy) return;
     setError('');
     setSyncBusy(true);
-    setSyncStatus('インポート準備中…');
+    setSyncStatus('导入准备中…');
     try {
       const dialog = await import('@tauri-apps/plugin-dialog');
-      const ok = await dialog.confirm('インポート内容に合わせてパッケージをインストール/削除します。\n続行しますか？', {
-        title: 'インポート',
+      const ok = await dialog.confirm('将根据导入内容安装/删除包。\n是否继续？', {
+        title: '导入',
         kind: 'warning',
       });
       if (!ok) return;
-      setSyncStatus('インポートファイルを選択しています…');
+      setSyncStatus('正在选择导入文件…');
       const filePath = await dialog.open({
-        title: 'インポートファイルを選択',
+        title: '选择导入文件',
         multiple: false,
         directory: false,
         filters: [{ name: 'JSON', extensions: ['json'] }],
@@ -206,28 +206,28 @@ export default function Settings() {
       const selectedPath = Array.isArray(filePath) ? filePath[0] : filePath;
       if (!selectedPath) return;
 
-      setSyncStatus('インポートファイルを読み込み中…');
+      setSyncStatus('正在读取导入文件…');
       const fs = await import('@tauri-apps/plugin-fs');
       const raw = await fs.readTextFile(String(selectedPath));
       let parsed;
       try {
         parsed = JSON.parse(raw || '{}');
       } catch {
-        throw new Error('インポートファイルのJSONを読み込めませんでした。');
+        throw new Error('无法读取导入文件的JSON。');
       }
 
       const targetMap = normalizeInstalledImport(parsed);
       const targetIds = Object.keys(targetMap);
-      if (!targetIds.length) throw new Error('インポートファイルの内容が空です。');
+      if (!targetIds.length) throw new Error('导入文件内容为空。');
       const targetIdSet = new Set(targetIds);
 
       const catalogItems = Array.isArray(items) ? items : [];
-      if (!catalogItems.length) throw new Error('カタログ情報が読み込まれていません。');
+      if (!catalogItems.length) throw new Error('未加载目录信息。');
 
       const idToItem = new Map(catalogItems.map((item) => [String(item.id), item]));
       const unknownIds = targetIds.filter((id) => !idToItem.has(id));
 
-      setSyncStatus('インストール状態を検出中…');
+      setSyncStatus('正在检测安装状态…');
       const detected = await detectInstalledVersionsMap(catalogItems);
       const currentIds = Object.entries(detected || {})
         .filter(([, v]) => v)
@@ -251,7 +251,7 @@ export default function Settings() {
           continue;
         }
         const label = item?.name ? `${item.name} (${id})` : id;
-        setSyncStatus(`インストール中… (${i + 1}/${toInstall.length}) ${label}`);
+        setSyncStatus(`正在安装… (${i + 1}/${toInstall.length}) ${label}`);
         try {
           await runInstallerForItem(item, dispatch);
           installedCount += 1;
@@ -268,7 +268,7 @@ export default function Settings() {
           continue;
         }
         const label = item?.name ? `${item.name} (${id})` : id;
-        setSyncStatus(`アンインストール中… (${i + 1}/${toRemove.length}) ${label}`);
+        setSyncStatus(`正在卸载… (${i + 1}/${toRemove.length}) ${label}`);
         try {
           await runUninstallerForItem(item, dispatch);
           removedCount += 1;
@@ -277,21 +277,21 @@ export default function Settings() {
         }
       }
 
-      setSyncStatus('インストール状態を更新中…');
+      setSyncStatus('正在更新安装状态…');
       const finalDetected = await detectInstalledVersionsMap(catalogItems);
       dispatch({ type: 'SET_DETECTED_MAP', payload: finalDetected });
       const snap = await saveInstalledSnapshot(finalDetected);
       dispatch({ type: 'SET_INSTALLED_MAP', payload: snap });
 
       const summary = [
-        `インストール: ${installedCount}/${toInstall.length}件`,
-        `削除: ${removedCount}/${toRemove.length}件`,
+        `安装: ${installedCount}/${toInstall.length}个`,
+        `删除: ${removedCount}/${toRemove.length}个`,
       ];
-      if (unknownIds.length) summary.push(`未登録ID: ${unknownIds.join(', ')}`);
-      if (skippedInstall.length) summary.push(`インストール不可: ${skippedInstall.join(', ')}`);
-      if (skippedRemove.length) summary.push(`削除不可: ${skippedRemove.join(', ')}`);
-      if (failedInstall.length) summary.push(`インストール失敗: ${failedInstall.join(', ')}`);
-      if (failedRemove.length) summary.push(`削除失敗: ${failedRemove.join(', ')}`);
+      if (unknownIds.length) summary.push(`未注册ID: ${unknownIds.join(', ')}`);
+      if (skippedInstall.length) summary.push(`无法安装: ${skippedInstall.join(', ')}`);
+      if (skippedRemove.length) summary.push(`无法删除: ${skippedRemove.join(', ')}`);
+      if (failedInstall.length) summary.push(`安装失败: ${failedInstall.join(', ')}`);
+      if (failedRemove.length) summary.push(`删除失败: ${failedRemove.join(', ')}`);
       const hasIssues =
         unknownIds.length ||
         skippedInstall.length ||
@@ -300,12 +300,12 @@ export default function Settings() {
         failedRemove.length;
       try {
         await dialog.message(summary.join('\n'), {
-          title: 'インポート結果',
+          title: '导入结果',
           kind: hasIssues ? 'warning' : 'info',
         });
       } catch {}
     } catch (e) {
-      setError(e?.message ? String(e.message) : 'インポートに失敗しました。');
+      setError(e?.message ? String(e.message) : '导入失败。');
       try {
         await logError(`[settings] import failed: ${e?.message || e}`);
       } catch {}
@@ -320,8 +320,8 @@ export default function Settings() {
   return (
     <div className="max-w-3xl mx-auto space-y-7 animate-in slide-in-from-bottom-2 duration-300 select-none">
       <div>
-        <h2 className="text-2xl font-bold mb-2">設定</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm">アプリケーションの設定とカスタマイズ</p>
+        <h2 className="text-2xl font-bold mb-2">设置</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">应用程序设置与自定义</p>
       </div>
 
       {error && (
@@ -333,15 +333,15 @@ export default function Settings() {
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-6 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex items-center gap-2">
           <SettingsIcon size={18} className="text-slate-500 dark:text-slate-400" />
-          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">アプリ設定</h3>
+          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">应用设置</h3>
         </div>
         <div className="p-6 space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="settings-aviutl2-root">
-              AviUtl2 フォルダ
+              AviUtl2 文件夹
             </label>
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              aviutl2.exeを含むフォルダを指定してください。
+              请指定包含 aviutl2.exe 的文件夹。
             </div>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <input
@@ -350,12 +350,12 @@ export default function Settings() {
                 value={form.aviutl2Root}
                 onChange={onChange}
                 className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm cursor-text select-text"
-                placeholder="aviutl2.exe のあるフォルダ"
+                placeholder="aviutl2.exe 所在文件夹"
               />
               <button
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
                 type="button"
-                onClick={() => pickDir('aviutl2Root', 'AviUtl2 のルートフォルダ')}
+                onClick={() => pickDir('aviutl2Root', 'AviUtl2 根文件夹')}
               >
                 <FolderOpen size={16} />
                 参照
@@ -367,11 +367,11 @@ export default function Settings() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
                 <div className="text-sm font-medium">
-                  ポータブルモード{' '}
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">（オフ推奨）</span>
+                  便携模式{' '}
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">（推荐关闭）</span>
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">
-                  プラグインやスクリプトを aviutl2.exe と同じ階層にある data フォルダに保存します
+                  将插件和脚本保存到与 aviutl2.exe 同级的 data 文件夹中
                 </div>
               </div>
               <button
@@ -389,7 +389,7 @@ export default function Settings() {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
-                <div className="text-sm font-medium">ダークモード</div>
+                <div className="text-sm font-medium">深色模式</div>
               </div>
               <button
                 onClick={() => {
@@ -416,9 +416,9 @@ export default function Settings() {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
-                <div className="text-sm font-medium">匿名統計の送信</div>
+                <div className="text-sm font-medium">匿名统计发送</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">
-                  利用状況を参考にした表示を提供するため、インストール・アンインストールされたパッケージID、およびインストール済みパッケージIDを匿名で送信します。ご協力をお願いします。
+                  为提供基于使用情况的显示，我们会匿名发送已安装/卸载的包ID以及已安装包ID。感谢您的合作。
                 </div>
               </div>
               <button
@@ -443,7 +443,7 @@ export default function Settings() {
               type="button"
             >
               {success && <Check size={16} />}
-              {success ? '保存しました' : '設定を保存'}
+              {success ? '已保存' : '保存设置'}
             </button>
           </div>
         </div>
@@ -452,11 +452,11 @@ export default function Settings() {
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-6 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex items-center gap-2">
           <FolderOpen size={18} className="text-slate-500 dark:text-slate-400" />
-          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">データ管理</h3>
+          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">数据管理</h3>
         </div>
         <div className="p-6 space-y-6">
           <div className="space-y-3">
-            <div className="text-sm font-medium">パッケージ一覧のエクスポート / インポート</div>
+            <div className="text-sm font-medium">包列表导出 / 导入</div>
             <div className="flex flex-wrap gap-2">
               <button
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
@@ -465,7 +465,7 @@ export default function Settings() {
                 type="button"
               >
                 <Download size={16} />
-                エクスポート
+                导出
               </button>
               <button
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
@@ -474,7 +474,7 @@ export default function Settings() {
                 type="button"
               >
                 <Upload size={16} />
-                インポート
+                导入
               </button>
             </div>
             {syncStatus && <div className="text-xs text-slate-500 dark:text-slate-400">{syncStatus}</div>}
@@ -485,20 +485,20 @@ export default function Settings() {
       <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-6 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex items-center gap-2">
           <Info size={18} className="text-slate-500 dark:text-slate-400" />
-          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">アプリ情報</h3>
+          <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200">应用信息</h3>
         </div>
         <div className="p-5 space-y-4">
           <div className="flex justify-between items-center text-sm">
-            <span className="text-slate-500 dark:text-slate-400">バージョン</span>
+            <span className="text-slate-500 dark:text-slate-400">版本</span>
             <span className="font-medium">{appVersion || '-'}</span>
           </div>
           <div className="space-y-2">
             <div className="flex justify-between items-center text-sm">
-              <span className="text-slate-500 dark:text-slate-400">ライセンス</span>
+              <span className="text-slate-500 dark:text-slate-400">许可证</span>
               <span className="font-medium">MIT License</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              本ソフトウェアは MIT License に基づき提供されます。ライセンス全文は LICENSE.txt をご参照ください。
+              本软件基于 MIT License 提供。完整许可证请参阅 LICENSE.txt。
             </p>
           </div>
         </div>
@@ -517,7 +517,7 @@ function normalizeInstalledImport(data) {
     return out;
   }
   if (!data || typeof data !== 'object') {
-    throw new Error('インポートファイルの形式が正しくありません。');
+    throw new Error('导入文件格式不正确。');
   }
   const out = {};
   for (const [rawKey, rawValue] of Object.entries(data)) {

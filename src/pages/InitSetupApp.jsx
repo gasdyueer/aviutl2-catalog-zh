@@ -16,7 +16,7 @@ async function showMain() {
   await win.setFocus();
 }
 
-// DOM 準備済みなら即、まだなら once で
+// DOM 准备就绪则立即执行，否则等待一次
 if (document.readyState === 'loading') {
   window.addEventListener(
     'DOMContentLoaded',
@@ -31,7 +31,7 @@ if (document.readyState === 'loading') {
 
 const SETUP_REMOTE_URL = import.meta.env.VITE_SETUP_REMOTE;
 
-// 共通の安全ログ関数
+// 通用的安全日志函数
 async function safeLog(prefix, error) {
   try {
     const detail = error ? error.message || (error.toString ? error.toString() : '') : '';
@@ -42,7 +42,7 @@ async function safeLog(prefix, error) {
   }
 }
 
-// 現在ウィンドウの label を取得
+// 获取当前窗口的 label
 async function fetchWindowLabel() {
   try {
     const mod = await import('@tauri-apps/api/window');
@@ -63,15 +63,15 @@ async function fetchWindowLabel() {
   }
 }
 
-// ステップ表示コンポーネント
+// 步骤显示组件
 function StepIndicator({ step, installed }) {
   const steps = useMemo(
     () => [
-      { id: 'intro', label: '開始' },
-      { id: 'question', label: 'インストールの状況' },
-      { id: 'details', label: installed ? 'フォルダの指定' : 'インストール' },
-      { id: 'packages', label: '推奨パッケージ' },
-      { id: 'done', label: '完了' },
+      { id: 'intro', label: '开始' },
+      { id: 'question', label: '安装状态' },
+      { id: 'details', label: installed ? '文件夹指定' : '安装' },
+      { id: 'packages', label: '推荐包' },
+      { id: 'done', label: '完成' },
     ],
     [installed],
   );
@@ -132,7 +132,7 @@ function StepIndicator({ step, installed }) {
   );
 }
 
-// ルートコンポーネント InitSetupApp
+// 根组件 InitSetupApp
 export default function InitSetupApp() {
   const [step, setStep] = useState('intro');
   const [installed, setInstalled] = useState(null);
@@ -203,7 +203,7 @@ export default function InitSetupApp() {
         });
         return found;
       }
-      throw new Error('パッケージ情報が見つかりません: ' + id);
+      throw new Error('找不到包信息: ' + id);
     },
     [fetchCatalogList, packageItems, setPackageItems, setPackageStates],
   );
@@ -211,7 +211,7 @@ export default function InitSetupApp() {
   const persistAviutlSettings = useCallback(
     async (rootPath, portableMode) => {
       const normalized = (rootPath || '').trim();
-      if (!normalized) throw new Error('AviUtl2 のフォルダを入力してください。');
+      if (!normalized) throw new Error('请输入 AviUtl2 文件夹。');
       const core = await import('@tauri-apps/api/core');
       let resolved = normalized;
       try {
@@ -281,7 +281,7 @@ export default function InitSetupApp() {
       } catch (e) {
         if (!cancelled) {
           setSetupConfig(null);
-          setSetupError('インターネットに接続してください。');
+          setSetupError('请连接互联网。');
         }
         await safeLog('[init-window] setup config load failed', e);
       }
@@ -318,10 +318,10 @@ export default function InitSetupApp() {
             });
             return next;
           });
-          if (missing.length) setPackagesError('一部のパッケージ情報を取得できませんでした: ' + missing.join(', '));
+          if (missing.length) setPackagesError('部分包信息无法获取: ' + missing.join(', '));
         }
       } catch (e) {
-        if (!cancelled) setPackagesError('必須パッケージの情報を読み込めませんでした。');
+        if (!cancelled) setPackagesError('无法加载必需包信息。');
         await safeLog('[init-window] required packages load failed', e);
       } finally {
         if (!cancelled) setPackagesLoading(false);
@@ -409,7 +409,7 @@ export default function InitSetupApp() {
       try {
         pkg = await ensurePackageItem(id);
       } catch (e) {
-        const detail = e?.message || (e?.toString ? e.toString() : '') || 'パッケージ情報を取得できませんでした。';
+        const detail = e?.message || (e?.toString ? e.toString() : '') || '无法获取包信息。';
         updatePackageState(id, () => ({ downloading: false, error: detail, progress: null }));
         return false;
       }
@@ -417,7 +417,7 @@ export default function InitSetupApp() {
     if (!pkg || !hasInstaller(pkg)) {
       updatePackageState(id, () => ({
         downloading: false,
-        error: 'インストールできないパッケージです。',
+        error: '无法安装的包。',
         progress: null,
       }));
       return false;
@@ -445,7 +445,7 @@ export default function InitSetupApp() {
       setVersionsDetected(false);
       return true;
     } catch (e) {
-      const detail = e?.message || (e?.toString ? e.toString() : '') || 'エラーが発生しました。';
+      const detail = e?.message || (e?.toString ? e.toString() : '') || '发生错误。';
       updatePackageState(id, () => ({ downloading: false, error: detail, progress: null }));
       return false;
     }
@@ -468,12 +468,12 @@ export default function InitSetupApp() {
       setVersionsDetected(false);
 
       if (hasFailure) {
-        setPackagesDownloadError('一部のインストールに失敗しました。');
+        setPackagesDownloadError('部分安装失败。');
       } else {
         setStep('done');
       }
     } catch (e) {
-      setPackagesDownloadError('エラーが発生しました。');
+      setPackagesDownloadError('发生错误。');
       await safeLog('[init-window] bulk install and next failed', e);
     } finally {
       setBulkDownloading(false);
@@ -488,7 +488,7 @@ export default function InitSetupApp() {
     try {
       const normalized = (aviutlRoot || '').trim();
       if (!normalized) {
-        setError('AviUtl2 のフォルダを入力してください。');
+        setError('请输入 AviUtl2 文件夹。');
         return;
       }
       await persistAviutlSettings(normalized, portable);
@@ -497,9 +497,9 @@ export default function InitSetupApp() {
       const detail = e?.message || (e?.toString ? e.toString() : '') || '';
       setError(
         detail
-          ? `設定に失敗しました。
+          ? `设置失败。
 ${detail}`
-          : '設定に失敗しました。',
+          : '设置失败。',
       );
     } finally {
       setSavingInstallDetails(false);
@@ -514,20 +514,20 @@ ${detail}`
     try {
       const normalized = (installDir || '').trim();
       if (!normalized) {
-        setError('インストール先を入力してください。');
+        setError('请输入安装目标文件夹。');
         return;
       }
       await persistAviutlSettings(normalized, portable);
       const success = await downloadRequiredPackage(corePackageId);
-      if (!success) throw new Error('インストールに失敗しました。');
+      if (!success) throw new Error('安装失败。');
       setStep('packages');
     } catch (e) {
       const detail = e?.message || (e?.toString ? e.toString() : '') || '';
       setError(
         detail
-          ? `セットアップに失敗しました。
+          ? `设置失败。
 ${detail}`
-          : 'セットアップに失敗しました。',
+          : '设置失败。',
       );
     } finally {
       setSavingInstallDetails(false);
@@ -543,7 +543,7 @@ ${detail}`
   async function pickDir(kind) {
     try {
       const dialog = await import('@tauri-apps/plugin-dialog');
-      const title = kind === 'install' ? 'インストール先を選択' : 'AviUtl2 フォルダを選択';
+      const title = kind === 'install' ? '选择安装目标' : '选择 AviUtl2 文件夹';
       const path = await dialog.open({ directory: true, multiple: false, title });
       if (path) {
         const value = String(path);
@@ -552,7 +552,7 @@ ${detail}`
         setError('');
       }
     } catch {
-      setError('フォルダ選択に失敗しました。');
+      setError('文件夹选择失败。');
     }
   }
 
@@ -563,7 +563,7 @@ ${detail}`
       const core = await import('@tauri-apps/api/core');
       await core.invoke('complete_initial_setup');
     } catch (e) {
-      setError(e && e.message ? String(e.message) : '初期設定に失敗しました。');
+      setError(e && e.message ? String(e.message) : '初始设置失败。');
     } finally {
       setBusy(false);
     }
@@ -620,11 +620,11 @@ ${detail}`
                 </div>
 
                 <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
-                  AviUtl2 カタログ
+                  AviUtl2 目录
                 </h1>
 
                 <p className="text-slate-500 dark:text-slate-400 text-base leading-7 max-w-md mb-10">
-                  AviUtl2 カタログの初期設定を行います
+                  进行 AviUtl2 目录的初始设置
                 </p>
 
                 <button
@@ -636,7 +636,7 @@ ${detail}`
                   onClick={() => setStep('question')}
                   disabled={!setupConfig}
                 >
-                  セットアップを開始
+                  开始设置
                 </button>
               </div>
             )}
@@ -645,9 +645,9 @@ ${detail}`
             {step === 'question' && (
               <div className="flex-1 flex flex-col justify-center animate-in fade-in slide-in-from-right-8 duration-500">
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">インストールの状況</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">安装状态</h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                    AviUtl2 の導入状況に合わせて選択してください
+                    根据 AviUtl2 的安装状态选择
                   </p>
                 </div>
 
@@ -660,10 +660,10 @@ ${detail}`
                       <FolderOpen size={28} />
                     </div>
                     <div className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      インストール済み
+                      已安装
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      すでに AviUtl2 をインストール済みの場合
+                      如果已经安装了 AviUtl2
                     </p>
                   </button>
 
@@ -675,12 +675,12 @@ ${detail}`
                       <Download size={28} />
                     </div>
                     <div className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      新規インストール
+                      新安装
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                      AviUtl2 を導入していない場合
+                      如果尚未安装 AviUtl2
                       <br />
-                      最新版を自動でダウンロードして導入します
+                      自动下载并安装最新版本
                     </p>
                   </button>
                 </div>
@@ -690,7 +690,7 @@ ${detail}`
                     className="h-10 px-8 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all cursor-pointer"
                     onClick={() => setStep('intro')}
                   >
-                    戻る
+                    返回
                   </button>
                 </div>
               </div>
@@ -700,9 +700,9 @@ ${detail}`
             {step === 'details' && installed === true && (
               <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right-8 duration-500 max-w-2xl mx-auto w-full justify-center">
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">フォルダの指定</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">文件夹指定</h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                    インストール済みの AviUtl2 フォルダを選択してください
+                    请选择已安装的 AviUtl2 文件夹
                   </p>
                 </div>
 
@@ -712,7 +712,7 @@ ${detail}`
                       className="text-xs font-bold tracking-wider text-slate-500 dark:text-slate-400 ml-1"
                       htmlFor="setup-aviutl2-root"
                     >
-                      AviUtl2 フォルダパス
+                      AviUtl2 文件夹路径
                     </label>
                     <div className="flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 overflow-hidden focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
                       <input
@@ -733,13 +733,13 @@ ${detail}`
                       </button>
                     </div>
                     <p className="text-[14px] text-slate-400 dark:text-slate-500 ml-1">
-                      aviutl2.exe が含まれているフォルダを選択してください
+                      请选择包含 aviutl2.exe 的文件夹
                     </p>
                   </div>
 
                   <div className="space-y-3">
                     <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
-                      ポータブルモード設定
+                      便携模式设置
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <button
@@ -755,7 +755,7 @@ ${detail}`
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          プラグインやスクリプトを ProgramData に導入します
+                          将插件和脚本安装到 ProgramData
                         </p>
                       </button>
 
@@ -768,11 +768,11 @@ ${detail}`
                           <span
                             className={`font-bold text-sm ${portable ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-slate-300'}`}
                           >
-                            ポータブル
+                            便携
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          プラグインやスクリプトを aviutl2.exe と同じ階層にある data フォルダに導入します
+                          将插件和脚本安装到与 aviutl2.exe 同级的 data 文件夹中
                         </p>
                       </button>
                     </div>
@@ -784,7 +784,7 @@ ${detail}`
                     className="h-11 px-8 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all cursor-pointer"
                     onClick={() => setStep('question')}
                   >
-                    戻る
+                    返回
                   </button>
                   <button
                     className="btn btn--primary h-11 px-8 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition-all font-bold bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
@@ -796,7 +796,7 @@ ${detail}`
                         <div className="spinner border-white/30 border-t-white" /> 処理中…
                       </span>
                     ) : (
-                      '次へ'
+                      '下一步'
                     )}
                   </button>
                 </div>
@@ -807,9 +807,9 @@ ${detail}`
             {step === 'details' && installed === false && (
               <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right-8 duration-500 max-w-2xl mx-auto w-full justify-center">
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">インストール先の指定</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">安装目标指定</h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                    AviUtl2 をインストールするフォルダを指定してください
+                    请指定安装 AviUtl2 的文件夹
                   </p>
                 </div>
 
@@ -819,7 +819,7 @@ ${detail}`
                       className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1"
                       htmlFor="setup-install-dir"
                     >
-                      インストール先フォルダ
+                      安装目标文件夹
                     </label>
                     <div className="flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 overflow-hidden focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
                       <input
@@ -843,7 +843,7 @@ ${detail}`
 
                   <div className="space-y-3 pt-2">
                     <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
-                      ポータブルモード設定
+                      便携模式设置
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <button
@@ -859,7 +859,7 @@ ${detail}`
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          プラグインやスクリプトを ProgramData に導入します
+                          将插件和脚本安装到 ProgramData
                         </p>
                       </button>
 
@@ -872,11 +872,11 @@ ${detail}`
                           <span
                             className={`font-bold text-sm ${portable ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-slate-300'}`}
                           >
-                            ポータブル
+                            便携
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          プラグインやスクリプトを aviutl2.exe と同じ階層にある data フォルダに導入します
+                          将插件和脚本安装到与 aviutl2.exe 同级的 data 文件夹中
                         </p>
                       </button>
                     </div>
@@ -888,7 +888,7 @@ ${detail}`
                     className="h-11 px-8 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all cursor-pointer"
                     onClick={() => setStep('question')}
                   >
-                    戻る
+                    返回
                   </button>
                   <button
                     className="btn btn--primary h-11 px-8 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition-all font-bold bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
@@ -898,12 +898,12 @@ ${detail}`
                     {savingInstallDetails ? (
                       <span className="flex items-center gap-2">
                         <ProgressCircle value={coreProgressRatio} size={16} strokeWidth={4} className="text-white" />
-                        インストール中…
+                        安装中…
                       </span>
                     ) : (
                       <span className="flex items-center gap-2">
                         <Download size={18} />
-                        インストールして次へ
+                        安装并下一步
                       </span>
                     )}
                   </button>
@@ -915,15 +915,15 @@ ${detail}`
             {step === 'packages' && (
               <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right-8 duration-500 h-full max-w-2xl mx-auto w-full">
                 <div className="text-center mb-6 mt-2 shrink-0">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">推奨パッケージの導入</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">推荐包安装</h2>
                   {allRequiredInstalled ? (
                     <p className="text-sm text-emerald-600 dark:text-emerald-400 font-bold mt-2 flex items-center justify-center gap-2 animate-in fade-in slide-in-from-bottom-1">
                       <CheckCircle2 size={16} />
-                      すべての推奨パッケージが導入済みです
+                      所有推荐包已安装
                     </p>
                   ) : (
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                      標準的な利用に必要となる基本プラグインをインストールします
+                      安装标准使用所需的基本插件
                     </p>
                   )}
                 </div>
@@ -931,7 +931,7 @@ ${detail}`
                 {packagesLoading ? (
                   <div className="flex-1 flex flex-col items-center justify-center text-slate-400 gap-3">
                     <div className="spinner w-8 h-8 border-4 border-slate-200 dark:border-slate-800 border-t-blue-500" />
-                    <span className="text-sm font-medium">パッケージ情報を取得中…</span>
+                    <span className="text-sm font-medium">正在获取包信息…</span>
                   </div>
                 ) : (
                   <>
@@ -958,7 +958,7 @@ ${detail}`
                                 )}
                               </div>
                               <p className="text-xs text-slate-500 dark:text-slate-400 truncate leading-relaxed">
-                                {item?.summary || '詳細情報を取得できませんでした'}
+                                {item?.summary || '无法获取详细信息'}
                               </p>
                             </div>
 
@@ -977,11 +977,11 @@ ${detail}`
                                 </div>
                               ) : state.installed ? (
                                 <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-3 py-1.5 rounded-full">
-                                  <Check size={12} strokeWidth={4} /> インストール済
+                                  <Check size={12} strokeWidth={4} /> 已安装
                                 </span>
                               ) : (
                                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
-                                  未インストール
+                                  未安装
                                 </span>
                               )}
                             </div>
@@ -1006,7 +1006,7 @@ ${detail}`
                         className="h-11 px-8 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all cursor-pointer"
                         onClick={() => setStep('details')}
                       >
-                        戻る
+                        返回
                       </button>
                       <div className="flex items-center gap-4">
                         {!allRequiredInstalled && (
@@ -1015,7 +1015,7 @@ ${detail}`
                             onClick={() => setStep('done')}
                             disabled={bulkDownloading}
                           >
-                            インストールせずに次へ
+                            不安装，直接下一步
                           </button>
                         )}
                         <button
@@ -1026,14 +1026,14 @@ ${detail}`
                           {bulkDownloading ? (
                             <span className="flex items-center gap-2">
                               <div className="spinner border-white/30 border-t-white" />
-                              インストール中…
+                              安装中…
                             </span>
                           ) : allRequiredInstalled ? (
-                            '次へ'
+                            '下一步'
                           ) : (
                             <span className="flex items-center gap-2">
                               <Download size={18} />
-                              まとめてインストールして次へ
+                              批量安装并下一步
                             </span>
                           )}
                         </button>
@@ -1058,10 +1058,10 @@ ${detail}`
                 </div>
 
                 <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
-                  セットアップ完了
+                  设置完成
                 </h2>
                 <p className="text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-sm text-base">
-                  すべての設定が完了しました
+                  所有设置已完成
                 </p>
 
                 <button
@@ -1069,14 +1069,14 @@ ${detail}`
                   onClick={finalizeSetup}
                   disabled={busy}
                 >
-                  {busy ? <div className="spinner border-white" /> : 'AviUtl2 カタログを開く'}
+                  {busy ? <div className="spinner border-white" /> : '打开 AviUtl2 目录'}
                 </button>
 
                 <button
                   className="mt-8 h-10 px-8 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all cursor-pointer"
                   onClick={() => setStep('packages')}
                 >
-                  戻る
+                  返回
                 </button>
               </div>
             )}
