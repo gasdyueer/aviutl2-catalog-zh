@@ -1,5 +1,5 @@
 /**
- * タグ編集コンポーネント
+ * 标签编辑组件
  */
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Check, X } from 'lucide-react';
@@ -77,7 +77,7 @@ const TagEditor = memo(function TagEditor({ initialTags, suggestions = [], onCha
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="tags-input">
-        タグ
+        标签
       </label>
       <div
         className="flex min-h-[42px] flex-wrap items-center gap-2 rounded-lg border border-slate-200 bg-white p-1.5 shadow-sm transition focus-within:ring-2 focus-within:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
@@ -103,7 +103,7 @@ const TagEditor = memo(function TagEditor({ initialTags, suggestions = [], onCha
                 e.stopPropagation();
                 handleRemoveTag(tag);
               }}
-              aria-label={`${tag} を削除`}
+              aria-label={`删除 ${tag}`}
             >
               <X size={12} />
             </button>
@@ -117,13 +117,13 @@ const TagEditor = memo(function TagEditor({ initialTags, suggestions = [], onCha
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleTagInputKeyDown}
-          aria-label="タグを入力"
-          placeholder={tags.length === 0 ? 'タグを入力 (Enterで追加)' : ''}
+          aria-label="输入标签"
+          placeholder={tags.length === 0 ? '输入标签（按 Enter 添加）' : ''}
         />
       </div>
       {suggestions.length > 0 && (
         <div className="rounded-xl border border-dashed border-slate-200 bg-white/70 p-3 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900/50">
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">既存タグ</div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">现有标签</div>
           <div className="mt-2 flex flex-wrap gap-2">
             {suggestions.map((tag) => {
               const isSelected = tags.includes(tag);

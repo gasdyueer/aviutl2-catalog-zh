@@ -1,5 +1,5 @@
 /**
- * ライセンス情報入力コンポーネント
+ * 许可证信息输入组件
  */
 import React, { memo, useEffect, useState } from 'react';
 import { Check, ChevronDown, Copy } from 'lucide-react';
@@ -8,7 +8,7 @@ import { createEmptyLicense } from '../../model/form';
 import type { PackageLicenseSectionProps } from '../types';
 import ActionDropdown from '../components/ActionDropdown';
 
-const LICENSE_TYPE_SELECT_OPTIONS = [{ value: '', label: '選択してください' }, ...LICENSE_TYPE_OPTIONS];
+const LICENSE_TYPE_SELECT_OPTIONS = [{ value: '', label: '请选择' }, ...LICENSE_TYPE_OPTIONS];
 
 const PackageLicenseSection = memo(
   function PackageLicenseSection({
@@ -45,7 +45,7 @@ const PackageLicenseSection = memo(
     return (
       <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">ライセンス</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">许可证</h2>
         </div>
         <div className="space-y-4">
           <div
@@ -64,7 +64,7 @@ const PackageLicenseSection = memo(
                   value={activeLicense.type}
                   onChange={(val) => onUpdateLicenseField(activeLicense.key, 'type', val)}
                   options={LICENSE_TYPE_SELECT_OPTIONS}
-                  ariaLabel="ライセンスの種類を選択"
+                  ariaLabel="选择许可证类型"
                   buttonId={`license-type-${activeLicense.key}`}
                 />
               </div>
@@ -74,17 +74,17 @@ const PackageLicenseSection = memo(
                     className="text-sm font-medium text-slate-700 dark:text-slate-300"
                     htmlFor={`license-name-${activeLicense.key}`}
                   >
-                    ライセンス名<span className="text-red-500">*</span>
+                    许可证名称<span className="text-red-500">*</span>
                   </label>
                   <input
                     id={`license-name-${activeLicense.key}`}
                     value={activeLicense.licenseName}
                     onChange={(e) => onUpdateLicenseField(activeLicense.key, 'licenseName', e.target.value)}
-                    placeholder="ライセンス名を入力してください"
+                    placeholder="请输入许可证名称"
                     required
                   />
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    カスタムライセンスの場合は「カスタムライセンス」と入力してください。
+                    如果是自定义许可证，请输入“自定义许可证”。
                   </p>
                 </div>
               )}
@@ -103,7 +103,7 @@ const PackageLicenseSection = memo(
                         className={`absolute left-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${useTemplate ? 'translate-x-5' : ''}`}
                       />
                     </div>
-                    <span>テンプレートを使用する</span>
+                    <span>使用模板</span>
                   </label>
                 </div>
               )}
@@ -114,20 +114,20 @@ const PackageLicenseSection = memo(
                   className="text-sm font-medium text-slate-700 dark:text-slate-300"
                   htmlFor={`license-body-${activeLicense.key}`}
                 >
-                  ライセンス本文{forceBodyInput ? <span className="text-red-500">*</span> : ''}
+                  许可证正文{forceBodyInput ? <span className="text-red-500">*</span> : ''}
                 </label>
                 <textarea
                   id={`license-body-${activeLicense.key}`}
                   className="min-h-[160px] font-mono text-xs leading-relaxed"
                   value={activeLicense.licenseBody}
                   onChange={(e) => onUpdateLicenseField(activeLicense.key, 'licenseBody', e.target.value)}
-                  placeholder="ライセンス本文を入力してください"
+                  placeholder="请输入许可证正文"
                   required={forceBodyInput}
                 />
               </div>
             ) : isUnknown ? null : needsCopyrightInput ? (
               <div className="rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-700 dark:bg-blue-900/20 dark:text-blue-200">
-                テンプレートを使用します。著作権年と著作権者を入力してください。
+                使用模板。请输入版权年份和版权持有者。
               </div>
             ) : null}
             {useTemplate && (
@@ -140,7 +140,7 @@ const PackageLicenseSection = memo(
                           className="text-sm font-medium text-slate-700 dark:text-slate-300"
                           htmlFor={`license-${activeLicense.key}-copyright-years-${copyright.key}`}
                         >
-                          著作権年
+                          版权年份
                         </label>
                         <input
                           id={`license-${activeLicense.key}-copyright-years-${copyright.key}`}
@@ -154,7 +154,7 @@ const PackageLicenseSection = memo(
                           className="text-sm font-medium text-slate-700 dark:text-slate-300"
                           htmlFor={`license-${activeLicense.key}-copyright-holder-${copyright.key}`}
                         >
-                          著作権者
+                          版权持有者
                         </label>
                         <input
                           id={`license-${activeLicense.key}-copyright-holder-${copyright.key}`}
@@ -162,7 +162,7 @@ const PackageLicenseSection = memo(
                           onChange={(e) =>
                             onUpdateCopyright(activeLicense.key, copyright.key, 'holder', e.target.value)
                           }
-                          placeholder="(例: KENくん)"
+                          placeholder="(例: 作者名)"
                         />
                       </div>
                     </div>
@@ -170,11 +170,11 @@ const PackageLicenseSection = memo(
                 <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/50">
                   <details className="group">
                     <summary className="flex cursor-pointer items-center justify-between bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
-                      <span>プレビュー</span>
+                      <span>预览</span>
                       <div className="flex items-center gap-2">
                         {copied && (
                           <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 animate-in fade-in slide-in-from-right-1">
-                            コピーしました
+                            已复制
                           </span>
                         )}
                         <button
@@ -186,8 +186,8 @@ const PackageLicenseSection = memo(
                             handleCopyPreview(e);
                           }}
                           disabled={!templatePreview}
-                          aria-label="ライセンス本文をコピー"
-                          title="クリップボードにコピー"
+                          aria-label="复制许可证正文"
+                          title="复制到剪贴板"
                         >
                           {copied ? <Check size={16} /> : <Copy size={16} />}
                         </button>
@@ -203,7 +203,7 @@ const PackageLicenseSection = memo(
                         </pre>
                       ) : (
                         <p className="text-xs text-slate-500 dark:text-slate-400">
-                          プレビューは種類と著作権者を入力すると表示されます。
+                          输入类型和版权持有者后显示预览。
                         </p>
                       )}
                     </div>

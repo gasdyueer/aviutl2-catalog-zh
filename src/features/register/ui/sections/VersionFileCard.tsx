@@ -1,6 +1,6 @@
 /**
- * バージョン配下のファイルカードコンポーネント
- * ハッシュ計算やパス入力を行う
+ * 版本下的文件卡片组件
+ * 执行哈希计算和路径输入
  */
 import React, { memo } from 'react';
 import { FileSearch } from 'lucide-react';
@@ -22,14 +22,14 @@ const VersionFileCard = memo(
           <span className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-bold text-slate-600 shadow-sm dark:bg-slate-800 dark:text-slate-300">
             File {order}
           </span>
-          <DeleteButton onClick={() => removeVersionFile(versionKey, file.key)} ariaLabel={`ファイル${order}を削除`} />
+          <DeleteButton onClick={() => removeVersionFile(versionKey, file.key)} ariaLabel={`删除文件${order}`} />
         </div>
         <div className="space-y-1">
           <label
             className="text-xs font-medium text-slate-600 dark:text-slate-400"
             htmlFor={`version-${versionKey}-file-${file.key}-path`}
           >
-            保存先パス (インストール時)
+            保存路径（安装时）
           </label>
           <input
             id={`version-${versionKey}-file-${file.key}-path`}
@@ -43,16 +43,16 @@ const VersionFileCard = memo(
           <div className="flex flex-wrap items-start justify-between gap-3">
             <dl className="grid gap-1 text-xs">
               <div>
-                <dt className="font-semibold text-slate-500 dark:text-slate-400">ハッシュ値 (XXH3_128)</dt>
+                <dt className="font-semibold text-slate-500 dark:text-slate-400">哈希值 (XXH3_128)</dt>
                 <dd
                   className={`font-mono ${file.hash ? 'text-slate-700 dark:text-slate-300' : 'text-amber-600 dark:text-amber-500'}`}
                 >
-                  {file.hash ? file.hash : '未計算'}
+                  {file.hash ? file.hash : '未计算'}
                 </dd>
               </div>
               {file.fileName && (
                 <div className="mt-1">
-                  <dt className="font-semibold text-slate-500 dark:text-slate-400">元ファイル名</dt>
+                  <dt className="font-semibold text-slate-500 dark:text-slate-400">原始文件名</dt>
                   <dd className="text-slate-600 dark:text-slate-300">{file.fileName}</dd>
                 </div>
               )}
@@ -63,7 +63,7 @@ const VersionFileCard = memo(
               onClick={() => chooseFileForHash(versionKey, file.key)}
             >
               <FileSearch size={14} />
-              <span>ファイルを選択して計算</span>
+              <span>选择文件并计算</span>
             </button>
           </div>
         </div>

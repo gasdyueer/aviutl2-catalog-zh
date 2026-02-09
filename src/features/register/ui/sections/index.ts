@@ -1,5 +1,5 @@
 /**
- * register 画面セクション群のエクスポート
+ * 注册页面部分组件的导出
  */
 export { default as PackageImagesSection } from './ImagesSection';
 export { default as PackageInstallerSection } from './InstallerSection';

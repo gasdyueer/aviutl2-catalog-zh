@@ -1,5 +1,5 @@
 /**
- * プレビューセクションのコンポーネント
+ * 预览部分组件
  */
 import React, { useMemo, useRef } from 'react';
 import { Moon, Sun } from 'lucide-react';
@@ -27,11 +27,11 @@ export default function RegisterPreviewSection({
   const previewItem = useMemo(
     () => ({
       id: packageForm.id || 'preview-id',
-      name: packageForm.name || 'パッケージ名',
+      name: packageForm.name || '包名称',
       author: packageForm.author || '作者名',
-      type: packageForm.type || '種類',
+      type: packageForm.type || '类型',
       tags: currentTags,
-      summary: packageForm.summary || '概要がここに表示されます',
+      summary: packageForm.summary || '概要将在此显示',
       images: [
         {
           thumbnail: thumbnailPreview,
@@ -57,14 +57,14 @@ export default function RegisterPreviewSection({
   return (
     <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">プレビュー</h2>
+        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">预览</h2>
         <button
           type="button"
           onClick={onTogglePreviewDarkMode}
           className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
         >
           {previewDarkMode ? <Sun size={14} /> : <Moon size={14} />}
-          <span>{previewDarkMode ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}</span>
+          <span>{previewDarkMode ? '切换到浅色模式' : '切换到深色模式'}</span>
         </button>
       </div>
       <div

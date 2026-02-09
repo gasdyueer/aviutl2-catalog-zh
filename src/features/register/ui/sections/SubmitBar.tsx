@@ -1,5 +1,5 @@
 /**
- * 送信バーコンポーネント
+ * 提交栏组件
  */
 import React from 'react';
 import { BookOpen, Send } from 'lucide-react';
@@ -14,10 +14,10 @@ export default function RegisterSubmitBar({
   onPackageSenderChange,
 }: RegisterSubmitBarProps) {
   const submitButtonLabel = submitting
-    ? submittingLabel || '送信中…'
+    ? submittingLabel || '提交中…'
     : pendingSubmitCount <= 1
-      ? '送信する'
-      : `${pendingSubmitCount}件まとめて送信`;
+      ? '提交'
+      : `${pendingSubmitCount}件批量提交`;
 
   return (
     <section className="sticky bottom-6 z-20 mb-6 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90">
@@ -31,22 +31,22 @@ export default function RegisterSubmitBar({
               rel="noreferrer noopener"
             >
               <BookOpen size={16} />
-              説明サイト
+              说明网站
             </a>
           )}
         </div>
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3">
             <span className="border-r border-slate-200 pr-3 text-[11px] text-slate-500 dark:border-slate-700 dark:text-slate-400">
-              作者の方はできる限りご入力ください
+              作者请尽可能填写
             </span>
             <input
               type="text"
               value={packageSender}
               onChange={(e) => onPackageSenderChange(e.target.value)}
-              placeholder="送信者のニックネーム"
+              placeholder="提交者昵称"
               className="min-w-[240px]"
-              aria-label="送信者のニックネーム"
+              aria-label="提交者昵称"
             />
           </div>
           <button

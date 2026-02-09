@@ -1,5 +1,5 @@
 /**
- * サムネイル／説明画像のコンポーネント
+ * 缩略图/说明图片组件
  */
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
@@ -38,7 +38,7 @@ const InfoImageCard = memo(function InfoImageCard({ entryKey, filename, preview,
             type="button"
             className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-red-600 shadow-sm backdrop-blur-sm transition hover:bg-red-50 hover:text-red-700 dark:bg-slate-900/90 dark:text-red-400 dark:hover:bg-red-900/40"
             onClick={handleRemove}
-            aria-label="削除"
+            aria-label="删除"
           >
             <Trash2 size={14} />
           </button>
@@ -92,7 +92,7 @@ const PackageImagesSection = memo(
         try {
           const { open } = await import('@tauri-apps/plugin-dialog');
           const selection = await open({
-            title: multiple ? '説明画像を選択' : 'サムネイル画像を選択',
+            title: multiple ? '选择说明图片' : '选择缩略图图片',
             multiple,
             filters: [{ name: 'Image', extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'] }],
           });
@@ -190,7 +190,7 @@ const PackageImagesSection = memo(
     return (
       <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">画像</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">图片</h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-3">
           <div
@@ -203,12 +203,12 @@ const PackageImagesSection = memo(
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">サムネイル</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">パッケージ一覧に表示します (1枚)</p>
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">缩略图</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">在包列表中显示（1张）</p>
                 <p className="text-[11px] text-blue-500 dark:text-blue-400">
-                  ※推奨：縦横比1:1 (206×206px前後)
+                  ※推荐：宽高比1:1（约206×206像素）
                   <br />
-                  一覧を見やすくするため、可能であればご登録ください
+                  为便于列表浏览，请尽可能注册
                 </p>
               </div>
               <button
@@ -220,14 +220,14 @@ const PackageImagesSection = memo(
                 }}
               >
                 <ImagePlus size={16} />
-                <span>画像を選択</span>
+                <span>选择图片</span>
               </button>
             </div>
             {isDraggingOverThumbnail ? (
               <div className="flex h-52 items-center justify-center rounded-xl border-2 border-dashed border-blue-500 bg-blue-100/50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                 <div className="text-center">
                   <Download size={32} className="mx-auto mb-2 animate-bounce" />
-                  <span className="text-sm font-bold">ここにドロップして追加</span>
+                  <span className="text-sm font-bold">拖放到此处添加</span>
                 </div>
               </div>
             ) : images.thumbnail ? (
@@ -237,7 +237,7 @@ const PackageImagesSection = memo(
                     className={`absolute inset-0 flex items-center justify-center bg-contain bg-center bg-no-repeat text-xs text-transparent ${thumbnailPreview ? '' : 'text-slate-400'}`}
                     style={thumbnailPreviewStyle}
                   >
-                    {!thumbnailPreview && <span>プレビューなし</span>}
+                    {!thumbnailPreview && <span>无预览</span>}
                   </div>
                   <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
                 </div>
@@ -251,14 +251,14 @@ const PackageImagesSection = memo(
                       images.thumbnail.existingPath ||
                       '未設定'}
                   </span>
-                  <DeleteButton onClick={onRemoveThumbnail} ariaLabel="サムネイルを削除" />
+                  <DeleteButton onClick={onRemoveThumbnail} ariaLabel="删除缩略图" />
                 </div>
               </div>
             ) : (
               <div className="flex h-52 flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 text-slate-400 dark:border-slate-700 dark:bg-slate-900/50">
                 <Image size={32} className="mb-2 opacity-50" />
-                <span className="text-xs font-medium">サムネイルが未設定です</span>
-                <span className="text-[10px] opacity-70 mt-1">画像をドラッグ＆ドロップ</span>
+                <span className="text-xs font-medium">未设置缩略图</span>
+                <span className="text-[10px] opacity-70 mt-1">拖放图片</span>
               </div>
             )}
           </div>
@@ -273,11 +273,11 @@ const PackageImagesSection = memo(
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">説明画像</h3>
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200">说明图片</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  パッケージ詳細ページに表示する説明画像 (複数可)
+                  在包详情页面显示的说明图片（可多张）
                 </p>
-                <p className="text-[10px] text-blue-500 dark:text-blue-400">※縦横比は16:9を推奨します</p>
+                <p className="text-[10px] text-blue-500 dark:text-blue-400">※推荐宽高比16:9</p>
               </div>
               <button
                 type="button"
@@ -288,14 +288,14 @@ const PackageImagesSection = memo(
                 }}
               >
                 <Images size={16} />
-                <span>画像を追加</span>
+                <span>添加图片</span>
               </button>
             </div>
             {isDraggingOverInfo ? (
               <div className="flex flex-1 min-h-[13rem] items-center justify-center rounded-xl border-2 border-dashed border-blue-500 bg-blue-100/50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                 <div className="text-center">
                   <Download size={32} className="mx-auto mb-2 animate-bounce" />
-                  <span className="text-sm font-bold">ここにドロップして追加</span>
+                  <span className="text-sm font-bold">拖放到此处添加</span>
                 </div>
               </div>
             ) : images.info.length ? (
@@ -306,7 +306,7 @@ const PackageImagesSection = memo(
                     entry.file?.name ||
                     entry.sourcePath ||
                     entry.existingPath ||
-                    `./image/${packageId}_${idx + 1}.(拡張子)`;
+                    `./image/${packageId}_${idx + 1}.（扩展名）`;
                   return (
                     <InfoImageCard
                       key={entry.key}
@@ -321,8 +321,8 @@ const PackageImagesSection = memo(
             ) : (
               <div className="flex flex-1 min-h-[13rem] flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 text-slate-400 dark:border-slate-700 dark:bg-slate-900/50">
                 <Image size={32} className="mb-2 opacity-50" />
-                <span className="text-xs font-medium">説明画像が未設定です</span>
-                <span className="text-[10px] opacity-70 mt-1">画像をドラッグ＆ドロップ</span>
+                <span className="text-xs font-medium">未设置说明图片</span>
+                <span className="text-[10px] opacity-70 mt-1">拖放图片</span>
               </div>
             )}
           </div>

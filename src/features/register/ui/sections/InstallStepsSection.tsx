@@ -1,5 +1,5 @@
 /**
- * インストール手順コンポーネント
+ * 安装步骤组件
  */
 import React from 'react';
 import { GripVertical, Plus } from 'lucide-react';
@@ -24,14 +24,14 @@ export default function InstallStepsSection({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">インストール手順</h3>
+        <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">安装步骤</h3>
         <button
           type="button"
           className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           onClick={addInstallStep}
         >
           <Plus size={14} />
-          <span>ステップを追加</span>
+          <span>添加步骤</span>
         </button>
       </div>
       <div className="space-y-3" ref={installListRef}>
@@ -53,7 +53,7 @@ export default function InstallStepsSection({
                       type="button"
                       className="cursor-grab text-slate-300 hover:text-slate-500 active:cursor-grabbing dark:text-slate-600 dark:hover:text-slate-400"
                       onPointerDown={(e) => startHandleDrag('install', idx, e)}
-                      aria-label="ドラッグして並び替え"
+                      aria-label="拖拽排序"
                     >
                       <GripVertical size={16} />
                     </button>
@@ -63,20 +63,20 @@ export default function InstallStepsSection({
                   {isSpecialAction ? (
                     <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                       {ACTION_LABELS[step.action] || step.action}
-                      <span className="ml-auto text-xs font-normal text-slate-400">固定ステップ</span>
+                      <span className="ml-auto text-xs font-normal text-slate-400">固定步骤</span>
                     </div>
                   ) : (
                     <ActionDropdown
                       value={step.action}
                       onChange={(val) => updateInstallStep(step.key, 'action', val)}
                       options={INSTALL_ACTION_OPTIONS}
-                      ariaLabel="ステップの種類を選択"
+                      ariaLabel="选择步骤类型"
                     />
                   )}
                 </div>
                 <div className="flex items-center gap-2">
                   {!isSpecialAction && (
-                    <DeleteButton onClick={() => removeInstallStep(step.key)} ariaLabel="ステップを削除" />
+                    <DeleteButton onClick={() => removeInstallStep(step.key)} ariaLabel="删除步骤" />
                   )}
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function InstallStepsSection({
                       className="text-xs font-medium text-slate-600 dark:text-slate-400"
                       htmlFor={`install-${step.key}-path`}
                     >
-                      実行パス
+                      执行路径
                     </label>
                     <input
                       id={`install-${step.key}-path`}
@@ -102,7 +102,7 @@ export default function InstallStepsSection({
                       className="text-xs font-medium text-slate-600 dark:text-slate-400"
                       htmlFor={`install-${step.key}-args`}
                     >
-                      引数 (カンマ区切り)
+                      参数（逗号分隔）
                     </label>
                     <input
                       id={`install-${step.key}-args`}
@@ -120,7 +120,7 @@ export default function InstallStepsSection({
                         checked={!!step.elevate}
                         onChange={(e) => updateInstallStep(step.key, 'elevate', e.target.checked)}
                       />
-                      <span>管理者権限で実行する</span>
+                      <span>以管理员权限运行</span>
                     </label>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export default function InstallStepsSection({
                       className="text-xs font-medium text-slate-600 dark:text-slate-400"
                       htmlFor={`install-${step.key}-from`}
                     >
-                      コピー元
+                      复制源
                     </label>
                     <input
                       id={`install-${step.key}-from`}
@@ -147,7 +147,7 @@ export default function InstallStepsSection({
                       className="text-xs font-medium text-slate-600 dark:text-slate-400"
                       htmlFor={`install-${step.key}-to`}
                     >
-                      コピー先
+                      复制目标
                     </label>
                     <input
                       id={`install-${step.key}-to`}
@@ -164,7 +164,7 @@ export default function InstallStepsSection({
         })}
         {!installer.installSteps.length && (
           <div className="flex h-24 flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 text-slate-400 dark:border-slate-800 dark:bg-slate-800/50">
-            <span className="text-xs">ステップを追加してインストール手順を定義してください</span>
+            <span className="text-xs">请添加步骤以定义安装步骤</span>
           </div>
         )}
       </div>

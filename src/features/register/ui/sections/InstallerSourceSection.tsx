@@ -1,5 +1,5 @@
 /**
- * インストーラーのソースコンポーネント
+ * 安装器源组件
  */
 import React from 'react';
 import { INSTALLER_SOURCES } from '../../model/form';
@@ -11,7 +11,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <div className="text-sm font-medium text-slate-700 dark:text-slate-300">ダウンロード元</div>
+        <div className="text-sm font-medium text-slate-700 dark:text-slate-300">下载源</div>
         <div className="flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1 dark:border-slate-800 dark:bg-slate-800/50">
           {INSTALLER_SOURCES.map((option) => {
             const isActive = installer.sourceType === option.value;
@@ -36,7 +36,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
         {installer.sourceType === 'direct' && (
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="installer-direct-url">
-              ダウンロードURL
+              下载URL
             </label>
             <input
               id="installer-direct-url"
@@ -55,7 +55,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
               id="installer-booth-url"
               value={installer.boothUrl}
               onChange={(e) => updateInstallerField('boothUrl', e.target.value)}
-              placeholder="https://booth.pm/downloadables/...で始まるパス"
+              placeholder="以 https://booth.pm/downloadables/... 开头的路径"
             />
           </div>
         )}
@@ -77,7 +77,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="installer-github-repo">
-                レポジトリ名 (Repo)
+                仓库名 (Repo)
               </label>
               <input
                 id="installer-github-repo"
@@ -91,7 +91,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
                 className="text-sm font-medium text-slate-700 dark:text-slate-300"
                 htmlFor="installer-github-pattern"
               >
-                正規表現パターン
+                正则表达式模式
               </label>
               <input
                 id="installer-github-pattern"
@@ -100,7 +100,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
                 placeholder="^aviutl_plugin_.*\\.zip$"
               />
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                リリースファイル名に一致する正規表現を指定してください。
+                请指定与发布文件名匹配的正则表达式。
               </p>
             </div>
           </div>
@@ -111,13 +111,13 @@ export default function InstallerSourceSection({ installer, updateInstallerField
               className="text-sm font-medium text-slate-700 dark:text-slate-300"
               htmlFor="installer-google-drive-id"
             >
-              ファイルID
+              文件ID
             </label>
             <input
               id="installer-google-drive-id"
               value={installer.googleDriveId}
               onChange={(e) => updateInstallerField('googleDriveId', e.target.value)}
-              placeholder="Google Drive の共有リンクに含まれるID（…/drive/folders/{フォルダID}）"
+              placeholder="Google Drive 共享链接中包含的ID（…/drive/folders/{文件夹ID}）"
             />
           </div>
         )}

@@ -1,5 +1,5 @@
 /**
- * 詳細説明エリアの表示コンポーネント
+ * 详细说明区域显示组件
  */
 import React, { useMemo } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
@@ -40,7 +40,7 @@ export default function RegisterDescriptionSection({
               }`}
               onClick={() => onUpdatePackageField('descriptionMode', 'inline')}
             >
-              アプリ内入力
+              应用内输入
             </button>
             <button
               type="button"
@@ -51,7 +51,7 @@ export default function RegisterDescriptionSection({
               }`}
               onClick={() => onUpdatePackageField('descriptionMode', 'external')}
             >
-              外部MDリンク
+              外部MD链接
             </button>
           </div>
           <span className="text-xs text-slate-500 dark:text-slate-400">Markdown形式</span>
@@ -73,7 +73,7 @@ export default function RegisterDescriptionSection({
             }`}
             onClick={() => onSetDescriptionTab('edit')}
           >
-            {isExternalDescription ? '外部リンク指定' : '編集'}
+            {isExternalDescription ? '外部链接指定' : '编辑'}
           </button>
           <button
             type="button"
@@ -86,7 +86,7 @@ export default function RegisterDescriptionSection({
             }`}
             onClick={() => onSetDescriptionTab('preview')}
           >
-            プレビュー
+            预览
           </button>
         </div>
         <div className="p-0">
@@ -102,24 +102,24 @@ export default function RegisterDescriptionSection({
                   placeholder="https://example.com/description.md"
                 />
                 {!hasExternalDescriptionUrl && (
-                  <p className="text-xs text-slate-500 dark:text-slate-400">MarkdownのURLを入力してください。</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">请输入Markdown的URL。</p>
                 )}
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  GitHub上のMDを登録される場合はhttps://raw.githubusercontent.com/から始まるリンクになっているか注意してください。
+                如果要注册GitHub上的MD，请注意链接是否以https://raw.githubusercontent.com/开头。
                 </p>
                 {descriptionLoading && (
-                  <p className="text-xs text-slate-400 dark:text-slate-500">リンク先を読み込み中…</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">正在加载链接内容…</p>
                 )}
                 {isExternalDescriptionLoaded && !descriptionLoading && (
                   <div className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
                     <CheckCircle2 size={14} />
-                    Markdown読み込み済み
+                    Markdown已加载
                   </div>
                 )}
                 {hasExternalDescriptionUrl && externalDescriptionStatus === 'error' && !descriptionLoading && (
                   <div className="inline-flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
                     <AlertCircle size={14} />
-                    Markdownを読み込めませんでした
+                    无法加载Markdown
                   </div>
                 )}
               </div>
@@ -130,7 +130,7 @@ export default function RegisterDescriptionSection({
                 value={packageForm.descriptionText}
                 onChange={(e) => onUpdatePackageField('descriptionText', e.target.value)}
                 required
-                placeholder="パッケージの詳細情報を入力してください。Markdown形式で記入できます。どこから呼び出せるか（メニュー位置など）や、UIの説明もあわせて記入していただけると助かります。外部サイトの画像も貼り付けることができます。"
+                placeholder="请输入包的详细信息。可以使用Markdown格式填写。请一并填写从哪里调用（菜单位置等）以及UI说明，这将很有帮助。也可以粘贴外部网站的图片。"
               />
             )
           ) : (

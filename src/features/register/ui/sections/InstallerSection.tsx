@@ -1,5 +1,5 @@
 /**
- * インストーラーのコンテナセクション。
+ * 安装器的容器部分。
  */
 import React, { memo } from 'react';
 import type { PackageInstallerSectionProps } from '../types';
@@ -26,7 +26,7 @@ const PackageInstallerSection = memo(
     return (
       <section className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">インストーラ</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">安装器</h2>
         </div>
 
         <InstallerSourceSection installer={installer} updateInstallerField={updateInstallerField} />

@@ -1,5 +1,5 @@
 /**
- * バージョン情報コンポーネント
+ * 版本信息组件
  */
 import React, { memo, useState } from 'react';
 import { ChevronUp, History, Plus } from 'lucide-react';
@@ -27,14 +27,14 @@ const PackageVersionSection = memo(
     return (
       <section className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">バージョン履歴</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">版本历史</h2>
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500"
             onClick={addVersion}
           >
             <Plus size={16} />
-            <span>新しいバージョンを追加</span>
+            <span>添加新版本</span>
           </button>
         </div>
         <div className="space-y-4">
@@ -45,7 +45,7 @@ const PackageVersionSection = memo(
               onClick={() => setShowAll(true)}
             >
               <ChevronUp size={14} />
-              <span>以前のバージョン ({hiddenCount}件) を表示</span>
+              <span>显示以前的版本 ({hiddenCount}个)</span>
             </button>
           )}
           {visibleVersions.map((ver) => (
@@ -67,8 +67,8 @@ const PackageVersionSection = memo(
           {!versions.length && (
             <div className="flex h-32 flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400">
               <History size={32} className="mb-2 opacity-50" />
-              <p className="text-sm font-medium">バージョン情報がありません</p>
-              <p className="text-xs opacity-70">右上のボタンから追加してください</p>
+              <p className="text-sm font-medium">暂无版本信息</p>
+              <p className="text-xs opacity-70">请点击右上角按钮添加</p>
             </div>
           )}
         </div>

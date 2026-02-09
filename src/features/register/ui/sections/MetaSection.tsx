@@ -66,7 +66,7 @@ export default function RegisterMetaSection({
               value={packageForm.author}
               onChange={(e) => onUpdatePackageField('author', e.target.value)}
               required
-              placeholder="KENくん"
+              placeholder="作者名"
             />
           </div>
           <div className="space-y-2">

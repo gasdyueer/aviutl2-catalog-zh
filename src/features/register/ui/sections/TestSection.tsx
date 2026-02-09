@@ -1,5 +1,5 @@
 /**
- * インストーラーテストセクションのコンポーネント
+ * 安装器测试部分组件
  */
 import React, { useMemo } from 'react';
 import { AlertCircle, Download, Trash2 } from 'lucide-react';
@@ -34,9 +34,9 @@ export default function RegisterTestSection({
     <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">インストーラー / 削除テスト</h2>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">安装器 / 删除测试</h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            現在の設定でインストールと削除の動作を確認します。
+            使用当前设置验证安装和删除操作。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -53,12 +53,12 @@ export default function RegisterTestSection({
                 size={16}
                 strokeWidth={3}
                 className="text-white"
-                ariaLabel="インストーラーテストの進行度"
+                ariaLabel="安装器测试进度"
               />
             ) : (
               <Download size={14} />
             )}
-            <span>{installerTestRunning ? '実行中…' : 'インストールテスト'}</span>
+            <span>{installerTestRunning ? '执行中…' : '安装测试'}</span>
           </button>
           <button
             type="button"
@@ -68,20 +68,20 @@ export default function RegisterTestSection({
             title={uninstallerTestValidation || ''}
           >
             <Trash2 size={14} />
-            <span>{uninstallerTestRunning ? '実行中…' : '削除テスト'}</span>
+            <span>{uninstallerTestRunning ? '执行中…' : '删除测试'}</span>
           </button>
         </div>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
-          <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">インストールテスト</div>
+          <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">安装测试</div>
           <div className="flex flex-wrap items-center gap-3">
             <ProgressCircle
               value={installerTestRatio}
               size={32}
               strokeWidth={3}
               className={installerTestTone}
-              ariaLabel="インストーラーテストの進行度"
+              ariaLabel="安装器测试进度"
               showComplete={installerTestPhase === 'done'}
             />
             <div className="space-y-1">
@@ -105,9 +105,9 @@ export default function RegisterTestSection({
           </div>
           {installerTestPhase === 'done' && (
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              検出バージョン:
+              检测版本:
               <span className="ml-1 font-mono text-slate-700 dark:text-slate-200">
-                {installerTestDetectedVersion || '未検出'}
+                {installerTestDetectedVersion || '未检测'}
               </span>
             </div>
           )}
@@ -119,20 +119,20 @@ export default function RegisterTestSection({
           )}
           {installerTestError && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200">
-              <div className="text-xs font-semibold">エラー</div>
+              <div className="text-xs font-semibold">错误</div>
               <div className="whitespace-pre-line text-xs">{installerTestError}</div>
             </div>
           )}
         </div>
         <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
-          <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">削除テスト</div>
+          <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">删除测试</div>
           <div className="flex flex-wrap items-center gap-3">
             <ProgressCircle
               value={uninstallerTestRatio}
               size={32}
               strokeWidth={3}
               className={uninstallerTestTone}
-              ariaLabel="削除テストの進行度"
+              ariaLabel="删除测试进度"
               showComplete={uninstallerTestPhase === 'done'}
             />
             <div className="space-y-1">
@@ -162,7 +162,7 @@ export default function RegisterTestSection({
           )}
           {uninstallerTestError && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200">
-              <div className="text-xs font-semibold">エラー</div>
+              <div className="text-xs font-semibold">错误</div>
               <div className="whitespace-pre-line text-xs">{uninstallerTestError}</div>
             </div>
           )}

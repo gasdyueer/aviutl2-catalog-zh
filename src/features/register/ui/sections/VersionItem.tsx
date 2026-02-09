@@ -1,5 +1,5 @@
 /**
- * バージョン項目コンポーネント
+ * 版本项目组件
  */
 import React, { memo, useCallback } from 'react';
 import { Calendar, ChevronDown, Folder, FolderOpen, Plus } from 'lucide-react';
@@ -64,15 +64,15 @@ const VersionItem = memo(
               <span
                 className={`text-sm font-bold ${version.version ? 'text-slate-800 dark:text-slate-100' : 'text-slate-400 italic'}`}
               >
-                {version.version || 'バージョン未設定'}
+                {version.version || '版本未设置'}
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400">
-                {version.release_date ? `公開日: ${version.release_date}` : '公開日未設定'}
+                {version.release_date ? `公开日: ${version.release_date}` : '公开日未设置'}
               </span>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <DeleteButton onClick={handleRemove} ariaLabel="このバージョンを削除" />
+            <DeleteButton onClick={handleRemove} ariaLabel="删除此版本" />
             <span className="text-slate-400 transition-transform group-open:rotate-180">
               <ChevronDown size={20} />
             </span>
@@ -85,7 +85,7 @@ const VersionItem = memo(
                 className="text-sm font-medium text-slate-700 dark:text-slate-300"
                 htmlFor={`version-${version.key}-name`}
               >
-                バージョン名<span className="text-red-500">*</span>
+                版本名称<span className="text-red-500">*</span>
               </label>
               <input
                 id={`version-${version.key}-name`}
@@ -99,7 +99,7 @@ const VersionItem = memo(
                 className="text-sm font-medium text-slate-700 dark:text-slate-300"
                 htmlFor={`version-${version.key}-release`}
               >
-                公開日<span className="text-red-500">*</span>
+                公开日<span className="text-red-500">*</span>
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -115,7 +115,7 @@ const VersionItem = memo(
                   type="button"
                   className="inline-flex h-[38px] w-[38px] items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-50 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
                   onClick={() => openDatePicker(version.key)}
-                  aria-label="カレンダーを開く"
+                  aria-label="打开日历"
                 >
                   <Calendar size={18} />
                 </button>
@@ -126,8 +126,8 @@ const VersionItem = memo(
           <div className="mt-6 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2 dark:border-slate-800">
               <div>
-                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">ファイル構成</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">主要ファイルのハッシュ値を計算してください</p>
+                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">文件结构</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">请计算主要文件的哈希值</p>
               </div>
               <button
                 type="button"
@@ -135,7 +135,7 @@ const VersionItem = memo(
                 onClick={() => addVersionFile(version.key)}
               >
                 <Plus size={14} />
-                <span>ファイルを追加</span>
+                <span>添加文件</span>
               </button>
             </div>
             <div className="space-y-3">
@@ -152,7 +152,7 @@ const VersionItem = memo(
               ))}
               {!version.files.length && (
                 <div className="flex h-20 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400">
-                  ファイルを追加してください
+                  请添加文件
                 </div>
               )}
             </div>
