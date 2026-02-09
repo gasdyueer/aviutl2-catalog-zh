@@ -1,5 +1,5 @@
 /**
- * サイドバーのコンポーネント
+ * 侧边栏组件
  */
 import React from 'react';
 import { Plus, Search } from 'lucide-react';
@@ -8,7 +8,7 @@ import DeleteButton from '../components/DeleteButton';
 
 function formatSavedAt(savedAt: number) {
   try {
-    return new Intl.DateTimeFormat('ja-JP', {
+    return new Intl.DateTimeFormat('zh-CN', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -42,10 +42,10 @@ export default function RegisterSidebar({
             onClick={onStartNewPackage}
           >
             <Plus size={18} />
-            新規パッケージ作成
+            新建包
           </button>
           <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/40 lg:mb-3 lg:shrink-0">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">送信予定一覧</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">待提交列表</div>
             <div className="max-h-52 overflow-y-auto space-y-1 pr-1 custom-scrollbar lg:max-h-[30vh]">
               {draftPackages.map((draft) => {
                 const isSelected = selectedPackageId === draft.packageId;
@@ -76,7 +76,7 @@ export default function RegisterSidebar({
                       </div>
                     </button>
                     <DeleteButton
-                      ariaLabel={`${draft.packageId} の一時保存を削除`}
+                      ariaLabel={`删除 ${draft.packageId} 的临时保存`}
                       onClick={(event) => {
                         event.stopPropagation();
                         onDeleteDraftPackage(draft.packageId);
@@ -87,20 +87,20 @@ export default function RegisterSidebar({
               })}
               {draftPackages.length === 0 && (
                 <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-4 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
-                  送信予定のパッケージはありません
+                  没有待提交的包
                 </div>
               )}
             </div>
           </div>
           <div className="space-y-2 rounded-xl border border-slate-200/80 bg-white p-3 dark:border-slate-800 dark:bg-slate-900 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">パッケージ一覧</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">包列表</div>
             <div className="relative lg:shrink-0">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="search"
                 value={packageSearch}
                 onChange={(e) => onPackageSearchChange(e.target.value)}
-                placeholder="パッケージを検索..."
+                placeholder="搜索包..."
                 className="w-full pl-9"
               />
             </div>
@@ -108,7 +108,7 @@ export default function RegisterSidebar({
               {catalogLoadState === 'loading' || catalogLoadState === 'idle' ? (
                 <div className="flex items-center justify-center py-8 text-sm text-slate-500">
                   <span className="spinner mr-2" />
-                  読み込み中...
+                  加载中...
                 </div>
               ) : (
                 filteredPackages.map((item) => {
@@ -136,7 +136,7 @@ export default function RegisterSidebar({
                           isSelected ? 'text-blue-600/80 dark:text-blue-400/80' : 'text-slate-500 dark:text-slate-400'
                         }`}
                       >
-                        {item.author || '作者不明'}
+                        {item.author || '未知作者'}
                       </span>
                     </button>
                   );
@@ -144,7 +144,7 @@ export default function RegisterSidebar({
               )}
               {catalogLoadState === 'loaded' && filteredPackages.length === 0 && (
                 <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
-                  該当なし
+                  无匹配项
                 </div>
               )}
             </div>

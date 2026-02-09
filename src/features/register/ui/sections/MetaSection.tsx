@@ -1,5 +1,5 @@
 /**
- * パッケージ基本情報登録セクションのコンポーネント
+ * 包基本信息注册部分的组件
  */
 import React from 'react';
 import { Info } from 'lucide-react';
@@ -18,9 +18,9 @@ export default function RegisterMetaSection({
       <div className="mb-6 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50/50 px-4 py-3 text-sm text-blue-800 dark:border-blue-900/30 dark:bg-blue-900/10 dark:text-blue-300">
         <Info size={20} className="mt-0.5 flex-shrink-0 text-blue-500" />
         <div>
-          このフォームに入力するプラグイン情報はすべて公開されます。
+          在此表单中输入的插件信息将全部公开。
           <br />
-          パッケージ登録は作者本人でなくてもどなたでも行えます。
+          包注册不仅限于作者本人，任何人都可以进行。
         </div>
       </div>
 
@@ -38,11 +38,11 @@ export default function RegisterMetaSection({
               required
               placeholder="Kenkun.AviUtlExEdit2"
             />
-            <p className="text-xs text-slate-500 dark:text-slate-400">英数字と記号 ( . - _ ) のみ</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">仅限字母数字和符号 ( . - _ )</p>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-name">
-              パッケージ名 <span className="text-red-500">*</span>
+              包名称 <span className="text-red-500">*</span>
             </label>
             <input
               id="package-name"
@@ -58,7 +58,7 @@ export default function RegisterMetaSection({
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-author">
-              作者名 <span className="text-red-500">*</span>
+              作者名称 <span className="text-red-500">*</span>
             </label>
             <input
               id="package-author"
@@ -71,19 +71,19 @@ export default function RegisterMetaSection({
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-original-author">
-              オリジナル作者名 (任意)
+              原始作者名称 (可选)
             </label>
             <input
               id="package-original-author"
               name="originalAuthor"
               value={packageForm.originalAuthor}
               onChange={(e) => onUpdatePackageField('originalAuthor', e.target.value)}
-              placeholder="オリジナル版がある場合に入力"
+              placeholder="如果有原始版本请填写"
             />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-type">
-              種類 <span className="text-red-500">*</span>
+              类型 <span className="text-red-500">*</span>
             </label>
             <input
               id="package-type"
@@ -91,19 +91,19 @@ export default function RegisterMetaSection({
               value={packageForm.type}
               onChange={(e) => onUpdatePackageField('type', e.target.value)}
               required
-              placeholder="入力/出力/汎用プラグイン, スクリプト, 言語ファイル"
+              placeholder="输入/输出/通用插件, 脚本, 语言文件"
             />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-repo-url">
-              パッケージのサイト <span className="text-red-500">*</span>
+              包网站 <span className="text-red-500">*</span>
             </label>
             <input
               id="package-repo-url"
               name="repoURL"
               value={packageForm.repoURL}
               onChange={(e) => onUpdatePackageField('repoURL', e.target.value)}
-              placeholder="パッケージのことが分かるURL"
+              placeholder="能了解包的URL"
               type="url"
               required
             />
@@ -113,7 +113,7 @@ export default function RegisterMetaSection({
               className="text-sm font-medium text-slate-700 dark:text-slate-300"
               htmlFor="package-niconi-commons-id"
             >
-              ニコニ・コモンズID (任意)
+              Niconi Commons ID (可选)
             </label>
             <input
               id="package-niconi-commons-id"
@@ -127,14 +127,14 @@ export default function RegisterMetaSection({
 
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="package-dependencies">
-            依存パッケージ (現在非対応)
+            依赖包 (当前不支持)
           </label>
           <input
             id="package-dependencies"
             name="dependencies"
             value={packageForm.dependenciesText}
             onChange={(e) => onUpdatePackageField('dependenciesText', e.target.value)}
-            placeholder="パッケージID (カンマ区切り)"
+            placeholder="包ID (逗号分隔)"
           />
         </div>
 
@@ -151,7 +151,7 @@ export default function RegisterMetaSection({
             maxLength={35}
             onChange={(e) => onUpdatePackageField('summary', e.target.value)}
             required
-            placeholder="パッケージの概要 (35文字以内)"
+            placeholder="包的概要 (35字符以内)"
           />
           <div className="flex justify-end">
             <span
