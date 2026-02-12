@@ -148,18 +148,10 @@ export default function RegisterMetaSection({
             id="package-summary"
             name="summary"
             value={packageForm.summary}
-            maxLength={35}
             onChange={(e) => onUpdatePackageField('summary', e.target.value)}
             required
-            placeholder="包的概要 (35字符以内)"
+            placeholder="包的概要"
           />
-          <div className="flex justify-end">
-            <span
-              className={`text-xs ${packageForm.summary.length > 35 ? 'text-red-500 font-bold' : 'text-slate-400'}`}
-            >
-              {packageForm.summary.length} / 35
-            </span>
-          </div>
         </div>
       </div>
     </section>

@@ -1,0 +1,3049 @@
+=== 从 commit 5f52d88cd720d64badfd00a5fc38e454bb9b0462 到 HEAD 的所有变更 ===
+
+=== Commit: 5f52d88 (2026-02-07 16:10:36 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛catalogstateをまとめる
+
+
+
+
+=== Commit: 9f00374 (2026-02-10 00:20:02 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+✨JSONの入力に対応
+
+
+
+
+=== Commit: 7765c26 (2026-02-10 00:20:54 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛envファイルの修正
+
+
+
+
+=== Commit: 09219ce (2026-02-10 00:22:02 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛GoogleDriveからのダウンロード方法を修正
+
+
+
+
+=== Commit: 3256559 (2026-02-10 00:22:52 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛インストーラーで絶対パスのみを許可するように修正
+
+
+
+
+=== Commit: a238ff5 (2026-02-10 02:28:07 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛パスに日本語が含まれている際実行ファイルを実行できないのを修正
+
+
+
+
+=== Commit: fbbc3e0 (2026-02-11 15:38:44 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+✨インストーラーテストの必須化 & ログを見れるように変更
+
+
+
+
+=== Commit: a1c027f (2026-02-11 17:36:45 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛packageIDの代わりにdraftIDで管理するように変更
+
+
+
+
+=== Commit: 9b5fb69 (2026-02-11 18:22:25 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛JSON入力時のドラフトのみに保存するように修正
+
+
+
+
+=== Commit: 53b7f06 (2026-02-11 18:46:54 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛josn入力において新規IDを追加できるように修正
+
+
+
+
+=== Commit: bc21d37 (2026-02-11 19:59:27 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛JSON入力時ドラフトのみに保存
+
+
+
+
+=== Commit: 683813c (2026-02-11 21:22:06 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🎨パッケージ登録画面におけるUIの調整
+
+
+
+
+=== Commit: 20c7582 (2026-02-11 22:03:51 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛JSON入力時にversionを置き換えではなくマージするように修正
+
+
+
+
+=== Commit: 6807580 (2026-02-11 22:36:19 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🎨パッケージ一覧画面のデザインを修正
+
+
+
+
+=== Commit: 729103c (2026-02-12 22:18:18 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+✨インストーラーに削除機能を追加
+
+
+
+
+=== Commit: 8bfad69 (2026-02-12 22:18:41 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🐛権限の修正
+
+
+
+
+=== Commit: 52c7198 (2026-02-12 22:31:19 +0900) ===
+Neosku <110619521+Neosku@users.noreply.github.com>
+🔖v0.3.2に更新
+
+
+
+diff --git a/.env.example b/.env.development
+similarity index 52%
+rename from .env.example
+rename to .env.development
+index 92ff0ca..9cd4cba 100644
+--- a/.env.example
++++ b/.env.development
+@@ -1,14 +1,14 @@
+ # 開発環境で用いる変数
+ 
+ # Submit ページの送信先（テスト用）
+-# VITE_SUBMIT_ENDPOINT=https://submit-api-test.neosku.workers.dev/api/submit
+-VITE_SUBMIT_ENDPOINT=https://submit-api.neosku.workers.dev/api/submit
++VITE_SUBMIT_ENDPOINT=https://submit-api-test.neosku.workers.dev/api/submit
++# VITE_SUBMIT_ENDPOINT=https://submit-api.neosku.workers.dev/api/submit
+ VITE_PACKAGE_STATE_ENDPOINT=https://package-state.neosku.workers.dev/v1/event
+ 
+ # カタログデータ(テスト用)
+-VITE_REMOTE=./test/sample/index.json
++# VITE_REMOTE=./test/sample/index.json
+ # カタログデータ(本番用)
+-# VITE_REMOTE=https://raw.githubusercontent.com/Neosku/aviutl2-catalog-data/main/index.json
++VITE_REMOTE=https://raw.githubusercontent.com/Neosku/aviutl2-catalog-data/main/index.json
+ 
+ # セットアップ設定
+ VITE_SETUP_REMOTE=./test/setup.json
+diff --git a/package-lock.json b/package-lock.json
+index a7ac131..862f782 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "aviutl2-catalog",
+-  "version": "0.3.1",
++  "version": "0.3.2",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "aviutl2-catalog",
+-      "version": "0.3.1",
++      "version": "0.3.2",
+       "dependencies": {
+         "@tauri-apps/api": "^2.9.1",
+         "@tauri-apps/plugin-deep-link": "^2.4.6",
+@@ -70,7 +70,6 @@
+       "integrity": "sha512-H3mcG6ZDLTlYfaSNi0iOKkigqMFvkTKlGUYlD8GW7nNOYRrevuA46iTypPyv+06V3fEmvvazfntkBU34L0azAw==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/code-frame": "^7.28.6",
+         "@babel/generator": "^7.28.6",
+@@ -1942,7 +1941,6 @@
+       "integrity": "sha512-tORuanb01iEzWvMGVGv2ZDhYZVeRMrw453DCSAIn/5yvcSVnMoUMTyf33nQJLahYEnv9xqrTNbgz4qY5EfSh0g==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "csstype": "^3.2.2"
+       }
+@@ -2045,7 +2043,6 @@
+         }
+       ],
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "baseline-browser-mapping": "^2.9.0",
+         "caniuse-lite": "^1.0.30001759",
+@@ -2730,7 +2727,6 @@
+       "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=12"
+       },
+@@ -2756,7 +2752,6 @@
+         }
+       ],
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "nanoid": "^3.3.11",
+         "picocolors": "^1.1.1",
+@@ -2792,7 +2787,6 @@
+       "resolved": "https://registry.npmjs.org/react/-/react-19.2.3.tgz",
+       "integrity": "sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==",
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -2802,7 +2796,6 @@
+       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.3.tgz",
+       "integrity": "sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "scheduler": "^0.27.0"
+       },
+@@ -2932,8 +2925,7 @@
+       "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.1.18.tgz",
+       "integrity": "sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==",
+       "dev": true,
+-      "license": "MIT",
+-      "peer": true
++      "license": "MIT"
+     },
+     "node_modules/tailwindcss-animate": {
+       "version": "1.0.7",
+@@ -3044,7 +3036,6 @@
+       "integrity": "sha512-w+N7Hifpc3gRjZ63vYBXA56dvvRlNWRczTdmCBBa+CotUzAPf5b7YMdMR/8CQoeYE5LX3W4wj6RYTgonm1b9DA==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "esbuild": "^0.27.0",
+         "fdir": "^6.5.0",
+diff --git a/package.json b/package.json
+index 5ff5f47..d9150a3 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "aviutl2-catalog",
+-  "version": "0.3.1",
++  "version": "0.3.2",
+   "private": true,
+   "type": "module",
+   "scripts": {
+diff --git a/src-tauri/Cargo.lock b/src-tauri/Cargo.lock
+index 56a30be..2524910 100644
+--- a/src-tauri/Cargo.lock
++++ b/src-tauri/Cargo.lock
+@@ -256,7 +256,7 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
+ 
+ [[package]]
+ name = "aviutl2-catalog"
+-version = "0.3.1"
++version = "0.3.2"
+ dependencies = [
+  "anyhow",
+  "arc-swap",
+diff --git a/src-tauri/Cargo.toml b/src-tauri/Cargo.toml
+index 331a6f0..15570e2 100644
+--- a/src-tauri/Cargo.toml
++++ b/src-tauri/Cargo.toml
+@@ -1,6 +1,6 @@
+ [package]
+ name = "aviutl2-catalog"
+-version = "0.3.1"
++version = "0.3.2"
+ description = "AviUtl2 Catalog"
+ authors = ["Neosku"]
+ edition = "2021"
+diff --git a/src-tauri/capabilities/installer.json b/src-tauri/capabilities/installer.json
+index 3c355d5..d77c389 100644
+--- a/src-tauri/capabilities/installer.json
++++ b/src-tauri/capabilities/installer.json
+@@ -6,131 +6,57 @@
+   "permissions": [
+     {
+       "identifier": "http:default",
+-      "allow": ["https://*", "http://*", { "url": "https://*:*" }, { "url": "http://*:*" }]
++      "allow": [
++        "https://*",
++        "http://*",
++        {
++          "url": "https://*:*"
++        },
++        {
++          "url": "http://*:*"
++        }
++      ]
+     },
+     {
+       "identifier": "shell:allow-execute",
+-      "allow": [{ "name": "powershell", "cmd": "powershell" }]
++      "allow": [
++        {
++          "name": "powershell",
++          "cmd": "powershell"
++        }
++      ]
+     },
+     {
+       "identifier": "fs:allow-read-file",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-write-file",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-read-dir",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-copy-file",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-mkdir",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-remove",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-rename",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     },
+     {
+       "identifier": "fs:allow-exists",
+-      "allow": [
+-        "$APPCONFIG/*",
+-        "$APPDATA/*",
+-        "$APPLOCALDATA/*",
+-        "$HOME/*",
+-        "$DESKTOP/*",
+-        "$DOCUMENT/*",
+-        "$DOWNLOAD/*",
+-        "C:/**",
+-        "D:/**",
+-        "E:/**"
+-      ]
++      "allow": ["**/**"]
+     }
+   ]
+ }
+diff --git a/src-tauri/src/lib.rs b/src-tauri/src/lib.rs
+index 0fe6138..d9ccea7 100644
+--- a/src-tauri/src/lib.rs
++++ b/src-tauri/src/lib.rs
+@@ -9,7 +9,6 @@ use tauri::{webview::PageLoadEvent, Emitter, Manager, WebviewUrl, WebviewWindowB
+ use url::Url;
+ use walkdir::WalkDir;
+ 
+-mod api_key;
+ mod paths;
+ 
+ // -----------------------
+@@ -66,39 +65,48 @@ fn sanitize_filename(name: &str) -> String {
+     }
+ }
+ 
+-async fn drive_fetch_response(file_id: &str, api_key: &str) -> Result<reqwest::Response, DriveError> {
+-    let url = format!("https://www.googleapis.com/drive/v3/files/{}?alt=media", file_id);
++fn drive_filename_from_headers(headers: &reqwest::header::HeaderMap) -> Option<String> {
++    let raw = headers.get(reqwest::header::CONTENT_DISPOSITION)?;
++    let value = String::from_utf8_lossy(raw.as_bytes());
++
++    for part in value.split(';') {
++        let part = part.trim();
++        if let Some(name) = part.strip_prefix("filename*=") {
++            let encoded = name.trim().trim_matches('"');
++            let payload = encoded.split_once("''").map(|(_, v)| v).unwrap_or(encoded);
++            let decoded = percent_decode_str(payload).decode_utf8_lossy();
++            let cleaned = sanitize_filename(&decoded);
++            return Some(cleaned);
++        }
++    }
++
++    for part in value.split(';') {
++        let part = part.trim();
++        if let Some(name) = part.strip_prefix("filename=") {
++            let cleaned = sanitize_filename(name.trim().trim_matches('"'));
++            return Some(cleaned);
++        }
++    }
++
++    None
++}
++
++async fn drive_fetch_response(file_id: &str) -> Result<reqwest::Response, DriveError> {
++    let url = format!("https://drive.google.com/uc?export=download&id={}", file_id);
+     let client = reqwest::Client::builder().user_agent("AviUtl2Catalog").build().map_err(|e| DriveError::Net(format!("client build failed: {}", e)))?;
+-    let res = client.get(url).header("x-goog-api-key", api_key).send().await.map_err(|e| DriveError::Net(e.to_string()))?;
++
++    let res = client.get(&url).send().await.map_err(|e| DriveError::Net(e.to_string()))?;
+     if res.status().is_success() {
+         return Ok(res);
+     }
+     let status = res.status();
+     let text = res.text().await.unwrap_or_default();
+-    let msg = serde_json::from_str::<serde_json::Value>(&text)
+-        .ok()
+-        .and_then(|v| v.get("error")?.get("message")?.as_str().map(|s| s.to_string()))
+-        .unwrap_or_else(|| text.chars().take(500).collect());
+-    Err(DriveError::Http(format!("{} {}", status, msg)))
+-}
+-
+-async fn drive_fetch_name_reqwest(file_id: &str, api_key: &str) -> Result<String, DriveError> {
+-    let url = format!("https://www.googleapis.com/drive/v3/files/{}?fields=name", file_id);
+-    let client = reqwest::Client::builder().user_agent("AviUtl2Catalog").build().map_err(|e| DriveError::Net(format!("client build failed: {}", e)))?;
+-    let res = client.get(url).header("x-goog-api-key", api_key).send().await.map_err(|e| DriveError::Net(e.to_string()))?;
+-    let status = res.status();
+-    let text = res.text().await.map_err(|e| DriveError::Net(e.to_string()))?;
+-    if !status.is_success() {
+-        let msg: String = if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
+-            v.get("error").and_then(|e| e.get("message")).and_then(|m| m.as_str()).map(|s| s.to_string()).unwrap_or_else(|| text.clone())
+-        } else {
+-            text.clone()
+-        };
+-        return Err(DriveError::Http(format!("{} {}", status, msg)));
++    let snippet: String = text.chars().take(500).collect();
++    if snippet.trim().is_empty() {
++        Err(DriveError::Http(format!("{} {}", status, "failed to download file from Google Drive")))
++    } else {
++        Err(DriveError::Http(format!("{} {}", status, snippet)))
+     }
+-    let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| DriveError::Net(e.to_string()))?;
+-    let name = v.get("name").and_then(|x| x.as_str()).ok_or_else(|| DriveError::Http(String::from("missing name field")))?;
+-    Ok(sanitize_filename(name))
+ }
+ 
+ #[tauri::command]
+@@ -107,25 +115,25 @@ async fn drive_download_to_file(window: tauri::Window, file_id: String, dest_pat
+     use std::io::Write;
+ 
+     let app = window.app_handle();
+-    let api_key: &str = api_key::GOOGLE_DRIVE_API_KEY;
+-    let dest_abs = resolve_rel_to_app_config(&app, &dest_path);
+-    let looks_dir = dest_path.ends_with('/') || dest_path.ends_with('\\') || dest_abs.is_dir();
+-    let is_placeholder = dest_abs.file_name().and_then(|s| s.to_str()).map(|s| s.eq_ignore_ascii_case("download.bin") || s == file_id).unwrap_or(true);
+-    let drive_name = match drive_fetch_name_reqwest(&file_id, api_key).await {
+-        Ok(n) => n,
++    let mut res = match drive_fetch_response(&file_id).await {
++        Ok(v) => v,
+         Err(e) => {
+-            // ログに出力
+-            log_error(&app, &format!("failed to fetch drive file name (id={}): {}", file_id, e));
+-            // そのままエラーを返して終了
++            log_error(&app, &format!("failed to fetch drive file (id={}): {}", file_id, e));
+             return Err(e);
+         }
+     };
+ 
++    let dest_abs = resolve_rel_to_app_config(&app, &dest_path);
++    let looks_dir = dest_path.ends_with('/') || dest_path.ends_with('\\') || dest_abs.is_dir();
++    let is_placeholder = dest_abs.file_name().and_then(|s| s.to_str()).map(|s| s.eq_ignore_ascii_case("download.bin") || s == file_id).unwrap_or(true);
++    let drive_name = drive_filename_from_headers(res.headers());
++
+     let final_dest = if looks_dir || is_placeholder {
++        let drive_name = drive_name.ok_or_else(|| DriveError::Http("missing filename in Google Drive response".to_string()))?;
+         if looks_dir {
+-            dest_abs.join(&drive_name)
++            dest_abs.join(drive_name)
+         } else {
+-            dest_abs.parent().map(|p| p.join(&drive_name)).unwrap_or(dest_abs.clone())
++            dest_abs.parent().map(|p| p.join(drive_name)).unwrap_or(dest_abs.clone())
+         }
+     } else {
+         dest_abs.clone()
+@@ -134,24 +142,18 @@ async fn drive_download_to_file(window: tauri::Window, file_id: String, dest_pat
+         let _ = create_dir_all(parent);
+     }
+ 
+-    // Try reqwest (async)
+-    match drive_fetch_response(&file_id, api_key).await {
+-        Ok(mut res) => {
+-            let mut f = OpenOptions::new().create(true).truncate(true).write(true).open(&final_dest).map_err(|e| DriveError::Io(e.to_string()))?;
++    let mut f = OpenOptions::new().create(true).truncate(true).write(true).open(&final_dest).map_err(|e| DriveError::Io(e.to_string()))?;
+ 
+-            let total_opt = res.headers().get(reqwest::header::CONTENT_LENGTH).and_then(|v| v.to_str().ok()).and_then(|s| s.parse::<u64>().ok());
++    let total_opt = res.headers().get(reqwest::header::CONTENT_LENGTH).and_then(|v| v.to_str().ok()).and_then(|s| s.parse::<u64>().ok());
+ 
+-            let mut read: u64 = 0;
+-            while let Some(chunk) = res.chunk().await.map_err(|e| DriveError::Net(e.to_string()))? {
+-                f.write_all(&chunk).map_err(|e| DriveError::Io(e.to_string()))?;
+-                read += chunk.len() as u64;
+-                let _ = window.emit("drive:progress", serde_json::json!({ "fileId": file_id, "read": read, "total": total_opt }));
+-            }
+-            let _ = window.emit("drive:done", serde_json::json!({ "fileId": file_id, "path": final_dest.to_string_lossy() }));
+-            Ok(())
+-        }
+-        Err(e) => Err(e),
++    let mut read: u64 = 0;
++    while let Some(chunk) = res.chunk().await.map_err(|e| DriveError::Net(e.to_string()))? {
++        f.write_all(&chunk).map_err(|e| DriveError::Io(e.to_string()))?;
++        read += chunk.len() as u64;
++        let _ = window.emit("drive:progress", serde_json::json!({ "fileId": file_id, "read": read, "total": total_opt }));
+     }
++    let _ = window.emit("drive:done", serde_json::json!({ "fileId": file_id, "path": final_dest.to_string_lossy() }));
++    Ok(())
+ }
+ 
+ #[tauri::command]
+@@ -1063,7 +1065,7 @@ fn expand_macros(raw_path: &str) -> String {
+ }
+ 
+ // index.jsonの各アイテムから、パッケージのパスの集合を作成
+-fn collect_unique_paths(app: &tauri::AppHandle, list: &[serde_json::Value]) -> std::collections::HashSet<String> {
++fn collect_unique_paths(app: &tauri::AppHandle, list: &[serde_json::Value]) -> Result<std::collections::HashSet<String>, String> {
+     log_info(app, "Collecting unique paths for version check...");
+     let mut unique_paths = std::collections::HashSet::new();
+     for it in list.iter() {
+@@ -1075,6 +1077,9 @@ fn collect_unique_paths(app: &tauri::AppHandle, list: &[serde_json::Value]) -> s
+                         let raw = f.get("path").and_then(|v| v.as_str()).unwrap_or("");
+                         // パスの区切りは一旦 Windows 風に合わせるが lowercasing はしない
+                         let expanded = expand_macros(raw).replace('/', "\\");
++                        if !is_abs(&expanded) {
++                            return Err(format!("version.file.path must be an absolute path after macro expansion: {}", raw));
++                        }
+                         unique_paths.insert(expanded);
+                     }
+                 }
+@@ -1082,7 +1087,7 @@ fn collect_unique_paths(app: &tauri::AppHandle, list: &[serde_json::Value]) -> s
+         }
+     }
+     log_info(app, &format!("Collected {} unique paths for version check.", unique_paths.len()));
+-    unique_paths
++    Ok(unique_paths)
+ }
+ 
+ // パス群に対してXXH3-128ハッシュを計算する。hash-cache.jsonを利用して、mtimeMsとsizeが一致する場合はキャッシュを利用し、そうでない場合は再計算する。
+@@ -1198,7 +1203,7 @@ fn determine_versions(
+ fn detect_versions_map(app: tauri::AppHandle, items: Vec<serde_json::Value>) -> Result<std::collections::HashMap<String, String>, String> {
+     let list = items;
+     log_info(&app, &format!("detect map start count={}", list.len()));
+-    let unique_paths = collect_unique_paths(&app, &list);
++    let unique_paths = collect_unique_paths(&app, &list)?;
+     let file_hash_cache = build_file_hash_cache(&app, &unique_paths);
+     let out = determine_versions(&app, &list, &file_hash_cache);
+     Ok(out)
+diff --git a/src-tauri/tauri.conf.json b/src-tauri/tauri.conf.json
+index 47b9f02..a85085c 100644
+--- a/src-tauri/tauri.conf.json
++++ b/src-tauri/tauri.conf.json
+@@ -2,7 +2,7 @@
+   "$schema": "https://schema.tauri.app/config/2",
+   "productName": "AviUtl2 カタログ",
+   "mainBinaryName": "AviUtl2_Catalog",
+-  "version": "0.3.1",
++  "version": "0.3.2",
+   "identifier": "aviutl2-catalog",
+   "build": {
+     "beforeDevCommand": "vite",
+diff --git a/src/features/register/model/constants.ts b/src/features/register/model/constants.ts
+index 064d162..d24f992 100644
+--- a/src/features/register/model/constants.ts
++++ b/src/features/register/model/constants.ts
+@@ -4,7 +4,7 @@
+ import { LICENSE_TEMPLATES } from '../../../utils/licenseTemplates.js';
+ import type { RegisterInstallerOption } from './types';
+ 
+-export const INSTALL_ACTIONS = ['download', 'extract', 'run', 'copy'];
++export const INSTALL_ACTIONS = ['download', 'extract', 'run', 'copy', 'delete'];
+ export const SPECIAL_INSTALL_ACTIONS = ['extract_sfx', 'run_auo_setup'];
+ export const UNINSTALL_ACTIONS = ['delete', 'run'];
+ export const ID_PATTERN = /^[A-Za-z0-9._-]+$/;
+diff --git a/src/features/register/model/draft.ts b/src/features/register/model/draft.ts
+index fab1c3a..0ecc328 100644
+--- a/src/features/register/model/draft.ts
++++ b/src/features/register/model/draft.ts
+@@ -5,7 +5,7 @@ import { basename, generateKey, normalizeArrayText } from './helpers';
+ import { getFileExtension } from './parse';
+ import type { RegisterImageEntry, RegisterPackageForm } from './types';
+ 
+-const DRAFT_STORAGE_PREFIX = 'register-draft:v1:';
++const DRAFT_STORAGE_PREFIX = 'register-draft:';
+ 
+ interface RegisterDraftImageSnapshot {
+   key: string;
+@@ -24,12 +24,15 @@ type RegisterDraftFormSnapshot = Omit<RegisterPackageForm, 'images'> & {
+ };
+ 
+ export interface RegisterDraftRecord {
++  draftId: string;
+   packageId: string;
+   packageName: string;
+   packageSender: string;
+   tags: string[];
+   savedAt: number;
+   contentHash: string;
++  installerTestedHash: string;
++  uninstallerTestedHash: string;
+   lastSubmittedHash: string;
+   lastSubmitAt: number;
+   lastSubmitError: string;
+@@ -37,10 +40,12 @@ export interface RegisterDraftRecord {
+ }
+ 
+ export interface RegisterDraftListItem {
++  draftId: string;
+   packageId: string;
+   packageName: string;
+   savedAt: number;
+   pending: boolean;
++  readyForSubmit: boolean;
+   lastSubmitError: string;
+ }
+ 
+@@ -51,6 +56,13 @@ export interface RegisterDraftRestoreResult {
+   warnings: string[];
+ }
+ 
++export type RegisterDraftTestKind = 'installer' | 'uninstaller';
++
++export interface RegisterDraftTestStatus {
++  installerReady: boolean;
++  uninstallerReady: boolean;
++}
++
+ function getStorage(): Storage | null {
+   if (typeof window === 'undefined') return null;
+   try {
+@@ -60,8 +72,15 @@ function getStorage(): Storage | null {
+   }
+ }
+ 
+-function createDraftStorageKey(packageId: string): string {
+-  return `${DRAFT_STORAGE_PREFIX}${encodeURIComponent(packageId)}`;
++function createDraftStorageKey(draftId: string): string {
++  return `${DRAFT_STORAGE_PREFIX}${encodeURIComponent(draftId)}`;
++}
++
++function createDraftId(): string {
++  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
++    return crypto.randomUUID();
++  }
++  return `draft-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+ }
+ 
+ function computeTextHash(text: string): string {
+@@ -102,7 +121,7 @@ function toDraftFormSnapshot(form: RegisterPackageForm): RegisterDraftFormSnapsh
+   };
+ }
+ 
+-function computeRegisterDraftContentHash(args: {
++export function computeRegisterDraftContentHash(args: {
+   packageForm: RegisterPackageForm;
+   tags: string[];
+   packageSender: string;
+@@ -190,9 +209,32 @@ export function isRegisterDraftPending(record: RegisterDraftRecord): boolean {
+   return String(record.contentHash || '') !== String(record.lastSubmittedHash || '');
+ }
+ 
++export function getRegisterDraftTestStatus(record: RegisterDraftRecord): RegisterDraftTestStatus {
++  const contentHash = String(record.contentHash || '');
++  const installerTestedHash = String(record.installerTestedHash || '');
++  const uninstallerTestedHash = String(record.uninstallerTestedHash || '');
++  if (!contentHash) {
++    return {
++      installerReady: false,
++      uninstallerReady: false,
++    };
++  }
++  return {
++    installerReady: installerTestedHash === contentHash,
++    uninstallerReady: uninstallerTestedHash === contentHash,
++  };
++}
++
++export function isRegisterDraftReadyForSubmit(record: RegisterDraftRecord): boolean {
++  const status = getRegisterDraftTestStatus(record);
++  return status.installerReady && status.uninstallerReady;
++}
++
+ function parseDraftRecord(raw: unknown): RegisterDraftRecord | null {
+   if (!raw || typeof raw !== 'object') return null;
+   const candidate = raw as Partial<RegisterDraftRecord>;
++  const draftId = String(candidate.draftId || '').trim();
++  if (!draftId) return null;
+   if (typeof candidate.packageId !== 'string' || !candidate.packageId.trim()) return null;
+   if (!candidate.form || typeof candidate.form !== 'object') return null;
+   const fallbackContentHash = computeTextHash(
+@@ -203,12 +245,15 @@ function parseDraftRecord(raw: unknown): RegisterDraftRecord | null {
+     }),
+   );
+   return {
++    draftId,
+     packageId: candidate.packageId.trim(),
+     packageName: String(candidate.packageName || candidate.packageId || ''),
+     packageSender: String(candidate.packageSender || ''),
+     tags: normalizeArrayText(Array.isArray(candidate.tags) ? candidate.tags : []),
+     savedAt: Number.isFinite(candidate.savedAt) ? Number(candidate.savedAt) : Date.now(),
+     contentHash: String(candidate.contentHash || fallbackContentHash),
++    installerTestedHash: String(candidate.installerTestedHash || ''),
++    uninstallerTestedHash: String(candidate.uninstallerTestedHash || ''),
+     lastSubmittedHash: String(candidate.lastSubmittedHash || ''),
+     lastSubmitAt: Number.isFinite(candidate.lastSubmitAt) ? Number(candidate.lastSubmitAt) : 0,
+     lastSubmitError: String(candidate.lastSubmitError || ''),
+@@ -278,6 +323,7 @@ export function saveRegisterDraft(args: {
+   packageForm: RegisterPackageForm;
+   tags: string[];
+   packageSender: string;
++  draftId?: string;
+ }): RegisterDraftRecord {
+   const storage = getStorage();
+   if (!storage) {
+@@ -287,28 +333,40 @@ export function saveRegisterDraft(args: {
+   if (!packageId) {
+     throw new Error('一時保存には ID の入力が必要です。');
+   }
+-  const previous = getRegisterDraft(packageId);
++  const requestedDraftId = String(args.draftId || '').trim();
++  const previous = requestedDraftId ? getRegisterDraftById(requestedDraftId) : getRegisterDraft(packageId);
++  const draftId = String(previous?.draftId || requestedDraftId || createDraftId()).trim();
+   const contentHash = computeRegisterDraftContentHash(args);
+   const record: RegisterDraftRecord = {
++    draftId,
+     packageId,
+     packageName: String(args.packageForm.name || packageId || '').trim(),
+     packageSender: String(args.packageSender || ''),
+     tags: normalizeArrayText(args.tags),
+     savedAt: Date.now(),
+     contentHash,
++    installerTestedHash: String(previous?.installerTestedHash || ''),
++    uninstallerTestedHash: String(previous?.uninstallerTestedHash || ''),
+     lastSubmittedHash: String(previous?.lastSubmittedHash || ''),
+     lastSubmitAt: Number(previous?.lastSubmitAt || 0),
+     lastSubmitError: String(previous?.lastSubmitError || ''),
+     form: toDraftFormSnapshot(args.packageForm),
+   };
+-  storage.setItem(createDraftStorageKey(packageId), JSON.stringify(record));
++  storage.setItem(createDraftStorageKey(draftId), JSON.stringify(record));
++  const records = listRegisterDraftRecords();
++  for (let i = 0; i < records.length; i += 1) {
++    const current = records[i];
++    if (current.packageId !== packageId) continue;
++    if (current.draftId === draftId) continue;
++    storage.removeItem(createDraftStorageKey(current.draftId));
++  }
+   return record;
+ }
+ 
+-export function getRegisterDraft(packageId: string): RegisterDraftRecord | null {
++export function getRegisterDraftById(draftId: string): RegisterDraftRecord | null {
+   const storage = getStorage();
+   if (!storage) return null;
+-  const id = String(packageId || '').trim();
++  const id = String(draftId || '').trim();
+   if (!id) return null;
+   const raw = storage.getItem(createDraftStorageKey(id));
+   if (!raw) return null;
+@@ -319,12 +377,24 @@ export function getRegisterDraft(packageId: string): RegisterDraftRecord | null
+   }
+ }
+ 
++export function getRegisterDraft(packageId: string): RegisterDraftRecord | null {
++  const id = String(packageId || '').trim();
++  if (!id) return null;
++  const records = listRegisterDraftRecords();
++  for (let i = 0; i < records.length; i += 1) {
++    if (records[i].packageId === id) return records[i];
++  }
++  return null;
++}
++
+ export function listRegisterDrafts(): RegisterDraftListItem[] {
+   return listRegisterDraftRecords().map((record) => ({
++    draftId: record.draftId,
+     packageId: record.packageId,
+     packageName: record.packageName,
+     savedAt: record.savedAt,
+     pending: isRegisterDraftPending(record),
++    readyForSubmit: isRegisterDraftReadyForSubmit(record),
+     lastSubmitError: String(record.lastSubmitError || ''),
+   }));
+ }
+@@ -350,11 +420,11 @@ export function listRegisterDraftRecords(): RegisterDraftRecord[] {
+ }
+ 
+ export function updateRegisterDraftSubmitState(args: {
+-  packageId: string;
+-  submittedHash: string;
++  draftId: string;
++  submittedHash?: string;
+   errorMessage?: string;
+ }): RegisterDraftRecord | null {
+-  const record = getRegisterDraft(args.packageId);
++  const record = getRegisterDraftById(args.draftId);
+   if (!record) return null;
+   const next: RegisterDraftRecord = {
+     ...record,
+@@ -364,14 +434,35 @@ export function updateRegisterDraftSubmitState(args: {
+   };
+   const storage = getStorage();
+   if (!storage) return null;
+-  storage.setItem(createDraftStorageKey(next.packageId), JSON.stringify(next));
++  storage.setItem(createDraftStorageKey(next.draftId), JSON.stringify(next));
+   return next;
+ }
+ 
+-export function deleteRegisterDraft(packageId: string): void {
++export function updateRegisterDraftTestState(args: {
++  draftId: string;
++  kind: RegisterDraftTestKind;
++  testedHash: string;
++}): RegisterDraftRecord | null {
++  const record = getRegisterDraftById(args.draftId);
++  if (!record) return null;
++  const testedHash = String(args.testedHash || '');
++  if (!testedHash || testedHash !== String(record.contentHash || '')) {
++    return null;
++  }
++  const next: RegisterDraftRecord = {
++    ...record,
++    ...(args.kind === 'installer' ? { installerTestedHash: testedHash } : { uninstallerTestedHash: testedHash }),
++  };
++  const storage = getStorage();
++  if (!storage) return null;
++  storage.setItem(createDraftStorageKey(next.draftId), JSON.stringify(next));
++  return next;
++}
++
++export function deleteRegisterDraft(draftId: string): void {
+   const storage = getStorage();
+   if (!storage) return;
+-  const id = String(packageId || '').trim();
++  const id = String(draftId || '').trim();
+   if (!id) return;
+   storage.removeItem(createDraftStorageKey(id));
+ }
+diff --git a/src/features/register/model/helpers.ts b/src/features/register/model/helpers.ts
+index 9f5aec8..b6b3f8c 100644
+--- a/src/features/register/model/helpers.ts
++++ b/src/features/register/model/helpers.ts
+@@ -107,3 +107,7 @@ export function isInsideRect(rect: DOMRect | null, x: number, y: number): boolea
+   if (!rect) return false;
+   return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+ }
++
++export function getErrorMessage(error: unknown): string {
++  return error instanceof Error ? error.message : String(error);
++}
+diff --git a/src/features/register/model/validate.ts b/src/features/register/model/validate.ts
+index c7bd150..63ef329 100644
+--- a/src/features/register/model/validate.ts
++++ b/src/features/register/model/validate.ts
+@@ -32,6 +32,9 @@ export function validateInstallerForTest(form: RegisterPackageForm): string {
+     if (step.action === 'copy') {
+       if (!step.from.trim() || !step.to.trim()) return 'コピー元/コピー先のパスを指定してください';
+     }
++    if (step.action === 'delete') {
++      if (!step.path.trim()) return '削除するパスを指定してください';
++    }
+   }
+   return '';
+ }
+@@ -118,6 +121,9 @@ export function validatePackageForm(form: RegisterPackageForm): string {
+     if (step.action === 'copy') {
+       if (!step.from.trim() || !step.to.trim()) return 'copy の from / to は必須です';
+     }
++    if (step.action === 'delete') {
++      if (!step.path.trim()) return 'delete の path は必須です';
++    }
+   }
+   for (const step of form.installer.uninstallSteps) {
+     if (!UNINSTALL_ACTIONS.includes(step.action)) {
+diff --git a/src/features/register/ui/RegisterPage.tsx b/src/features/register/ui/RegisterPage.tsx
+index 2b722a5..d64e4dc 100644
+--- a/src/features/register/ui/RegisterPage.tsx
++++ b/src/features/register/ui/RegisterPage.tsx
+@@ -3,7 +3,9 @@
+  */
+ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+ import { getSettings } from '../../../utils/index.js';
+-import { PACKAGE_GUIDE_FALLBACK_URL, createEmptyPackageForm } from '../model/form';
++import { getRegisterDraft, saveRegisterDraft } from '../model/draft';
++import { PACKAGE_GUIDE_FALLBACK_URL, createEmptyPackageForm, entryToForm } from '../model/form';
++import { commaListToArray, getErrorMessage } from '../model/helpers';
+ import type { RegisterPackageForm } from '../model/types';
+ import type { DragHandleState, RegisterSuccessDialogState } from './types';
+ import useRegisterBatchSubmit from './hooks/useRegisterBatchSubmit';
+@@ -17,7 +19,7 @@ import useRegisterSubmitHandler from './hooks/useRegisterSubmitHandler';
+ import useRegisterTestState from './hooks/useRegisterTestState';
+ import useRegisterVersionHandlers from './hooks/useRegisterVersionHandlers';
+ import RegisterFormLayout from './layouts/RegisterFormLayout';
+-import { RegisterSuccessDialog } from './sections';
++import { RegisterJsonImportDialog, RegisterSuccessDialog } from './sections';
+ 
+ export default function Register() {
+   const submitEndpoint = (import.meta.env.VITE_SUBMIT_ENDPOINT || '').trim();
+@@ -39,6 +41,9 @@ export default function Register() {
+     packageAction: '',
+     packageId: '',
+   });
++  const [jsonDialogOpen, setJsonDialogOpen] = useState(false);
++  const [jsonDialogText, setJsonDialogText] = useState('');
++  const [jsonDialogError, setJsonDialogError] = useState('');
+ 
+   const versionDateRefs = useRef<Map<string, HTMLInputElement>>(new Map());
+   const installListRef = useRef<HTMLDivElement | null>(null);
+@@ -88,11 +93,6 @@ export default function Register() {
+     reorderSteps: formHandlers.reorderSteps,
+   });
+ 
+-  const testState = useRegisterTestState({
+-    packageForm,
+-    selectedPackageId: catalog.selectedPackageId,
+-  });
+-
+   const submitHandlers = useRegisterSubmitHandler({
+     submitEndpoint,
+     setCatalogItems: catalog.setCatalogItems,
+@@ -100,6 +100,11 @@ export default function Register() {
+     setSuccessDialog,
+   });
+ 
++  const getCatalogPackageById = useCallback(
++    (packageId: string) => catalog.catalogItems.find((item) => item.id === packageId) || null,
++    [catalog.catalogItems],
++  );
++
+   const draftState = useRegisterDraftState({
+     packageForm,
+     packageSender,
+@@ -107,6 +112,7 @@ export default function Register() {
+     userEditToken,
+     selectedPackageId: catalog.selectedPackageId,
+     setSelectedPackageId: catalog.setSelectedPackageId,
++    getCatalogPackageById,
+     onSelectCatalogPackage: catalog.handleSelectPackage,
+     onStartCatalogNewPackage: catalog.handleStartNewPackage,
+     applyTagList: catalog.applyTagList,
+@@ -117,6 +123,13 @@ export default function Register() {
+     setError,
+   });
+ 
++  const testState = useRegisterTestState({
++    packageForm,
++    selectedPackageId: catalog.selectedPackageId,
++    flushDraftBeforeTest: draftState.flushAutoSaveNow,
++    onTestPassed: draftState.markCurrentDraftTestPassed,
++  });
++
+   const batchSubmit = useRegisterBatchSubmit({
+     catalogItems: catalog.catalogItems,
+     setCatalogItems: catalog.setCatalogItems,
+@@ -177,6 +190,49 @@ export default function Register() {
+     setPreviewDarkMode((prev) => !prev);
+   }, []);
+ 
++  const openJsonDialog = useCallback(() => {
++    setJsonDialogError('');
++    setJsonDialogOpen(true);
++  }, []);
++
++  const closeJsonDialog = useCallback(() => {
++    setJsonDialogOpen(false);
++    setJsonDialogError('');
++  }, []);
++
++  const applyCatalogJsonPatch = useCallback(() => {
++    try {
++      const { changedItems } = catalog.applyCatalogJsonPatch(jsonDialogText);
++      if (changedItems.length === 0) {
++        setJsonDialogError('変更がありませんでした。');
++        return;
++      }
++
++      changedItems.forEach((item) => {
++        const form = entryToForm(item, catalog.catalogBaseUrl);
++        const tags = commaListToArray(form.tagsText);
++        const existingDraft = getRegisterDraft(form.id);
++        saveRegisterDraft({
++          packageForm: form,
++          tags,
++          packageSender: existingDraft?.packageSender || packageSender,
++          draftId: existingDraft?.draftId,
++        });
++      });
++      draftState.reloadDraftPackages();
++      closeJsonDialog();
++    } catch (e: unknown) {
++      setJsonDialogError(getErrorMessage(e));
++    }
++  }, [
++    catalog.applyCatalogJsonPatch,
++    catalog.catalogBaseUrl,
++    closeJsonDialog,
++    draftState.reloadDraftPackages,
++    jsonDialogText,
++    packageSender,
++  ]);
++
+   const successPrimaryText = successDialog.packageName
+     ? `${successDialog.packageAction || '送信完了'}: ${successDialog.packageName}`
+     : successDialog.message || '送信が完了しました。';
+@@ -185,8 +241,7 @@ export default function Register() {
+   const sidebarProps = useMemo(
+     () => ({
+       packageSearch: catalog.packageSearch,
+-      catalogLoading: catalog.catalogLoading,
+-      catalogLoaded: catalog.catalogLoaded,
++      catalogLoadState: catalog.catalogLoadState,
+       filteredPackages: catalog.filteredPackages,
+       draftPackages: draftState.pendingDraftPackages,
+       selectedPackageId: catalog.selectedPackageId,
+@@ -198,8 +253,7 @@ export default function Register() {
+     }),
+     [
+       catalog.packageSearch,
+-      catalog.catalogLoading,
+-      catalog.catalogLoaded,
++      catalog.catalogLoadState,
+       catalog.filteredPackages,
+       draftState.pendingDraftPackages,
+       catalog.selectedPackageId,
+@@ -362,6 +416,7 @@ export default function Register() {
+       installerTestPercent: testState.installerTestPercent,
+       installerTestDetectedVersion: testState.installerTestDetectedVersion,
+       installerTestError: testState.installerTestError,
++      installerTestOperations: testState.installerTestOperations,
+       uninstallerTestRunning: testState.uninstallerTestRunning,
+       uninstallerTestValidation: testState.uninstallerTestValidation,
+       uninstallerTestRatio: testState.uninstallerTestRatio,
+@@ -370,6 +425,7 @@ export default function Register() {
+       uninstallerTestLabel: testState.uninstallerTestLabel,
+       uninstallerTestPercent: testState.uninstallerTestPercent,
+       uninstallerTestError: testState.uninstallerTestError,
++      uninstallerTestOperations: testState.uninstallerTestOperations,
+       onInstallerTest: testState.handleInstallerTest,
+       onUninstallerTest: testState.handleUninstallerTest,
+     }),
+@@ -383,6 +439,7 @@ export default function Register() {
+       testState.installerTestPercent,
+       testState.installerTestDetectedVersion,
+       testState.installerTestError,
++      testState.installerTestOperations,
+       testState.uninstallerTestRunning,
+       testState.uninstallerTestValidation,
+       testState.uninstallerTestRatio,
+@@ -391,6 +448,7 @@ export default function Register() {
+       testState.uninstallerTestLabel,
+       testState.uninstallerTestPercent,
+       testState.uninstallerTestError,
++      testState.uninstallerTestOperations,
+       testState.handleInstallerTest,
+       testState.handleUninstallerTest,
+     ],
+@@ -401,7 +459,9 @@ export default function Register() {
+       packageSender,
+       submitting,
+       pendingSubmitCount: draftState.pendingSubmitCount,
++      blockedSubmitCount: draftState.blockedSubmitCount,
+       submittingLabel: batchSubmit.submitProgressText ? `送信中… (${batchSubmit.submitProgressText})` : '送信中…',
++      onOpenJsonImport: openJsonDialog,
+       onPackageSenderChange: (value: string) => {
+         markUserEdit();
+         setPackageSender(value);
+@@ -412,7 +472,9 @@ export default function Register() {
+       packageSender,
+       submitting,
+       draftState.pendingSubmitCount,
++      draftState.blockedSubmitCount,
+       batchSubmit.submitProgressText,
++      openJsonDialog,
+       markUserEdit,
+       setPackageSender,
+     ],
+@@ -426,6 +488,14 @@ export default function Register() {
+         supportText={successSupportText}
+         onClose={closeSuccessDialog}
+       />
++      <RegisterJsonImportDialog
++        open={jsonDialogOpen}
++        value={jsonDialogText}
++        error={jsonDialogError}
++        onChange={setJsonDialogText}
++        onClose={closeJsonDialog}
++        onApply={applyCatalogJsonPatch}
++      />
+       <RegisterFormLayout
+         error={error}
+         onSubmit={batchSubmit.handleSubmitAllDrafts}
+diff --git a/src/features/register/ui/hooks/useRegisterBatchSubmit.ts b/src/features/register/ui/hooks/useRegisterBatchSubmit.ts
+index 1a3afdd..81414cb 100644
+--- a/src/features/register/ui/hooks/useRegisterBatchSubmit.ts
++++ b/src/features/register/ui/hooks/useRegisterBatchSubmit.ts
+@@ -3,7 +3,10 @@
+  */
+ import { useCallback, useState } from 'react';
+ import {
++  deleteRegisterDraft,
++  getRegisterDraftTestStatus,
+   isRegisterDraftPending,
++  isRegisterDraftReadyForSubmit,
+   listRegisterDraftRecords,
+   restoreRegisterDraft,
+   updateRegisterDraftSubmitState,
+@@ -45,6 +48,20 @@ export default function useRegisterBatchSubmit({
+         if (pendingDrafts.length === 0) {
+           return;
+         }
++        const blockedDrafts = pendingDrafts.filter((draft) => !isRegisterDraftReadyForSubmit(draft));
++        if (blockedDrafts.length > 0) {
++          const blockedLabels = blockedDrafts.map((draft) => {
++            const status = getRegisterDraftTestStatus(draft);
++            const missing: string[] = [];
++            if (!status.installerReady) missing.push('install');
++            if (!status.uninstallerReady) missing.push('uninstall');
++            return `${draft.packageId}(${missing.join('/')})`;
++          });
++          const preview = blockedLabels.slice(0, 4).join(', ');
++          const suffix = blockedLabels.length > 4 ? ` ほか${blockedLabels.length - 4}件` : '';
++          setError(`テスト未完了のため送信できません: ${preview}${suffix}`);
++          return;
++        }
+         setSubmitting(true);
+         let workingCatalog = catalogItems;
+         let successCount = 0;
+@@ -70,17 +87,13 @@ export default function useRegisterBatchSubmit({
+             lastSuccessUrl = submitResult.url || lastSuccessUrl;
+             lastSuccessName = submitResult.packageName || lastSuccessName;
+             successCount += 1;
+-            updateRegisterDraftSubmitState({
+-              packageId: draft.packageId,
+-              submittedHash: draft.contentHash,
+-            });
++            deleteRegisterDraft(draft.draftId);
+           } catch (err) {
+             const message =
+               err instanceof Error ? err.message : '送信に失敗しました。ネットワークや設定をご確認ください。';
+             failureCount += 1;
+             updateRegisterDraftSubmitState({
+-              packageId: draft.packageId,
+-              submittedHash: draft.contentHash,
++              draftId: draft.draftId,
+               errorMessage: message,
+             });
+             if (!firstError) {
+diff --git a/src/features/register/ui/hooks/useRegisterCatalogState.ts b/src/features/register/ui/hooks/useRegisterCatalogState.ts
+index 2f7e846..cf1b65a 100644
+--- a/src/features/register/ui/hooks/useRegisterCatalogState.ts
++++ b/src/features/register/ui/hooks/useRegisterCatalogState.ts
+@@ -3,11 +3,163 @@
+  */
+ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+ import { useCatalog } from '../../../../utils/catalogStore.jsx';
+-import { createEmptyPackageForm, entryToForm } from '../../model/form';
+-import { cleanupImagePreviews, commaListToArray, normalizeArrayText, resolveBaseUrl } from '../../model/helpers';
++import { buildPackageEntry, createEmptyPackageForm, entryToForm } from '../../model/form';
++import {
++  cleanupImagePreviews,
++  commaListToArray,
++  getErrorMessage,
++  normalizeArrayText,
++  resolveBaseUrl,
++} from '../../model/helpers';
+ import type { RegisterPackageForm } from '../../model/types';
+ import type { CatalogItem } from '../types';
+ 
++function isPlainObject(value: unknown): value is Record<string, unknown> {
++  return typeof value === 'object' && value !== null && !Array.isArray(value);
++}
++
++type DeepPartial<T> = {
++  [K in keyof T]?: T[K] extends Array<infer U> ? Array<DeepPartial<U>> : T[K] extends object ? DeepPartial<T[K]> : T[K];
++};
++
++type CatalogPatch = DeepPartial<CatalogItem> & { id: string };
++
++function extractCatalogArray(json: unknown): unknown[] | null {
++  if (Array.isArray(json)) return json;
++  if (!isPlainObject(json)) return null;
++  return Array.isArray(json.packages) ? json.packages : null;
++}
++
++function mergeDefinedFields<T>(base: T, patch: DeepPartial<T>): T {
++  if (!isPlainObject(base) || !isPlainObject(patch)) return patch as T;
++  const next: Record<string, unknown> = { ...base };
++  Object.entries(patch).forEach(([key, value]) => {
++    if (typeof value === 'undefined') return;
++    const baseValue = next[key];
++    if (isPlainObject(baseValue) && isPlainObject(value)) {
++      next[key] = mergeDefinedFields(baseValue, value);
++      return;
++    }
++    next[key] = value;
++  });
++  return next as T;
++}
++
++function extractVersionKey(value: unknown): string {
++  if (!isPlainObject(value)) return '';
++  return typeof value.version === 'string' ? value.version.trim() : '';
++}
++
++function mergeVersionListByVersionKey(baseList: CatalogItem['version'], patchList: unknown[]): CatalogItem['version'] {
++  const next: unknown[] = [...baseList];
++  const indexByVersion = new Map<string, number>();
++
++  for (let i = 0; i < next.length; i += 1) {
++    const key = extractVersionKey(next[i]);
++    if (!key || indexByVersion.has(key)) continue;
++    indexByVersion.set(key, i);
++  }
++
++  for (let i = 0; i < patchList.length; i += 1) {
++    const patchVersion = patchList[i];
++    const key = extractVersionKey(patchVersion);
++    const existingIndex = key ? indexByVersion.get(key) : undefined;
++    if (typeof existingIndex === 'number') {
++      next[existingIndex] = patchVersion;
++      continue;
++    }
++    next.push(patchVersion);
++    if (key) {
++      indexByVersion.set(key, next.length - 1);
++    }
++  }
++
++  return next as CatalogItem['version'];
++}
++
++function mergeCatalogItemWithPatch(base: CatalogItem, patch: CatalogPatch): CatalogItem {
++  const merged = mergeDefinedFields(base, patch);
++  if (!Object.prototype.hasOwnProperty.call(patch, 'version')) {
++    return { ...merged, id: base.id };
++  }
++  if (!Array.isArray(base.version) || !Array.isArray(patch.version)) {
++    return { ...merged, id: base.id };
++  }
++  const nextVersion = mergeVersionListByVersionKey(base.version, patch.version);
++  return { ...merged, id: base.id, version: nextVersion };
++}
++
++function isDeepEqual(left: unknown, right: unknown): boolean {
++  if (Object.is(left, right)) return true;
++  if (Array.isArray(left) || Array.isArray(right)) {
++    if (!Array.isArray(left) || !Array.isArray(right)) return false;
++    if (left.length !== right.length) return false;
++    for (let i = 0; i < left.length; i += 1) {
++      if (!isDeepEqual(left[i], right[i])) return false;
++    }
++    return true;
++  }
++  if (isPlainObject(left) || isPlainObject(right)) {
++    if (!isPlainObject(left) || !isPlainObject(right)) return false;
++    const leftKeys = Object.keys(left);
++    const rightKeys = Object.keys(right);
++    if (leftKeys.length !== rightKeys.length) return false;
++    for (const key of leftKeys) {
++      if (!Object.prototype.hasOwnProperty.call(right, key)) return false;
++      if (!isDeepEqual(left[key], right[key])) return false;
++    }
++    return true;
++  }
++  return false;
++}
++
++function extractCatalogPatchList(json: unknown): CatalogPatch[] {
++  const rawList = extractCatalogArray(json);
++  if (!Array.isArray(rawList)) {
++    throw new Error('入力形式が不正です。');
++  }
++  const list = rawList
++    .filter((item): item is Record<string, unknown> => isPlainObject(item))
++    .map((item) => {
++      const id = typeof item.id === 'string' ? item.id.trim() : '';
++      if (!id) return null;
++      return { ...(item as DeepPartial<CatalogItem>), id } as CatalogPatch;
++    })
++    .filter((item): item is CatalogPatch => item !== null);
++  if (list.length === 0) {
++    throw new Error('上書き対象の要素がありません。');
++  }
++  return list;
++}
++
++function createCatalogItemFromPatch(patch: CatalogPatch): CatalogItem {
++  const emptyForm = createEmptyPackageForm();
++  emptyForm.id = patch.id;
++  const base = buildPackageEntry(emptyForm, []);
++  const merged = mergeDefinedFields(base, patch);
++  const nextItem: CatalogItem = { ...merged, id: patch.id };
++  return nextItem;
++}
++
++function isCatalogItem(value: unknown): value is CatalogItem {
++  if (!isPlainObject(value)) return false;
++  if (typeof value.id !== 'string') return false;
++  if (typeof value.name !== 'string') return false;
++  if (typeof value.type !== 'string') return false;
++  if (typeof value.summary !== 'string') return false;
++  if (typeof value.description !== 'string') return false;
++  if (typeof value.author !== 'string') return false;
++  if (typeof value.repoURL !== 'string') return false;
++  if (typeof value['latest-version'] !== 'string') return false;
++  if (!Array.isArray(value.licenses)) return false;
++  if (!Array.isArray(value.tags)) return false;
++  if (!Array.isArray(value.dependencies)) return false;
++  if (!Array.isArray(value.images)) return false;
++  if (!isPlainObject(value.installer)) return false;
++  if (!Array.isArray(value.version)) return false;
++  return true;
++}
++
+ interface UseRegisterCatalogStateArgs {
+   setPackageForm: React.Dispatch<React.SetStateAction<RegisterPackageForm>>;
+   setDescriptionTab: React.Dispatch<React.SetStateAction<string>>;
+@@ -69,8 +221,8 @@ export default function useRegisterCatalogState({
+       const res = await fetch(endpoint);
+       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+       const json = await res.json();
+-      const rawList = Array.isArray(json) ? json : Array.isArray((json as any)?.packages) ? (json as any).packages : [];
+-      const list = (Array.isArray(rawList) ? rawList : []) as CatalogItem[];
++      const rawList = extractCatalogArray(json);
++      const list = Array.isArray(rawList) ? rawList.filter((item): item is CatalogItem => isCatalogItem(item)) : [];
+       setCatalogItems(list);
+       const base = resolveBaseUrl(res.url || endpoint) || '';
+       setCatalogBaseUrl(base);
+@@ -92,8 +244,8 @@ export default function useRegisterCatalogState({
+         setPackageForm(createEmptyPackageForm());
+       }
+       setCatalogLoadState('loaded');
+-    } catch (e: any) {
+-      setError(`index.json の取得に失敗しました: ${e?.message || e}`);
++    } catch (e: unknown) {
++      setError(`index.json の取得に失敗しました: ${getErrorMessage(e)}`);
+       setCatalogLoadState('error');
+     }
+   }, [catalogLoadState, setError, setPackageForm]);
+@@ -161,6 +313,48 @@ export default function useRegisterCatalogState({
+     setPackageSearch(value);
+   }, []);
+ 
++  const applyCatalogJsonPatch = useCallback(
++    (jsonText: string) => {
++      let parsed: unknown;
++      try {
++        parsed = JSON.parse(jsonText);
++      } catch (e: unknown) {
++        throw new Error(`JSON の解析に失敗しました: ${getErrorMessage(e)}`, { cause: e });
++      }
++      const patchList = extractCatalogPatchList(parsed);
++      const patchMap = new Map<string, CatalogPatch>();
++      patchList.forEach((patch) => {
++        patchMap.set(patch.id, patch);
++      });
++
++      const existingIds = new Set(catalogItems.map((item) => item.id));
++      const nextCatalogItems: CatalogItem[] = [];
++      const changedItems: CatalogItem[] = [];
++      for (const item of catalogItems) {
++        const patch = patchMap.get(item.id);
++        if (!patch) {
++          nextCatalogItems.push(item);
++          continue;
++        }
++        const nextItem = mergeCatalogItemWithPatch(item, patch);
++        nextCatalogItems.push(nextItem);
++        if (isDeepEqual(item, nextItem)) continue;
++        changedItems.push(nextItem);
++      }
++
++      for (const patch of patchMap.values()) {
++        if (existingIds.has(patch.id)) continue;
++        const nextItem = createCatalogItemFromPatch(patch);
++        nextCatalogItems.push(nextItem);
++        changedItems.push(nextItem);
++        existingIds.add(patch.id);
++      }
++
++      return { changedItems, nextCatalogItems };
++    },
++    [catalogItems],
++  );
++
+   return {
+     catalogItems,
+     setCatalogItems,
+@@ -179,5 +373,6 @@ export default function useRegisterCatalogState({
+     handleSelectPackage,
+     handleStartNewPackage,
+     handlePackageSearchChange,
++    applyCatalogJsonPatch,
+   };
+ }
+diff --git a/src/features/register/ui/hooks/useRegisterDraftState.ts b/src/features/register/ui/hooks/useRegisterDraftState.ts
+index e80b63c..c26c293 100644
+--- a/src/features/register/ui/hooks/useRegisterDraftState.ts
++++ b/src/features/register/ui/hooks/useRegisterDraftState.ts
+@@ -4,17 +4,34 @@
+ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+ import {
+   deleteRegisterDraft,
++  computeRegisterDraftContentHash,
+   getRegisterDraft,
++  getRegisterDraftById,
+   isRegisterDraftPending,
++  isRegisterDraftReadyForSubmit,
+   listRegisterDrafts,
+   restoreRegisterDraft,
+   saveRegisterDraft,
++  updateRegisterDraftTestState,
+   type RegisterDraftRecord,
++  type RegisterDraftTestKind,
+ } from '../../model/draft';
+ import { cleanupImagePreviews } from '../../model/helpers';
+ import type { RegisterPackageForm } from '../../model/types';
+ import type { CatalogItem, RegisterDraftListItemView } from '../types';
+ 
++function toDraftListItem(record: RegisterDraftRecord): RegisterDraftListItemView {
++  return {
++    draftId: record.draftId,
++    packageId: record.packageId,
++    packageName: record.packageName,
++    savedAt: record.savedAt,
++    pending: isRegisterDraftPending(record),
++    readyForSubmit: isRegisterDraftReadyForSubmit(record),
++    lastSubmitError: String(record.lastSubmitError || ''),
++  };
++}
++
+ interface UseRegisterDraftStateArgs {
+   packageForm: RegisterPackageForm;
+   packageSender: string;
+@@ -22,6 +39,7 @@ interface UseRegisterDraftStateArgs {
+   userEditToken: number;
+   selectedPackageId: string;
+   setSelectedPackageId: React.Dispatch<React.SetStateAction<string>>;
++  getCatalogPackageById: (packageId: string) => CatalogItem | null;
+   onSelectCatalogPackage: (item: CatalogItem | null) => void;
+   onStartCatalogNewPackage: () => void;
+   applyTagList: (list: string[]) => void;
+@@ -39,6 +57,7 @@ export default function useRegisterDraftState({
+   userEditToken,
+   selectedPackageId,
+   setSelectedPackageId,
++  getCatalogPackageById,
+   onSelectCatalogPackage,
+   onStartCatalogNewPackage,
+   applyTagList,
+@@ -55,6 +74,7 @@ export default function useRegisterDraftState({
+   const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+   const latestUserEditTokenRef = useRef(userEditToken);
+   const persistedUserEditTokenRef = useRef(userEditToken);
++  const activeDraftIdRef = useRef('');
+ 
+   useEffect(() => {
+     latestUserEditTokenRef.current = userEditToken;
+@@ -82,16 +102,12 @@ export default function useRegisterDraftState({
+       packageForm,
+       tags: currentTags,
+       packageSender,
++      draftId: activeDraftIdRef.current,
+     });
+-    const nextItem: RegisterDraftListItemView = {
+-      packageId: record.packageId,
+-      packageName: record.packageName,
+-      savedAt: record.savedAt,
+-      pending: isRegisterDraftPending(record),
+-      lastSubmitError: String(record.lastSubmitError || ''),
+-    };
++    activeDraftIdRef.current = record.draftId;
++    const nextItem = toDraftListItem(record);
+     setDraftPackages((prev) => {
+-      const filtered = prev.filter((item) => item.packageId !== nextItem.packageId);
++      const filtered = prev.filter((item) => item.draftId !== nextItem.draftId);
+       return [nextItem, ...filtered];
+     });
+     markUserEditsAsHandled();
+@@ -116,6 +132,7 @@ export default function useRegisterDraftState({
+         cleanupImagePreviews(restored.packageForm.images);
+         return;
+       }
++      activeDraftIdRef.current = draft.draftId;
+       setPackageForm((prev) => {
+         cleanupImagePreviews(prev.images);
+         return restored.packageForm;
+@@ -152,6 +169,11 @@ export default function useRegisterDraftState({
+     }
+     const draft = getRegisterDraft(selectedId);
+     if (!draft) {
++      activeDraftIdRef.current = '';
++      return;
++    }
++    activeDraftIdRef.current = draft.draftId;
++    if (!isRegisterDraftPending(draft)) {
+       return;
+     }
+     void applyDraftRecord(draft);
+@@ -205,6 +227,11 @@ export default function useRegisterDraftState({
+       flushBeforeNavigation();
+       suspendNextAutoSave();
+       onSelectCatalogPackage(item);
++      if (!item) {
++        activeDraftIdRef.current = '';
++        return;
++      }
++      activeDraftIdRef.current = String(getRegisterDraft(item.id)?.draftId || '').trim();
+     },
+     [flushBeforeNavigation, onSelectCatalogPackage, suspendNextAutoSave],
+   );
+@@ -212,38 +239,115 @@ export default function useRegisterDraftState({
+   const handleStartNewPackage = useCallback(() => {
+     flushBeforeNavigation();
+     suspendNextAutoSave();
++    activeDraftIdRef.current = '';
+     onStartCatalogNewPackage();
+   }, [flushBeforeNavigation, onStartCatalogNewPackage, suspendNextAutoSave]);
+ 
+-  const handleDeleteDraftPackage = useCallback((packageId: string) => {
+-    deleteRegisterDraft(packageId);
+-    setDraftPackages((prev) => prev.filter((item) => item.packageId !== packageId));
+-  }, []);
++  const handleDeleteDraftPackage = useCallback(
++    (draftId: string) => {
++      const targetDraftId = draftId.trim();
++      if (!targetDraftId) return;
++      const targetDraft = getRegisterDraftById(targetDraftId);
++      const targetPackageId = String(targetDraft?.packageId || '').trim();
++      deleteRegisterDraft(targetDraftId);
++      setDraftPackages((prev) => prev.filter((item) => item.draftId !== targetDraftId));
++
++      const selectedId = selectedPackageId.trim();
++      const isActiveDraft = activeDraftIdRef.current === targetDraftId;
++      const isSelectedPackageDraft = targetPackageId && selectedId === targetPackageId;
++      if (!isActiveDraft && !isSelectedPackageDraft) return;
++
++      if (autoSaveTimerRef.current) {
++        clearTimeout(autoSaveTimerRef.current);
++        autoSaveTimerRef.current = null;
++      }
++      activeDraftIdRef.current = '';
++      markUserEditsAsHandled();
++      suspendNextAutoSave();
++
++      const catalogItem = getCatalogPackageById(targetPackageId);
++      if (catalogItem) {
++        onSelectCatalogPackage(catalogItem);
++      } else {
++        onStartCatalogNewPackage();
++      }
++      setError('');
++    },
++    [
++      getCatalogPackageById,
++      markUserEditsAsHandled,
++      onSelectCatalogPackage,
++      onStartCatalogNewPackage,
++      selectedPackageId,
++      setError,
++      suspendNextAutoSave,
++    ],
++  );
+ 
+   const handleOpenDraftPackage = useCallback(
+-    async (packageId: string) => {
++    async (draftId: string) => {
+       flushBeforeNavigation();
+-      const draft = getRegisterDraft(packageId);
++      const draft = getRegisterDraftById(draftId);
+       if (!draft) {
+         reloadDraftPackages();
+         setError('対象の一時保存が見つかりませんでした。');
+         return;
+       }
+-      skipNextSelectedRestoreIdRef.current = packageId;
+-      setSelectedPackageId(packageId);
++      skipNextSelectedRestoreIdRef.current = draft.packageId;
++      setSelectedPackageId(draft.packageId);
+       await applyDraftRecord(draft);
+     },
+     [applyDraftRecord, flushBeforeNavigation, reloadDraftPackages, setError, setSelectedPackageId],
+   );
+ 
++  const markCurrentDraftTestPassed = useCallback(
++    (kind: RegisterDraftTestKind) => {
++      const packageId = String(packageForm.id || '').trim();
++      if (!packageId) return;
++      let draftId = String(activeDraftIdRef.current || '').trim();
++      if (!draftId) {
++        const latest = getRegisterDraft(packageId);
++        if (!latest) return;
++        draftId = latest.draftId;
++        activeDraftIdRef.current = draftId;
++      }
++      const testedHash = computeRegisterDraftContentHash({
++        packageForm,
++        tags: currentTags,
++        packageSender,
++      });
++      const updated = updateRegisterDraftTestState({
++        draftId,
++        kind,
++        testedHash,
++      });
++      if (!updated) return;
++      const nextItem = toDraftListItem(updated);
++      setDraftPackages((prev) => {
++        const filtered = prev.filter((item) => item.draftId !== nextItem.draftId);
++        return [nextItem, ...filtered];
++      });
++    },
++    [currentTags, packageForm, packageSender],
++  );
++
+   const pendingDraftPackages = useMemo(() => draftPackages.filter((item) => item.pending), [draftPackages]);
+-  const pendingSubmitCount = useMemo(() => pendingDraftPackages.length, [pendingDraftPackages]);
++  const pendingSubmitCount = useMemo(
++    () => pendingDraftPackages.filter((item) => item.readyForSubmit).length,
++    [pendingDraftPackages],
++  );
++  const blockedSubmitCount = useMemo(
++    () => pendingDraftPackages.length - pendingSubmitCount,
++    [pendingDraftPackages, pendingSubmitCount],
++  );
+ 
+   return {
+     pendingDraftPackages,
+     pendingSubmitCount,
++    blockedSubmitCount,
+     reloadDraftPackages,
+     flushAutoSaveNow,
++    markCurrentDraftTestPassed,
+     handleSelectPackage,
+     handleStartNewPackage,
+     handleOpenDraftPackage,
+diff --git a/src/features/register/ui/hooks/useRegisterTestState.ts b/src/features/register/ui/hooks/useRegisterTestState.ts
+index 82e95ce..c41fb9c 100644
+--- a/src/features/register/ui/hooks/useRegisterTestState.ts
++++ b/src/features/register/ui/hooks/useRegisterTestState.ts
+@@ -5,23 +5,111 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+ import { detectInstalledVersionsMap, runInstallerForItem, runUninstallerForItem } from '../../../../utils/index.js';
+ import { buildInstallerTestItem, validateInstallerForTest, validateUninstallerForTest } from '../../model/form';
+ import type { RegisterPackageForm } from '../../model/types';
+-import type { InstallerTestItem, InstallerTestProgress } from '../types';
++import type { InstallerTestItem, InstallerTestProgress, RegisterTestOperation } from '../types';
+ 
+ interface UseRegisterTestStateArgs {
+   packageForm: RegisterPackageForm;
+   selectedPackageId: string;
++  flushDraftBeforeTest?: () => void;
++  onTestPassed?: (kind: 'installer' | 'uninstaller') => void;
+ }
+ 
+-export default function useRegisterTestState({ packageForm, selectedPackageId }: UseRegisterTestStateArgs) {
++type RegisterTestOperationPayload = Omit<RegisterTestOperation, 'key'>;
++
++const OPERATION_KINDS: RegisterTestOperation['kind'][] = [
++  'download',
++  'extract',
++  'extract_sfx',
++  'copy',
++  'delete',
++  'run',
++  'error',
++];
++const OPERATION_STATUSES: RegisterTestOperation['status'][] = ['done', 'skip', 'error'];
++
++function toOptionalText(value: unknown): string | undefined {
++  if (typeof value !== 'string') return undefined;
++  const text = value.trim();
++  return text ? text : undefined;
++}
++
++function normalizeOperationKind(value: unknown): RegisterTestOperation['kind'] {
++  return OPERATION_KINDS.includes(value as RegisterTestOperation['kind'])
++    ? (value as RegisterTestOperation['kind'])
++    : 'error';
++}
++
++function normalizeOperationStatus(
++  value: unknown,
++  kind: RegisterTestOperation['kind'],
++): RegisterTestOperation['status'] {
++  if (OPERATION_STATUSES.includes(value as RegisterTestOperation['status'])) {
++    return value as RegisterTestOperation['status'];
++  }
++  return kind === 'error' ? 'error' : 'done';
++}
++
++function normalizeOperation(
++  value: Partial<RegisterTestOperationPayload> | null | undefined,
++): RegisterTestOperationPayload {
++  const kind = normalizeOperationKind(value?.kind);
++  return {
++    kind,
++    status: normalizeOperationStatus(value?.status, kind),
++    summary: typeof value?.summary === 'string' ? value.summary : '',
++    detail: typeof value?.detail === 'string' ? value.detail : '',
++    fromPath: toOptionalText(value?.fromPath),
++    toPath: toOptionalText(value?.toPath),
++    targetPath: toOptionalText(value?.targetPath),
++  };
++}
++
++export default function useRegisterTestState({
++  packageForm,
++  selectedPackageId,
++  flushDraftBeforeTest,
++  onTestPassed,
++}: UseRegisterTestStateArgs) {
+   const [installerTestRunning, setInstallerTestRunning] = useState(false);
+   const [installerTestProgress, setInstallerTestProgress] = useState<InstallerTestProgress | null>(null);
+   const [installerTestError, setInstallerTestError] = useState('');
+   const [installerTestDetectedVersion, setInstallerTestDetectedVersion] = useState('');
++  const [installerTestOperations, setInstallerTestOperations] = useState<RegisterTestOperation[]>([]);
+   const [uninstallerTestRunning, setUninstallerTestRunning] = useState(false);
+   const [uninstallerTestError, setUninstallerTestError] = useState('');
+   const [uninstallerTestDone, setUninstallerTestDone] = useState(false);
++  const [uninstallerTestOperations, setUninstallerTestOperations] = useState<RegisterTestOperation[]>([]);
+   const installerTestTokenRef = useRef(0);
+   const uninstallerTestTokenRef = useRef(0);
++  const installerTestBusyRef = useRef(false);
++  const uninstallerTestBusyRef = useRef(false);
++  const installerOperationSeqRef = useRef(0);
++  const uninstallerOperationSeqRef = useRef(0);
++
++  const pushInstallerOperation = useCallback((operation: Partial<RegisterTestOperationPayload> | null | undefined) => {
++    const normalized = normalizeOperation(operation);
++    setInstallerTestOperations((prev) => [
++      ...prev,
++      {
++        ...normalized,
++        key: `installer-${installerOperationSeqRef.current++}`,
++      },
++    ]);
++  }, []);
++
++  const pushUninstallerOperation = useCallback(
++    (operation: Partial<RegisterTestOperationPayload> | null | undefined) => {
++      const normalized = normalizeOperation(operation);
++      setUninstallerTestOperations((prev) => [
++        ...prev,
++        {
++          ...normalized,
++          key: `uninstall-${uninstallerOperationSeqRef.current++}`,
++        },
++      ]);
++    },
++    [],
++  );
+ 
+   const installerTestValidation = useMemo(() => validateInstallerForTest(packageForm), [packageForm]);
+   const installerTestRatio = installerTestProgress?.ratio ?? 0;
+@@ -57,73 +145,124 @@ export default function useRegisterTestState({ packageForm, selectedPackageId }:
+   useEffect(() => {
+     installerTestTokenRef.current += 1;
+     uninstallerTestTokenRef.current += 1;
++    installerTestBusyRef.current = false;
++    uninstallerTestBusyRef.current = false;
++    installerOperationSeqRef.current = 0;
++    uninstallerOperationSeqRef.current = 0;
+     setInstallerTestRunning(false);
+     setInstallerTestProgress(null);
+     setInstallerTestError('');
+     setInstallerTestDetectedVersion('');
++    setInstallerTestOperations([]);
+     setUninstallerTestRunning(false);
+     setUninstallerTestError('');
+     setUninstallerTestDone(false);
++    setUninstallerTestOperations([]);
+   }, [selectedPackageId]);
+ 
+   const handleInstallerTest = useCallback(async () => {
+-    if (installerTestRunning) return;
++    if (installerTestRunning || installerTestBusyRef.current) return;
+     setInstallerTestError('');
+     setInstallerTestDetectedVersion('');
+-    const validation = validateInstallerForTest(packageForm);
+-    if (validation) {
++    installerOperationSeqRef.current = 0;
++    setInstallerTestOperations([]);
++    if (installerTestValidation) {
+       return;
+     }
++    flushDraftBeforeTest?.();
+     const testItem: InstallerTestItem = buildInstallerTestItem(packageForm);
+     // token により「最後に開始したテスト」の結果だけを採用する。
+     const token = installerTestTokenRef.current + 1;
+     installerTestTokenRef.current = token;
++    installerTestBusyRef.current = true;
+     setInstallerTestRunning(true);
+     setInstallerTestProgress({ ratio: 0, percent: 0, label: '準備中…', phase: 'init' });
+     try {
+-      await runInstallerForItem(testItem, null, (progress: InstallerTestProgress) => {
+-        if (installerTestTokenRef.current !== token) return;
+-        setInstallerTestProgress(progress);
+-      });
++      await runInstallerForItem(
++        testItem,
++        null,
++        (progress: InstallerTestProgress) => {
++          if (installerTestTokenRef.current !== token) return;
++          setInstallerTestProgress(progress);
++        },
++        (operation: Partial<RegisterTestOperationPayload> | null | undefined) => {
++          if (installerTestTokenRef.current !== token) return;
++          pushInstallerOperation(operation);
++        },
++      );
+       if (installerTestTokenRef.current !== token) return;
++      let detected = '';
+       try {
+         const map = (await detectInstalledVersionsMap([testItem])) as Record<string, unknown>;
+         if (installerTestTokenRef.current !== token) return;
+         const detectedValue = map?.[testItem.id];
+-        const detected = typeof detectedValue === 'string' ? detectedValue : String(detectedValue || '');
+-        setInstallerTestDetectedVersion(detected);
++        detected = typeof detectedValue === 'string' ? detectedValue : String(detectedValue || '');
+       } catch {
+         if (installerTestTokenRef.current !== token) return;
+-        setInstallerTestDetectedVersion('');
++        detected = '';
++      }
++      if (installerTestTokenRef.current !== token) return;
++      setInstallerTestDetectedVersion(detected);
++      const normalizedDetected = detected.trim();
++      if (!normalizedDetected || normalizedDetected === '???') {
++        throw new Error('検出バージョンが未検出または ??? のため、完了として扱えません。');
++      }
++      if (installerTestTokenRef.current === token) {
++        onTestPassed?.('installer');
+       }
+     } catch (err) {
+       if (installerTestTokenRef.current !== token) return;
+       const detail = err instanceof Error ? err.message : String(err) || '原因不明のエラー';
+       setInstallerTestError(`インストーラーテストに失敗しました。\n\n${detail}`);
++      setInstallerTestProgress((prev) => ({
++        ratio: prev?.ratio ?? 1,
++        percent: prev?.percent ?? 100,
++        label: 'エラー',
++        phase: 'error',
++      }));
+     } finally {
+       if (installerTestTokenRef.current === token) {
+         setInstallerTestRunning(false);
++        installerTestBusyRef.current = false;
+       }
+     }
+-  }, [installerTestRunning, packageForm]);
++  }, [
++    flushDraftBeforeTest,
++    installerTestRunning,
++    installerTestValidation,
++    onTestPassed,
++    packageForm,
++    pushInstallerOperation,
++  ]);
+ 
+   const handleUninstallerTest = useCallback(async () => {
+-    if (uninstallerTestRunning) return;
++    if (uninstallerTestRunning || uninstallerTestBusyRef.current) return;
+     setUninstallerTestError('');
+     setUninstallerTestDone(false);
+-    const validation = validateUninstallerForTest(packageForm);
+-    if (validation) {
++    uninstallerOperationSeqRef.current = 0;
++    setUninstallerTestOperations([]);
++    if (uninstallerTestValidation) {
+       return;
+     }
++    flushDraftBeforeTest?.();
+     const testItem: InstallerTestItem = buildInstallerTestItem(packageForm);
+     // インストールテスト同様、競合する非同期結果を token で抑止する。
+     const token = uninstallerTestTokenRef.current + 1;
+     uninstallerTestTokenRef.current = token;
++    uninstallerTestBusyRef.current = true;
+     setUninstallerTestRunning(true);
+     try {
+-      await runUninstallerForItem(testItem, null);
++      await runUninstallerForItem(
++        testItem,
++        null,
++        (operation: Partial<RegisterTestOperationPayload> | null | undefined) => {
++          if (uninstallerTestTokenRef.current !== token) return;
++          pushUninstallerOperation(operation);
++        },
++      );
+       if (uninstallerTestTokenRef.current === token) {
+         setUninstallerTestDone(true);
++        onTestPassed?.('uninstaller');
+       }
+     } catch (err) {
+       if (uninstallerTestTokenRef.current !== token) return;
+@@ -132,9 +271,17 @@ export default function useRegisterTestState({ packageForm, selectedPackageId }:
+     } finally {
+       if (uninstallerTestTokenRef.current === token) {
+         setUninstallerTestRunning(false);
++        uninstallerTestBusyRef.current = false;
+       }
+     }
+-  }, [uninstallerTestRunning, packageForm]);
++  }, [
++    flushDraftBeforeTest,
++    onTestPassed,
++    packageForm,
++    pushUninstallerOperation,
++    uninstallerTestRunning,
++    uninstallerTestValidation,
++  ]);
+ 
+   return {
+     installerTestRunning,
+@@ -146,6 +293,7 @@ export default function useRegisterTestState({ packageForm, selectedPackageId }:
+     installerTestPercent,
+     installerTestDetectedVersion,
+     installerTestError,
++    installerTestOperations,
+     uninstallerTestRunning,
+     uninstallerTestValidation,
+     uninstallerTestRatio,
+@@ -154,6 +302,7 @@ export default function useRegisterTestState({ packageForm, selectedPackageId }:
+     uninstallerTestLabel,
+     uninstallerTestPercent,
+     uninstallerTestError,
++    uninstallerTestOperations,
+     handleInstallerTest,
+     handleUninstallerTest,
+   };
+diff --git a/src/features/register/ui/sections/InstallStepsSection.tsx b/src/features/register/ui/sections/InstallStepsSection.tsx
+index f6f4756..ca57640 100644
+--- a/src/features/register/ui/sections/InstallStepsSection.tsx
++++ b/src/features/register/ui/sections/InstallStepsSection.tsx
+@@ -125,6 +125,25 @@ export default function InstallStepsSection({
+                   </div>
+                 </div>
+               )}
++              {!isSpecialAction && step.action === 'delete' && (
++                <div className="grid gap-3 rounded-lg bg-slate-50 p-3 dark:bg-slate-800/50">
++                  <div className="space-y-1">
++                    <label
++                      className="text-xs font-medium text-slate-600 dark:text-slate-400"
++                      htmlFor={`install-${step.key}-path`}
++                    >
++                      削除するパス
++                    </label>
++                    <input
++                      id={`install-${step.key}-path`}
++                      value={step.path}
++                      onChange={(e) => updateInstallStep(step.key, 'path', e.target.value)}
++                      placeholder="（例：{pluginsDir}/example.auo）"
++                      className="!bg-white dark:!bg-slate-800"
++                    />
++                  </div>
++                </div>
++              )}
+               {!isSpecialAction && step.action === 'copy' && (
+                 <div className="grid gap-3 rounded-lg bg-slate-50 p-3 dark:bg-slate-800/50 md:grid-cols-2">
+                   <div className="space-y-1">
+diff --git a/src/features/register/ui/sections/InstallerSourceSection.tsx b/src/features/register/ui/sections/InstallerSourceSection.tsx
+index 44865fd..8e8abc4 100644
+--- a/src/features/register/ui/sections/InstallerSourceSection.tsx
++++ b/src/features/register/ui/sections/InstallerSourceSection.tsx
+@@ -97,7 +97,7 @@ export default function InstallerSourceSection({ installer, updateInstallerField
+                 id="installer-github-pattern"
+                 value={installer.githubPattern}
+                 onChange={(e) => updateInstallerField('githubPattern', e.target.value)}
+-                placeholder="^aviutl_plugin_.*\\.zip$"
++                placeholder="^aviutl_plugin_.*\.zip$"
+               />
+               <p className="text-xs text-slate-500 dark:text-slate-400">
+                 リリースファイル名に一致する正規表現を指定してください。
+diff --git a/src/features/register/ui/sections/JsonImportDialog.tsx b/src/features/register/ui/sections/JsonImportDialog.tsx
+new file mode 100644
+index 0000000..4c56244
+--- /dev/null
++++ b/src/features/register/ui/sections/JsonImportDialog.tsx
+@@ -0,0 +1,90 @@
++/**
++ * カタログ JSON の部分上書き入力ダイアログ
++ */
++import React from 'react';
++import { FileBraces } from 'lucide-react';
++
++interface RegisterJsonImportDialogProps {
++  open: boolean;
++  value: string;
++  error: string;
++  onChange: (value: string) => void;
++  onClose: () => void;
++  onApply: () => void;
++}
++
++export default function RegisterJsonImportDialog({
++  open,
++  value,
++  error,
++  onChange,
++  onClose,
++  onApply,
++}: RegisterJsonImportDialogProps) {
++  const templateJsonUrl = 'https://github.com/Neosku/aviutl2-catalog-data/blob/main/template.json';
++  if (!open) return null;
++
++  return (
++    <div
++      className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
++      role="dialog"
++      aria-modal="true"
++    >
++      <button
++        type="button"
++        aria-label="閉じる"
++        className="absolute inset-0 bg-black/50 transition-opacity"
++        onClick={onClose}
++      />
++      <div className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
++        <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50">
++          <h3 className="inline-flex items-center gap-2 text-lg font-bold text-slate-800 dark:text-slate-100">
++            <FileBraces size={18} />
++            JSON 入力
++          </h3>
++        </div>
++        <div className="space-y-3 px-6 py-5">
++          <p className="text-sm text-slate-600 dark:text-slate-300">
++            <a
++              href={templateJsonUrl}
++              target="_blank"
++              rel="noreferrer noopener"
++              className="font-mono text-blue-600 underline decoration-blue-300 underline-offset-2 transition hover:text-blue-700 dark:text-blue-400 dark:decoration-blue-500 dark:hover:text-blue-300"
++            >
++              template.json
++            </a>{' '}
++            と同じ形式の JSON を貼り付けてください。 一致する項目は部分上書きし、未一致の
++            idは新規追加します。複数パッケージをまとめて追加することもできます。
++          </p>
++          <textarea
++            value={value}
++            onChange={(event) => onChange(event.target.value)}
++            placeholder={`[\n  {\n    "id": "author.pluginName",\n    "name": "Example Plugin",\n    "type": "入力プラグイン",\n    "summary": "プラグインの概要がここに入ります。"\n  },\n  {\n    "id": "author.scriptName",\n    "name": "Example Script",\n    "type": "スクリプト",\n    "summary": "スクリプトの概要がここに入ります。"\n  }\n]`}
++            className="h-80 w-full rounded-lg border border-slate-300 bg-white p-3 font-mono text-xs leading-5 text-slate-800 shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
++          />
++          {error && (
++            <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-300">
++              {error}
++            </div>
++          )}
++        </div>
++        <div className="flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50">
++          <button
++            type="button"
++            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
++            onClick={onClose}
++          >
++            キャンセル
++          </button>
++          <button
++            type="button"
++            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
++            onClick={onApply}
++          >
++            適用
++          </button>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/features/register/ui/sections/MetaSection.tsx b/src/features/register/ui/sections/MetaSection.tsx
+index 8bbb94a..9cda761 100644
+--- a/src/features/register/ui/sections/MetaSection.tsx
++++ b/src/features/register/ui/sections/MetaSection.tsx
+@@ -148,7 +148,6 @@ export default function RegisterMetaSection({
+             id="package-summary"
+             name="summary"
+             value={packageForm.summary}
+-            maxLength={35}
+             onChange={(e) => onUpdatePackageField('summary', e.target.value)}
+             required
+             placeholder="パッケージの概要 (35文字以内)"
+diff --git a/src/features/register/ui/sections/Sidebar.tsx b/src/features/register/ui/sections/Sidebar.tsx
+index 0644b2b..7448c55 100644
+--- a/src/features/register/ui/sections/Sidebar.tsx
++++ b/src/features/register/ui/sections/Sidebar.tsx
+@@ -32,6 +32,14 @@ export default function RegisterSidebar({
+   onOpenDraftPackage,
+   onDeleteDraftPackage,
+ }: RegisterSidebarProps) {
++  const hasDraftPackages = draftPackages.length > 0;
++  const blockedDraftCount = draftPackages.filter((draft) => !draft.readyForSubmit).length;
++  const submitListTestStatus = blockedDraftCount > 0 ? `${blockedDraftCount}件テスト未完了` : 'テスト完了';
++  const headerStatusClass =
++    blockedDraftCount > 0
++      ? 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-900/20 dark:text-amber-200'
++      : 'border-emerald-300 bg-emerald-100 text-emerald-700 dark:border-emerald-800/80 dark:bg-emerald-900/40 dark:text-emerald-200';
++
+   return (
+     <aside className="lg:sticky lg:top-6 lg:self-start lg:h-[calc(100dvh-32px-3rem)]">
+       <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:h-full">
+@@ -45,14 +53,22 @@ export default function RegisterSidebar({
+             新規パッケージ作成
+           </button>
+           <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/40 lg:mb-3 lg:shrink-0">
+-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">送信予定一覧</div>
++            <div className="flex items-center justify-between gap-2">
++              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">送信予定一覧</div>
++              {hasDraftPackages && (
++                <span className={`rounded-md border px-1.5 py-0.5 text-[10px] font-semibold ${headerStatusClass}`}>
++                  {submitListTestStatus}
++                </span>
++              )}
++            </div>
+             <div className="max-h-52 overflow-y-auto space-y-1 pr-1 custom-scrollbar lg:max-h-[30vh]">
+               {draftPackages.map((draft) => {
+                 const isSelected = selectedPackageId === draft.packageId;
++                const isTestReady = draft.readyForSubmit;
+                 return (
+                   <div
+-                    key={draft.packageId}
+-                    className={`group flex items-center gap-2 rounded-lg border px-2 py-1.5 transition ${
++                    key={draft.draftId}
++                    className={`group flex items-center rounded-lg border px-2 py-1.5 transition ${
+                       isSelected
+                         ? 'border-blue-500 bg-blue-50 dark:border-blue-500/50 dark:bg-blue-900/20'
+                         : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800'
+@@ -61,7 +77,7 @@ export default function RegisterSidebar({
+                     <button
+                       type="button"
+                       className="min-w-0 flex-1 text-left"
+-                      onClick={() => onOpenDraftPackage(draft.packageId)}
++                      onClick={() => onOpenDraftPackage(draft.draftId)}
+                     >
+                       <div
+                         className={`truncate text-sm font-semibold ${
+@@ -71,15 +87,26 @@ export default function RegisterSidebar({
+                       >
+                         {draft.packageName || draft.packageId}
+                       </div>
+-                      <div className="truncate text-[11px] text-slate-500 dark:text-slate-400">
+-                        {formatSavedAt(draft.savedAt)}
++                      <div className="flex items-center gap-1.5">
++                        <div className="truncate text-[11px] text-slate-500 dark:text-slate-400">
++                          {formatSavedAt(draft.savedAt)}
++                        </div>
++                        <span
++                          className={`shrink-0 rounded-md border px-1.5 py-0.5 text-[10px] font-semibold ${
++                            isTestReady
++                              ? 'border-emerald-300 bg-emerald-100 text-emerald-700 dark:border-emerald-800/80 dark:bg-emerald-900/40 dark:text-emerald-200'
++                              : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-900/20 dark:text-amber-200'
++                          }`}
++                        >
++                          {isTestReady ? 'テスト完了' : 'テスト未完了'}
++                        </span>
+                       </div>
+                     </button>
+                     <DeleteButton
+                       ariaLabel={`${draft.packageId} の一時保存を削除`}
+                       onClick={(event) => {
+                         event.stopPropagation();
+-                        onDeleteDraftPackage(draft.packageId);
++                        onDeleteDraftPackage(draft.draftId);
+                       }}
+                     />
+                   </div>
+diff --git a/src/features/register/ui/sections/SubmitBar.tsx b/src/features/register/ui/sections/SubmitBar.tsx
+index 371ccee..a4559d6 100644
+--- a/src/features/register/ui/sections/SubmitBar.tsx
++++ b/src/features/register/ui/sections/SubmitBar.tsx
+@@ -2,7 +2,7 @@
+  * 送信バーコンポーネント
+  */
+ import React from 'react';
+-import { BookOpen, Send } from 'lucide-react';
++import { BookOpen, FileBraces, Send } from 'lucide-react';
+ import type { RegisterSubmitBarProps } from '../types';
+ 
+ export default function RegisterSubmitBar({
+@@ -10,14 +10,20 @@ export default function RegisterSubmitBar({
+   packageSender,
+   submitting,
+   pendingSubmitCount,
++  blockedSubmitCount,
+   submittingLabel,
+   onPackageSenderChange,
++  onOpenJsonImport,
+ }: RegisterSubmitBarProps) {
++  const hasBlockedDrafts = blockedSubmitCount > 0;
++  const canSubmit = pendingSubmitCount > 0 && !hasBlockedDrafts;
+   const submitButtonLabel = submitting
+     ? submittingLabel || '送信中…'
+-    : pendingSubmitCount <= 1
+-      ? '送信する'
+-      : `${pendingSubmitCount}件まとめて送信`;
++    : hasBlockedDrafts
++      ? `テスト未完了 (${blockedSubmitCount}件)`
++      : pendingSubmitCount <= 1
++        ? '送信する'
++        : `${pendingSubmitCount}件まとめて送信`;
+ 
+   return (
+     <section className="sticky bottom-6 z-20 mb-6 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90">
+@@ -34,6 +40,14 @@ export default function RegisterSubmitBar({
+               説明サイト
+             </a>
+           )}
++          <button
++            type="button"
++            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
++            onClick={onOpenJsonImport}
++          >
++            <FileBraces size={16} />
++            JSON入力
++          </button>
+         </div>
+         <div className="flex items-center gap-3">
+           <div className="hidden sm:flex items-center gap-3">
+@@ -52,7 +66,7 @@ export default function RegisterSubmitBar({
+           <button
+             type="submit"
+             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-blue-500"
+-            disabled={submitting || pendingSubmitCount <= 0}
++            disabled={submitting || !canSubmit}
+           >
+             {submitting ? (
+               <>
+diff --git a/src/features/register/ui/sections/TestSection.tsx b/src/features/register/ui/sections/TestSection.tsx
+index 3f01721..44bf7a2 100644
+--- a/src/features/register/ui/sections/TestSection.tsx
++++ b/src/features/register/ui/sections/TestSection.tsx
+@@ -4,7 +4,111 @@
+ import React, { useMemo } from 'react';
+ import { AlertCircle, Download, Trash2 } from 'lucide-react';
+ import ProgressCircle from '../../../../components/ProgressCircle.jsx';
+-import type { RegisterTestSectionProps } from '../types';
++import type { RegisterTestOperation, RegisterTestSectionProps } from '../types';
++
++const KIND_LABELS: Record<RegisterTestOperation['kind'], string> = {
++  download: 'ダウンロード',
++  extract: '展開',
++  extract_sfx: 'SFX展開',
++  copy: 'コピー',
++  delete: '削除',
++  run: '実行',
++  error: 'エラー',
++};
++
++const STATUS_LABELS: Record<RegisterTestOperation['status'], string> = {
++  done: '完了',
++  skip: 'スキップ',
++  error: '失敗',
++};
++
++function operationStatusClass(status: RegisterTestOperation['status']): string {
++  switch (status) {
++    case 'error':
++      return 'border-red-300 bg-red-100 text-red-700 dark:border-red-800/80 dark:bg-red-900/40 dark:text-red-200';
++    case 'skip':
++      return 'border-amber-300 bg-amber-100 text-amber-700 dark:border-amber-800/80 dark:bg-amber-900/40 dark:text-amber-200';
++    case 'done':
++      return 'border-emerald-300 bg-emerald-100 text-emerald-700 dark:border-emerald-800/80 dark:bg-emerald-900/40 dark:text-emerald-200';
++    default: {
++      const unreachableStatus: never = status;
++      return unreachableStatus;
++    }
++  }
++}
++
++function OperationList({ operations }: { operations: RegisterTestOperation[] }) {
++  return (
++    <div className="space-y-2">
++      <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">実行ログ</div>
++      {operations.length ? (
++        <div className="max-h-56 space-y-2 overflow-y-auto rounded-lg border border-slate-200 bg-white p-2 dark:border-slate-700 dark:bg-slate-900/60">
++          {operations.map((operation) => {
++            const kindLabel = KIND_LABELS[operation.kind];
++            const showSummary = !!operation.summary && operation.summary !== kindLabel;
++            const hasFromTo = !!operation.fromPath || !!operation.toPath;
++            return (
++              <div
++                key={operation.key}
++                className="space-y-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 dark:border-slate-700 dark:bg-slate-800/70"
++              >
++                <div className="flex flex-wrap items-center gap-1">
++                  <span className="rounded border border-slate-300 bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
++                    {kindLabel}
++                  </span>
++                  <span
++                    className={`rounded border px-1.5 py-0.5 text-[10px] font-semibold ${operationStatusClass(operation.status)}`}
++                  >
++                    {STATUS_LABELS[operation.status]}
++                  </span>
++                </div>
++                {showSummary && <div className="text-xs text-slate-700 dark:text-slate-200">{operation.summary}</div>}
++                {hasFromTo && (
++                  <div className="rounded border border-slate-200 bg-white p-1.5 dark:border-slate-700 dark:bg-slate-900">
++                    <div className="space-y-1">
++                      <div className="min-w-0 rounded border border-slate-200 bg-slate-50 p-1 dark:border-slate-700 dark:bg-slate-800/70">
++                        <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">元のパス</div>
++                        <div className="break-all font-mono text-[11px] text-slate-700 dark:text-slate-200">
++                          {operation.fromPath || '-'}
++                        </div>
++                      </div>
++                      <div className="text-center text-xs text-slate-400 dark:text-slate-500">↓</div>
++                      <div className="min-w-0 rounded border border-slate-200 bg-slate-50 p-1 dark:border-slate-700 dark:bg-slate-800/70">
++                        <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">先のパス</div>
++                        <div className="break-all font-mono text-[11px] text-slate-700 dark:text-slate-200">
++                          {operation.toPath || '-'}
++                        </div>
++                      </div>
++                    </div>
++                  </div>
++                )}
++                {operation.targetPath && !hasFromTo && (
++                  <div className="space-y-1 rounded border border-slate-200 bg-white px-1.5 py-1 text-[11px] font-mono text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
++                    <div className="break-all">
++                      <span className="mr-1 font-sans text-[10px] font-semibold text-slate-500 dark:text-slate-400">
++                        対象パス:
++                      </span>
++                      {operation.targetPath}
++                    </div>
++                  </div>
++                )}
++                {operation.detail && (
++                  <div className="whitespace-pre-wrap break-all rounded border border-slate-200 bg-white px-1.5 py-1 text-[11px] text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
++                    {operation.detail}
++                  </div>
++                )}
++              </div>
++            );
++          })}
++        </div>
++      ) : (
++        <div className="rounded-lg border border-dashed border-slate-300 bg-slate-100/70 px-3 py-2 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400">
++          実行ログはありません。
++        </div>
++      )}
++    </div>
++  );
++}
+ 
+ export default function RegisterTestSection({
+   installerTestRunning,
+@@ -16,6 +120,7 @@ export default function RegisterTestSection({
+   installerTestPercent,
+   installerTestDetectedVersion,
+   installerTestError,
++  installerTestOperations,
+   uninstallerTestRunning,
+   uninstallerTestValidation,
+   uninstallerTestRatio,
+@@ -24,6 +129,7 @@ export default function RegisterTestSection({
+   uninstallerTestLabel,
+   uninstallerTestPercent,
+   uninstallerTestError,
++  uninstallerTestOperations,
+   onInstallerTest,
+   onUninstallerTest,
+ }: RegisterTestSectionProps) {
+@@ -123,6 +229,7 @@ export default function RegisterTestSection({
+               <div className="whitespace-pre-line text-xs">{installerTestError}</div>
+             </div>
+           )}
++          <OperationList operations={installerTestOperations} />
+         </div>
+         <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+           <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">削除テスト</div>
+@@ -166,6 +273,7 @@ export default function RegisterTestSection({
+               <div className="whitespace-pre-line text-xs">{uninstallerTestError}</div>
+             </div>
+           )}
++          <OperationList operations={uninstallerTestOperations} />
+         </div>
+       </div>
+     </section>
+diff --git a/src/features/register/ui/sections/index.ts b/src/features/register/ui/sections/index.ts
+index 41ca391..aeefc3a 100644
+--- a/src/features/register/ui/sections/index.ts
++++ b/src/features/register/ui/sections/index.ts
+@@ -6,6 +6,7 @@ export { default as PackageInstallerSection } from './InstallerSection';
+ export { default as PackageLicenseSection } from './LicenseSection';
+ export { default as PackageVersionSection } from './VersionSection';
+ export { default as RegisterDescriptionSection } from './DescriptionSection';
++export { default as RegisterJsonImportDialog } from './JsonImportDialog';
+ export { default as RegisterMetaSection } from './MetaSection';
+ export { default as RegisterPreviewSection } from './PreviewSection';
+ export { default as RegisterSidebar } from './Sidebar';
+diff --git a/src/features/register/ui/types.ts b/src/features/register/ui/types.ts
+index b0bccd6..a594bda 100644
+--- a/src/features/register/ui/types.ts
++++ b/src/features/register/ui/types.ts
+@@ -28,6 +28,20 @@ export interface InstallerTestProgress {
+   phase: string;
+ }
+ 
++export type RegisterTestOperationKind = 'download' | 'extract' | 'extract_sfx' | 'copy' | 'delete' | 'run' | 'error';
++export type RegisterTestOperationStatus = 'done' | 'skip' | 'error';
++
++export interface RegisterTestOperation {
++  key: string;
++  kind: RegisterTestOperationKind;
++  status: RegisterTestOperationStatus;
++  summary: string;
++  detail: string;
++  fromPath?: string;
++  toPath?: string;
++  targetPath?: string;
++}
++
+ export interface SubmitPackagePayload {
+   action: string;
+   title: string;
+@@ -182,15 +196,17 @@ export interface RegisterSidebarProps {
+   onPackageSearchChange: (value: string) => void;
+   onSelectPackage: (item: CatalogItem | null) => void;
+   onStartNewPackage: () => void;
+-  onOpenDraftPackage: (packageId: string) => void;
+-  onDeleteDraftPackage: (packageId: string) => void;
++  onOpenDraftPackage: (draftId: string) => void;
++  onDeleteDraftPackage: (draftId: string) => void;
+ }
+ 
+ export interface RegisterDraftListItemView {
++  draftId: string;
+   packageId: string;
+   packageName: string;
+   savedAt: number;
+   pending: boolean;
++  readyForSubmit: boolean;
+   lastSubmitError: string;
+ }
+ 
+@@ -240,6 +256,8 @@ export interface RegisterTestSectionProps {
+   uninstallerTestLabel: string;
+   uninstallerTestPercent: number;
+   uninstallerTestError: string;
++  installerTestOperations: RegisterTestOperation[];
++  uninstallerTestOperations: RegisterTestOperation[];
+   onInstallerTest: () => void;
+   onUninstallerTest: () => void;
+ }
+@@ -249,8 +267,10 @@ export interface RegisterSubmitBarProps {
+   packageSender: string;
+   submitting: boolean;
+   pendingSubmitCount: number;
++  blockedSubmitCount: number;
+   submittingLabel?: string;
+   onPackageSenderChange: (value: string) => void;
++  onOpenJsonImport: () => void;
+ }
+ 
+ export interface RegisterFormLayoutProps {
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index c66e635..151d009 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -22,6 +22,14 @@ export default function Home() {
+ 
+   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
+   const [isFilterExpanded, setIsFilterExpanded] = useState(false);
++  const sortedAllTags = useMemo(
++    () => (allTags || []).toSorted((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' })),
++    [allTags],
++  );
++  const sortedSelectedTags = useMemo(
++    () => (selectedTags || []).toSorted((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' })),
++    [selectedTags],
++  );
+   const listSearch = useMemo(() => {
+     const params = new URLSearchParams(location.search);
+     if (searchQuery) params.set('q', searchQuery);
+@@ -51,7 +59,7 @@ export default function Home() {
+                   <button
+                     key={cat}
+                     onClick={() => setCategory(cat)}
+-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap cursor-pointer
++                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap cursor-pointer
+                       ${
+                         selectedCategory === cat
+                           ? 'bg-blue-600 text-white shadow-md'
+@@ -166,7 +174,7 @@ export default function Home() {
+           {!isFilterExpanded && selectedTags.length > 0 && (
+             <div className="flex flex-wrap items-center gap-2 mt-4 animate-in slide-in-from-top-1">
+               <span className="text-sm text-slate-400 font-medium">選択中:</span>
+-              {selectedTags.map((tag) => (
++              {sortedSelectedTags.map((tag) => (
+                 <button
+                   key={tag}
+                   onClick={() => toggleTag(tag)}
+@@ -207,7 +215,7 @@ export default function Home() {
+               </div>
+ 
+               <div className="flex flex-wrap gap-2 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+-                {(allTags || []).map((tag) => (
++                {sortedAllTags.map((tag) => (
+                   <button
+                     key={tag}
+                     onClick={() => toggleTag(tag)}
+diff --git a/src/utils/index.js b/src/utils/index.js
+index 1a45a7f..d2629b5 100644
+--- a/src/utils/index.js
++++ b/src/utils/index.js
+@@ -904,22 +904,39 @@ function psEscape(s) {
+   return String(s).replace(/'/g, "''");
+ }
+ 
++function toPowerShellEncodedCommand(script) {
++  const s = String(script || '');
++  let binary = '';
++  for (let i = 0; i < s.length; i++) {
++    const codeUnit = s.charCodeAt(i);
++    binary += String.fromCharCode(codeUnit & 0xff, codeUnit >> 8);
++  }
++  if (typeof btoa === 'function') return btoa(binary);
++  if (typeof Buffer !== 'undefined') return Buffer.from(binary, 'binary').toString('base64');
++  throw new Error('Failed to encode PowerShell command to Base64');
++}
++
+ // 実行ファイルをウィンドウ非表示で実行する関数
+-async function runInstaller(exeAbsPath, args = [], elevate = false, tmpPath) {
++async function runInstaller(exeAbsPath, args = [], elevate = false, _tmpPath) {
+   const shell = await import('@tauri-apps/plugin-shell');
+-  const fs = await import('@tauri-apps/plugin-fs');
+   const argList = (args || []).map((a) => `'${psEscape(a)}'`).join(', ');
+   const argClause = args && args.length > 0 ? ` -ArgumentList @(${argList})` : '';
+   const body = [
+     "$ErrorActionPreference='Stop'",
+     '[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new()',
+-    `$p = Start-Process -FilePath '${exeAbsPath}'${argClause}${elevate ? ' -Verb RunAs' : ''} -WindowStyle Hidden -Wait -PassThru`,
++    `$p = Start-Process -FilePath '${psEscape(exeAbsPath)}'${argClause}${elevate ? ' -Verb RunAs' : ''} -WindowStyle Hidden -Wait -PassThru`,
+     'exit ($p.ExitCode)',
+-  ].join('; ');
+-  const scriptName = `run-${Date.now()}.ps1`;
+-  const scriptRel = `${tmpPath.replace(/\\/g, '/')}/${scriptName}`;
+-  await fs.writeTextFile(scriptRel, body);
+-  const argsPs = ['-ExecutionPolicy', 'Bypass', '-NoLogo', '-NoProfile', '-NonInteractive', '-File', scriptRel];
++  ].join('\n');
++  const encodedCommand = toPowerShellEncodedCommand(body);
++  const argsPs = [
++    '-ExecutionPolicy',
++    'Bypass',
++    '-NoLogo',
++    '-NoProfile',
++    '-NonInteractive',
++    '-EncodedCommand',
++    encodedCommand,
++  ];
+   const cmd = shell.Command.create('powershell', argsPs, { encoding: 'utf-8' });
+   const res = await cmd.execute();
+   if (res.code !== 0) {
+@@ -1010,6 +1027,14 @@ function isAbsPath(p) {
+   return /^(?:[a-zA-Z]:[\\/]|\\\\|\/)/.test(String(p || ''));
+ }
+ 
++function ensureAbsolutePath(p, label) {
++  const s = String(p || '');
++  if (!isAbsPath(s)) {
++    throw new Error(`${label} must be an absolute path: ${s}`);
++  }
++  return s;
++}
++
+ async function deletePath(absPath) {
+   const fs = await import('@tauri-apps/plugin-fs');
+   let ok = false;
+@@ -1247,14 +1272,48 @@ const STEP_PROGRESS_LABELS = {
+   extract: '展開中',
+   extract_sfx: '展開中',
+   copy: 'コピー中',
++  delete: '削除中',
+   run: '実行中',
+   run_auo_setup: '実行中',
+ };
+ 
+ const STEP_PROGRESS_OFFSET = 0;
+ 
++const TEST_OPERATION_LABELS = {
++  download: 'ダウンロード',
++  extract: '展開',
++  extract_sfx: 'SFX展開',
++  copy: 'コピー',
++  delete: '削除',
++  run: '実行',
++  run_auo_setup: '実行',
++};
++
++function toTestOperationKind(action) {
++  const value = String(action || '');
++  if (value === 'download') return 'download';
++  if (value === 'extract') return 'extract';
++  if (value === 'extract_sfx') return 'extract_sfx';
++  if (value === 'copy') return 'copy';
++  if (value === 'delete') return 'delete';
++  if (value === 'run' || value === 'run_auo_setup') return 'run';
++  return 'error';
++}
++
++function toTestOperationLabel(action) {
++  const value = String(action || '');
++  return TEST_OPERATION_LABELS[value] || value || '処理';
++}
++
++function emitTestOperation(onOperation, operation) {
++  if (typeof onOperation !== 'function' || !operation || typeof operation !== 'object') return;
++  try {
++    onOperation(operation);
++  } catch {}
++}
++
+ // インストールの実行
+-export async function runInstallerForItem(item, dispatch, onProgress) {
++export async function runInstallerForItem(item, dispatch, onProgress, onOperation) {
+   await ensureAviutlClosed();
+   // 実行用コンテキストを構築
+   const version = item['latest-version'];
+@@ -1305,16 +1364,26 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
+     await logInfo(`[installer ${item.id}] start version=${version || ''} steps=${steps.length}`);
+     for (let idx = 0; idx < steps.length; idx++) {
+       const step = steps[idx];
++      const stepAction = String(step?.action || '');
++      const stepOperation = {
++        kind: toTestOperationKind(stepAction),
++        summary: toTestOperationLabel(stepAction),
++        fromPath: undefined,
++        toPath: undefined,
++        targetPath: undefined,
++      };
+       const runningUnits = idx;
+       emitProgress(runningUnits, step, idx, 'running');
+       try {
+-        switch (step.action) {
++        switch (stepAction) {
+           case 'download': {
+             const src = item?.installer?.source;
+             if (!src) throw new Error(`Download source is not specified`);
++            let sourceLabel = '';
+             // 1. Google Drive ダウンロード
+             if (src.GoogleDrive && typeof src.GoogleDrive.id === 'string' && src.GoogleDrive.id) {
+               const fileId = src.GoogleDrive.id;
++              sourceLabel = `Google Drive fileId=${fileId}`;
+               const stepSpan = 1 - STEP_PROGRESS_OFFSET;
+               const startUnits = runningUnits;
+               const maxUnits = idx + 1 - 0.01;
+@@ -1356,11 +1425,10 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
+               }
+               ctx.downloadPath = tmpDir;
+               logInfo(`[installer ${item.id}] downloading from Google Drive fileId=${src.GoogleDrive.id} to ${tmpDir}`);
+-              break;
+-            }
+-            // 2. BOOTH 直リンクの場合
+-            if (typeof src.booth === 'string' && src.booth) {
++            } else if (typeof src.booth === 'string' && src.booth) {
++              // 2. BOOTH 直リンクの場合
+               const boothUrl = src.booth;
++              sourceLabel = boothUrl;
+               logInfo(`[installer ${item.id}] downloading from BOOTH ${boothUrl} to ${tmpDir}`);
+               const stepSpan = 1 - STEP_PROGRESS_OFFSET;
+               const startUnits = runningUnits;
+@@ -1379,82 +1447,176 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
+                   }
+                 },
+               });
+-              break;
+-            }
+-            let url = '';
+-            // 3. GitHubの場合
+-            if (src.github && src.github.owner && src.github.repo) {
+-              url = await fetchGitHubURL(src.github);
+-            }
+-            // 4. 直接URLの場合
+-            if (typeof src.direct === 'string' && src.direct) {
+-              url = src.direct;
++            } else {
++              let url = '';
++              // 3. GitHubの場合
++              if (src.github && src.github.owner && src.github.repo) {
++                url = await fetchGitHubURL(src.github);
++              }
++              // 4. 直接URLの場合
++              if (typeof src.direct === 'string' && src.direct) {
++                url = src.direct;
++              }
++              if (!url) throw new Error('Download source is not specified');
++              sourceLabel = url;
++              logInfo(`[installer ${item.id}] downloading from ${url} to ${tmpDir}`);
++              const stepSpan = 1 - STEP_PROGRESS_OFFSET;
++              const startUnits = runningUnits;
++              const maxUnits = idx + 1 - 0.01;
++              let unknownUnits = startUnits;
++              ctx.downloadPath = await downloadFileFromUrl(url, tmpDir, {
++                onProgress: ({ read, total }) => {
++                  if (typeof total === 'number' && total > 0) {
++                    const ratio = Math.min(1, Math.max(0, total ? read / total : 0));
++                    const units = startUnits + stepSpan * ratio;
++                    emitProgress(units, step, idx, 'running');
++                  } else if (typeof read === 'number' && read > 0) {
++                    const increment = stepSpan * 0.05;
++                    unknownUnits = Math.min(maxUnits, unknownUnits + increment);
++                    emitProgress(unknownUnits, step, idx, 'running');
++                  }
++                },
++              });
+             }
+-            if (!url) throw new Error('Download source is not specified');
+-            logInfo(`[installer ${item.id}] downloading from ${url} to ${tmpDir}`);
+-            const stepSpan = 1 - STEP_PROGRESS_OFFSET;
+-            const startUnits = runningUnits;
+-            const maxUnits = idx + 1 - 0.01;
+-            let unknownUnits = startUnits;
+-            ctx.downloadPath = await downloadFileFromUrl(url, tmpDir, {
+-              onProgress: ({ read, total }) => {
+-                if (typeof total === 'number' && total > 0) {
+-                  const ratio = Math.min(1, Math.max(0, total ? read / total : 0));
+-                  const units = startUnits + stepSpan * ratio;
+-                  emitProgress(units, step, idx, 'running');
+-                } else if (typeof read === 'number' && read > 0) {
+-                  const increment = stepSpan * 0.05;
+-                  unknownUnits = Math.min(maxUnits, unknownUnits + increment);
+-                  emitProgress(unknownUnits, step, idx, 'running');
+-                }
+-              },
++            stepOperation.fromPath = sourceLabel;
++            stepOperation.toPath = String(ctx.downloadPath || tmpDir || '');
++            emitTestOperation(onOperation, {
++              kind: stepOperation.kind,
++              status: 'done',
++              summary: stepOperation.summary,
++              detail: '',
++              fromPath: stepOperation.fromPath,
++              toPath: stepOperation.toPath,
+             });
+             break;
+           }
+           case 'extract': {
+             const fromRel = await expandMacros(step.from || ctx.downloadPath, ctx);
+             const toRel = await expandMacros(step.to || `{tmp}`, ctx);
+-            logInfo(`[installer ${item.id}] extracting from ${fromRel} to ${toRel}`);
+-            await extractZip(fromRel, toRel);
++            const from = ensureAbsolutePath(fromRel, `install.extract.from`);
++            const to = ensureAbsolutePath(toRel, `install.extract.to`);
++            stepOperation.fromPath = from;
++            stepOperation.toPath = to;
++            logInfo(`[installer ${item.id}] extracting from ${from} to ${to}`);
++            await extractZip(from, to);
++            emitTestOperation(onOperation, {
++              kind: stepOperation.kind,
++              status: 'done',
++              summary: stepOperation.summary,
++              detail: '',
++              fromPath: stepOperation.fromPath,
++              toPath: stepOperation.toPath,
++            });
+             break;
+           }
+           case 'extract_sfx': {
+             const fromRel = await expandMacros(step.from || ctx.downloadPath, ctx);
+             const toRel = await expandMacros(step.to || `{tmp}`, ctx);
+-            logInfo(`[installer ${item.id}] extracting SFX from ${fromRel} to ${toRel}`);
+-            await extractSevenZipSfx(fromRel, toRel);
++            const from = ensureAbsolutePath(fromRel, `install.extract_sfx.from`);
++            const to = ensureAbsolutePath(toRel, `install.extract_sfx.to`);
++            logInfo(`[installer ${item.id}] extracting SFX from ${from} to ${to}`);
++            await extractSevenZipSfx(from, to);
++            emitTestOperation(onOperation, {
++              kind: 'extract_sfx',
++              status: 'done',
++              summary: 'extract_sfx を実行しました',
++              detail: '',
++            });
+             break;
+           }
+           case 'copy': {
+-            const from = await expandMacros(step.from, ctx);
+-            const to = await expandMacros(step.to, ctx);
++            const from = ensureAbsolutePath(await expandMacros(step.from, ctx), `install.copy.from`);
++            const to = ensureAbsolutePath(await expandMacros(step.to, ctx), `install.copy.to`);
++            stepOperation.fromPath = from;
++            stepOperation.toPath = to;
+             const count = await copyPattern(from, to);
+             logInfo(`[installer ${item.id}] copy matched ${count} files (from=${from} to=${to})`);
+             if (count === 0) {
+               throw new Error(`copy matched 0 files (from=${from} to=${to})`);
+             }
++            emitTestOperation(onOperation, {
++              kind: stepOperation.kind,
++              status: 'done',
++              summary: stepOperation.summary,
++              detail: `一致件数: ${count}件`,
++              fromPath: stepOperation.fromPath,
++              toPath: stepOperation.toPath,
++            });
++            break;
++          }
++          case 'delete': {
++            const p = await expandMacros(step.path, ctx);
++            try {
++              const abs = ensureAbsolutePath(p, `install.delete.path`);
++              stepOperation.targetPath = abs;
++              const ok = await deletePath(abs);
++              if (ok) {
++                await logInfo(`[installer ${item.id}] delete ok path="${p}"`);
++                emitTestOperation(onOperation, {
++                  kind: stepOperation.kind,
++                  status: 'done',
++                  summary: stepOperation.summary,
++                  detail: '',
++                  targetPath: stepOperation.targetPath,
++                });
++              } else {
++                await logInfo(`[installer ${item.id}] delete skip (not found) path="${p}"`);
++                emitTestOperation(onOperation, {
++                  kind: stepOperation.kind,
++                  status: 'skip',
++                  summary: '削除スキップ',
++                  detail: '対象が見つからないためスキップ',
++                  targetPath: stepOperation.targetPath,
++                });
++              }
++            } catch (e) {
++              throw new Error(`delete failed path=${p}: ${e?.message || e}`, { cause: e });
++            }
+             break;
+           }
+           // aviutl2本体のインストールを対象
+           case 'run': {
+-            const pRaw = await expandMacros(step.path, ctx);
++            const pRaw = ensureAbsolutePath(await expandMacros(step.path, ctx), `install.run.path`);
++            stepOperation.targetPath = pRaw;
+             const args = await Promise.all((step.args || []).map((a) => expandMacros(String(a), ctx)));
+             await runInstaller(pRaw, args, !!step.elevate, ctx.tmpDir);
++            emitTestOperation(onOperation, {
++              kind: stepOperation.kind,
++              status: 'done',
++              summary: stepOperation.summary,
++              detail: '',
++              targetPath: stepOperation.targetPath,
++            });
+             break;
+           }
+           case 'run_auo_setup': {
+-            const pRaw = await expandMacros(step.path, ctx);
++            const pRaw = ensureAbsolutePath(await expandMacros(step.path, ctx), `install.run_auo_setup.path`);
+             await runAuoSetup(pRaw);
++            emitTestOperation(onOperation, {
++              kind: 'run',
++              status: 'done',
++              summary: 'run_auo_setup を実行しました',
++              detail: '',
++            });
+             break;
+           }
+           default:
+-            throw new Error(`unsupported action: ${String(step.action)}`);
++            throw new Error(`unsupported action: ${String(stepAction)}`);
+         }
+         emitProgress(idx + 1, step, idx, 'step-complete');
+       } catch (e) {
+         emitProgress(runningUnits, step, idx, 'error');
+         const err = e instanceof Error ? e : new Error(String(e));
+-        const prefix = `[installer ${item.id}] step ${idx + 1}/${steps.length} action=${step.action} failed`;
++        emitTestOperation(onOperation, {
++          kind: stepOperation.kind,
++          status: 'error',
++          summary: `${toTestOperationLabel(stepAction)} 失敗`,
++          detail: err.message || String(err),
++          fromPath: stepOperation.fromPath,
++          toPath: stepOperation.toPath,
++          targetPath: stepOperation.targetPath,
++        });
++        const prefix = `[installer ${item.id}] step ${idx + 1}/${steps.length} action=${stepAction} failed`;
+         try {
+           await logError(`${prefix}:\n${err.message}\n${err.stack ?? '(no stack)'}`);
+         } catch {}
+@@ -1492,7 +1654,7 @@ export async function runInstallerForItem(item, dispatch, onProgress) {
+ }
+ 
+ // アンインストールを実行
+-export async function runUninstallerForItem(item, dispatch) {
++export async function runUninstallerForItem(item, dispatch, onOperation) {
+   await ensureAviutlClosed();
+   const version = item['latest-version'];
+   const idVersion = `${item.id}-${version || 'latest'}`.replace(/[^A-Za-z0-9._-]/g, '_');
+@@ -1507,32 +1669,77 @@ export async function runUninstallerForItem(item, dispatch) {
+     // アンインストール手順を順に実行
+     for (let i = 0; i < item.installer.uninstall.length; i++) {
+       const step = item.installer.uninstall[i];
++      const stepAction = String(step?.action || '');
++      const stepOperation = {
++        kind: toTestOperationKind(stepAction),
++        summary: toTestOperationLabel(stepAction),
++        targetPath: undefined,
++      };
+       try {
+-        switch (step.action) {
++        switch (stepAction) {
+           case 'delete': {
+             const p = await expandMacros(step.path, ctx);
+             try {
+-              const abs = isAbsPath(p) ? p : p; // アンインストールのパスは原則絶対パス。相対ならそのまま扱う
++              const abs = ensureAbsolutePath(p, `uninstall.delete.path`);
++              stepOperation.targetPath = abs;
+               const ok = await deletePath(abs);
+-              if (ok) await logInfo(`[uninstall ${item.id}] delete ok path="${p}"`);
+-              else await logInfo(`[uninstall ${item.id}] delete skip (not found) path="${p}"`);
++              if (ok) {
++                await logInfo(`[uninstall ${item.id}] delete ok path="${p}"`);
++                emitTestOperation(onOperation, {
++                  kind: stepOperation.kind,
++                  status: 'done',
++                  summary: stepOperation.summary,
++                  detail: '',
++                  targetPath: stepOperation.targetPath,
++                });
++              } else {
++                await logInfo(`[uninstall ${item.id}] delete skip (not found) path="${p}"`);
++                emitTestOperation(onOperation, {
++                  kind: stepOperation.kind,
++                  status: 'skip',
++                  summary: '削除スキップ',
++                  detail: '対象が見つからないためスキップ',
++                  targetPath: stepOperation.targetPath,
++                });
++              }
+             } catch (e) {
+               throw new Error(`delete failed path=${p}: ${e?.message || e}`, { cause: e });
+             }
+             break;
+           }
+           case 'run': {
+-            const pRaw = await expandMacros(step.path, ctx);
++            const pRaw = ensureAbsolutePath(await expandMacros(step.path, ctx), `uninstall.run.path`);
++            stepOperation.targetPath = pRaw;
+             const args = await Promise.all((step.args || []).map((a) => expandMacros(String(a), ctx)));
+             await runInstaller(pRaw, args, !!step.elevate, ctx.tmpDir);
++            emitTestOperation(onOperation, {
++              kind: stepOperation.kind,
++              status: 'done',
++              summary: stepOperation.summary,
++              detail: '',
++              targetPath: stepOperation.targetPath,
++            });
+             break;
+           }
+           default:
+-            await logInfo(`[uninstall ${item.id}] skip unsupported action=${String(step.action)}`);
++            await logInfo(`[uninstall ${item.id}] skip unsupported action=${String(stepAction)}`);
++            emitTestOperation(onOperation, {
++              kind: 'error',
++              status: 'skip',
++              summary: '未対応アクション',
++              detail: stepAction,
++            });
+             break;
+         }
+       } catch (e) {
+-        const msg = `[uninstall ${item.id}] step ${i + 1}/${item.installer.uninstall.length} action=${step.action} failed: ${e?.message || e}`;
++        const msg = `[uninstall ${item.id}] step ${i + 1}/${item.installer.uninstall.length} action=${stepAction} failed: ${e?.message || e}`;
++        emitTestOperation(onOperation, {
++          kind: stepOperation.kind,
++          status: 'error',
++          summary: `${toTestOperationLabel(stepAction)} 失敗`,
++          detail: e?.message || String(e),
++          targetPath: stepOperation.targetPath,
++        });
+         try {
+           await logError(msg);
+         } catch {}

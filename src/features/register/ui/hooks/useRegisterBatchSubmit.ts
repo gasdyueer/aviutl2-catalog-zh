@@ -71,7 +71,7 @@ export default function useRegisterBatchSubmit({
             lastSuccessName = submitResult.packageName || lastSuccessName;
             successCount += 1;
             updateRegisterDraftSubmitState({
-              packageId: draft.packageId,
+              draftId: draft.draftId,
               submittedHash: draft.contentHash,
             });
           } catch (err) {
@@ -79,7 +79,7 @@ export default function useRegisterBatchSubmit({
               err instanceof Error ? err.message : '送信に失敗しました。ネットワークや設定をご確認ください。';
             failureCount += 1;
             updateRegisterDraftSubmitState({
-              packageId: draft.packageId,
+              draftId: draft.draftId,
               submittedHash: draft.contentHash,
               errorMessage: message,
             });

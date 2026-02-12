@@ -32,39 +32,9 @@ export function useUpdatePrompt(options = {}) {
   const [updateError, setUpdateError] = useState('');
 
   useEffect(() => {
-    if (!autoCheck) return undefined;
-    if (import.meta?.env?.DEV) return undefined;
-    let cancelled = false;
-    (async () => {
-      try {
-        const { check } = await import('@tauri-apps/plugin-updater');
-        const update = await check();
-        if (!cancelled && update && (update.available ?? true)) {
-          const notes =
-            typeof update.body === 'string'
-              ? update.body.trim()
-              : typeof update.notes === 'string'
-                ? update.notes.trim()
-                : '';
-          const pubDate = resolvePubDate(update);
-          setUpdateError('');
-          setUpdateInfo({
-            update,
-            version: update.version || '',
-            notes,
-            publishedOn: pubDate.label,
-            rawPubDate: pubDate.raw,
-          });
-        }
-      } catch (e) {
-        try {
-          await logError(`[updater] check failed: ${e?.message || e}`);
-        } catch {}
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    // 汉化版本禁用自动更新检查
+    // 避免从原项目获取不兼容的更新
+    return undefined;
   }, [autoCheck]);
 
   const dismissUpdate = useCallback(() => {
@@ -74,33 +44,11 @@ export function useUpdatePrompt(options = {}) {
   }, [updateBusy]);
 
   const confirmUpdate = useCallback(async () => {
-    if (!updateInfo?.update) return;
-    setUpdateBusy(true);
-    setUpdateError('');
-    try {
-      await updateInfo.update.downloadAndInstall();
-      try {
-        const { relaunch } = await import('@tauri-apps/plugin-process');
-        await relaunch();
-      } catch {
-        try {
-          const { message } = await import('@tauri-apps/plugin-dialog');
-          await message('更新已应用。请重启应用程序。', {
-            title: '更新',
-            kind: 'info',
-          });
-        } catch {}
-      }
-      setUpdateInfo(null);
-    } catch (e) {
-      setUpdateError('更新失败。请检查网络连接或权限。');
-      try {
-        await logError(`[updater] download/install failed: ${e?.message || e}`);
-      } catch {}
-    } finally {
-      setUpdateBusy(false);
-    }
-  }, [updateInfo]);
+    // 汉化版本禁用更新功能
+    // 此版本为静态汉化版本，不支持自动更新
+    console.warn('汉化版本已禁用自动更新功能');
+    setUpdateError('汉化版本不支持自动更新。请手动下载新版本。');
+  }, []);
 
   return {
     updateInfo,

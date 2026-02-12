@@ -15,7 +15,7 @@ export default function UpdateDialog({ open, version, notes, busy, error, onConf
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <button type="button" aria-label="关闭" className="absolute inset-0 bg-black/50" onClick={handleBackdrop} />
-      <div className="relative w-full max-w-2xl rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
+      <div className="relative w-full max-w-2xl max-h-[90vh] rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 px-6 py-4 dark:border-slate-800">
           <div>
             <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">更新</span>
@@ -40,7 +40,7 @@ export default function UpdateDialog({ open, version, notes, busy, error, onConf
             </div>
           )}
           {markdownHtml ? (
-            <div className="prose prose-slate max-w-none dark:prose-invert" dangerouslySetInnerHTML={markdownMarkup} />
+            <div className="prose prose-slate max-w-none dark:prose-invert max-h-[60vh] overflow-y-auto" dangerouslySetInnerHTML={markdownMarkup} />
           ) : (
             <p className="text-sm text-slate-500 dark:text-slate-400">无法获取更新内容详情。</p>
           )}

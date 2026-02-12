@@ -904,22 +904,39 @@ function psEscape(s) {
   return String(s).replace(/'/g, "''");
 }
 
+function toPowerShellEncodedCommand(script) {
+  const s = String(script || '');
+  let binary = '';
+  for (let i = 0; i < s.length; i++) {
+    const codeUnit = s.charCodeAt(i);
+    binary += String.fromCharCode(codeUnit & 0xff, codeUnit >> 8);
+  }
+  if (typeof btoa === 'function') return btoa(binary);
+  if (typeof Buffer !== 'undefined') return Buffer.from(binary, 'binary').toString('base64');
+  throw new Error('Failed to encode PowerShell command to Base64');
+}
+
 // 以隐藏窗口执行可执行文件的函数
-async function runInstaller(exeAbsPath, args = [], elevate = false, tmpPath) {
+async function runInstaller(exeAbsPath, args = [], elevate = false, _tmpPath) {
   const shell = await import('@tauri-apps/plugin-shell');
-  const fs = await import('@tauri-apps/plugin-fs');
   const argList = (args || []).map((a) => `'${psEscape(a)}'`).join(', ');
   const argClause = args && args.length > 0 ? ` -ArgumentList @(${argList})` : '';
   const body = [
     "$ErrorActionPreference='Stop'",
     '[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new()',
-    `$p = Start-Process -FilePath '${exeAbsPath}'${argClause}${elevate ? ' -Verb RunAs' : ''} -WindowStyle Hidden -Wait -PassThru`,
+    `$p = Start-Process -FilePath '${psEscape(exeAbsPath)}'${argClause}${elevate ? ' -Verb RunAs' : ''} -WindowStyle Hidden -Wait -PassThru`,
     'exit ($p.ExitCode)',
-  ].join('; ');
-  const scriptName = `run-${Date.now()}.ps1`;
-  const scriptRel = `${tmpPath.replace(/\\/g, '/')}/${scriptName}`;
-  await fs.writeTextFile(scriptRel, body);
-  const argsPs = ['-ExecutionPolicy', 'Bypass', '-NoLogo', '-NoProfile', '-NonInteractive', '-File', scriptRel];
+  ].join('\n');
+  const encodedCommand = toPowerShellEncodedCommand(body);
+  const argsPs = [
+    '-ExecutionPolicy',
+    'Bypass',
+    '-NoLogo',
+    '-NoProfile',
+    '-NonInteractive',
+    '-EncodedCommand',
+    encodedCommand,
+  ];
   const cmd = shell.Command.create('powershell', argsPs, { encoding: 'utf-8' });
   const res = await cmd.execute();
   if (res.code !== 0) {
@@ -1008,6 +1025,14 @@ async function fetchGitHubURL(github) {
 // 判断是否为绝对路径
 function isAbsPath(p) {
   return /^(?:[a-zA-Z]:[\\/]|\\\\|\/)/.test(String(p || ''));
+}
+
+function ensureAbsolutePath(p, label) {
+  const s = String(p || '');
+  if (!isAbsPath(s)) {
+    throw new Error(`${label} must be an absolute path: ${s}`);
+  }
+  return s;
 }
 
 async function deletePath(absPath) {
@@ -1247,11 +1272,33 @@ const STEP_PROGRESS_LABELS = {
   extract: '解压中',
   extract_sfx: '解压中',
   copy: '复制中',
+  delete: '删除中',
   run: '执行中',
   run_auo_setup: '执行中',
 };
 
 const STEP_PROGRESS_OFFSET = 0;
+
+const TEST_OPERATION_LABELS = {
+  download: '下载',
+  extract: '解压',
+  extract_sfx: 'SFX解压',
+  copy: '复制',
+  delete: '删除',
+  run: '执行',
+  run_auo_setup: '执行',
+};
+
+function toTestOperationKind(action) {
+  const value = String(action || '');
+  if (value === 'download') return 'download';
+  if (value === 'extract') return 'extract';
+  if (value === 'extract_sfx') return 'extract_sfx';
+  if (value === 'copy') return 'copy';
+  if (value === 'delete') return 'delete';
+  if (value === 'run' || value === 'run_auo_setup') return 'run';
+  return 'error';
+}
 
 // 安装执行
 export async function runInstallerForItem(item, dispatch, onProgress) {

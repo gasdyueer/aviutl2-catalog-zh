@@ -6,6 +6,7 @@ import {
   deleteRegisterDraft,
   getRegisterDraft,
   isRegisterDraftPending,
+  isRegisterDraftReadyForSubmit,
   listRegisterDrafts,
   restoreRegisterDraft,
   saveRegisterDraft,
@@ -84,11 +85,13 @@ export default function useRegisterDraftState({
       packageSender,
     });
     const nextItem: RegisterDraftListItemView = {
+      draftId: record.draftId,
       packageId: record.packageId,
       packageName: record.packageName,
       savedAt: record.savedAt,
       pending: isRegisterDraftPending(record),
       lastSubmitError: String(record.lastSubmitError || ''),
+      readyForSubmit: isRegisterDraftReadyForSubmit(record),
     };
     setDraftPackages((prev) => {
       const filtered = prev.filter((item) => item.packageId !== nextItem.packageId);
