@@ -1,0 +1,13 @@
+diff --git a/src/features/register/ui/sections/TestSection.tsx b/src/features/register/ui/sections/TestSection.tsx
+index 44bf7a2..485b0f1 100644
+--- a/src/features/register/ui/sections/TestSection.tsx
++++ b/src/features/register/ui/sections/TestSection.tsx
+@@ -3,7 +3,7 @@
+  */
+ import React, { useMemo } from 'react';
+ import { AlertCircle, Download, Trash2 } from 'lucide-react';
+-import ProgressCircle from '../../../../components/ProgressCircle.jsx';
++import ProgressCircle from '../../../../components/ProgressCircle';
+ import type { RegisterTestOperation, RegisterTestSectionProps } from '../types';
+ 
+ const KIND_LABELS: Record<RegisterTestOperation['kind'], string> = {

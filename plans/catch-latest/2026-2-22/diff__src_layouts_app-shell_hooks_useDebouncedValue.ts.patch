@@ -1,0 +1,18 @@
+diff --git a/src/layouts/app-shell/hooks/useDebouncedValue.ts b/src/layouts/app-shell/hooks/useDebouncedValue.ts
+new file mode 100644
+index 0000000..025881d
+--- /dev/null
++++ b/src/layouts/app-shell/hooks/useDebouncedValue.ts
+@@ -0,0 +1,12 @@
++import { useEffect, useState } from 'react';
++
++export default function useDebouncedValue<T>(value: T, delayMs: number): T {
++  const [debounced, setDebounced] = useState(value);
++
++  useEffect(() => {
++    const id = setTimeout(() => setDebounced(value), delayMs);
++    return () => clearTimeout(id);
++  }, [value, delayMs]);
++
++  return debounced;
++}

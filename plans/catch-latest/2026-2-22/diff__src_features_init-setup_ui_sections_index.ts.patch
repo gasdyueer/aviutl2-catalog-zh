@@ -1,0 +1,12 @@
+diff --git a/src/features/init-setup/ui/sections/index.ts b/src/features/init-setup/ui/sections/index.ts
+new file mode 100644
+index 0000000..6775fef
+--- /dev/null
++++ b/src/features/init-setup/ui/sections/index.ts
+@@ -0,0 +1,6 @@
++export { default as IntroSection } from './IntroSection';
++export { default as InstallStatusSection } from './InstallStatusSection';
++export { default as ExistingDetailsSection } from './ExistingDetailsSection';
++export { default as InstallDetailsSection } from './InstallDetailsSection';
++export { default as PackagesSection } from './PackagesSection';
++export { default as DoneSection } from './DoneSection';

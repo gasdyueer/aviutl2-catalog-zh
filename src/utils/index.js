@@ -1,5 +1,43 @@
 // 汇总应用程序整体使用的工具函数
 
+import * as z from 'zod';
+import { catalogIndexSchema } from './catalogSchema.ts';
+
+const stringMapSchema = z.record(z.string(), z.unknown()).transform((value) => {
+  const normalized = {};
+  Object.entries(value).forEach(([key, raw]) => {
+    normalized[key] = typeof raw === 'string' ? raw : '';
+  });
+  return normalized;
+});
+const settingsFileSchema = z.record(z.string(), z.unknown());
+const packageStateMetaFileSchema = z.object({
+  uid: z.string().optional(),
+  last_snapshot_ts: z.number().finite().optional(),
+});
+const packageStateQueueFileSchema = z.array(z.record(z.string(), z.unknown()));
+
+export const PRIMARY_PACKAGE_TYPES = [
+  '本体',
+  'MOD',
+  '输入插件',
+  '输出插件',
+  '通用插件',
+  '滤镜插件',
+  '脚本',
+];
+
+export const ORDERED_PACKAGE_TYPES = [...PRIMARY_PACKAGE_TYPES, '其他'];
+
+function normalizePackageType(type) {
+  return typeof type === 'string' ? type.trim() : '';
+}
+
+function isOtherPackageType(type) {
+  const normalized = normalizePackageType(type);
+  return !normalized || !PRIMARY_PACKAGE_TYPES.includes(normalized);
+}
+
 // -------------------------
 // 基本工具函数
 // -------------------------

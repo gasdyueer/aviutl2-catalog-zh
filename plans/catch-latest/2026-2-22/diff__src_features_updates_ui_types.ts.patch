@@ -1,0 +1,28 @@
+diff --git a/src/features/updates/ui/types.ts b/src/features/updates/ui/types.ts
+new file mode 100644
+index 0000000..ad4dd6e
+--- /dev/null
++++ b/src/features/updates/ui/types.ts
+@@ -0,0 +1,22 @@
++import type { CSSProperties } from 'react';
++import type { BulkUpdateProgress, ItemUpdateProgressMap, UpdatesItem } from '../model/types';
++
++export interface UpdatesHeaderSectionProps {
++  bulkUpdating: boolean;
++  hasAnyItemUpdating: boolean;
++  updatableCount: number;
++  onBulkUpdate: () => void;
++}
++
++export interface BulkProgressSectionProps {
++  bulkProgress: BulkUpdateProgress;
++  bulkPercent: number;
++  progressStyle: CSSProperties;
++}
++
++export interface UpdatesTableSectionProps {
++  updatableItems: UpdatesItem[];
++  itemProgress: ItemUpdateProgressMap;
++  bulkUpdating: boolean;
++  onUpdate: (item: UpdatesItem) => void;
++}

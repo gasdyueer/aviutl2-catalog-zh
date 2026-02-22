@@ -1,0 +1,16 @@
+diff --git a/src/features/init-setup/ui/hooks/initSetupPackageState.ts b/src/features/init-setup/ui/hooks/initSetupPackageState.ts
+new file mode 100644
+index 0000000..85569c9
+--- /dev/null
++++ b/src/features/init-setup/ui/hooks/initSetupPackageState.ts
+@@ -0,0 +1,10 @@
++import type { PackageState } from '../../model/types';
++
++export function createDefaultPackageState(): PackageState {
++  return {
++    downloading: false,
++    installed: false,
++    error: '',
++    progress: null,
++  };
++}

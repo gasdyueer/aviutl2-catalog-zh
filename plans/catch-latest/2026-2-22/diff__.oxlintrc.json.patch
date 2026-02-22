@@ -1,0 +1,13 @@
+diff --git a/.oxlintrc.json b/.oxlintrc.json
+index 1c8d44e..405e0d0 100644
+--- a/.oxlintrc.json
++++ b/.oxlintrc.json
+@@ -16,6 +16,8 @@
+ 
+     "react/rules-of-hooks": "warn",
+     "react/exhaustive-deps": "off",
++    "react/react-in-jsx-scope": "off",
++    "react/jsx-uses-react": "off",
+ 
+     "react-perf/jsx-no-new-object-as-prop": "warn",
+     "react-perf/jsx-no-new-array-as-prop": "warn",

@@ -1,0 +1,29 @@
+diff --git a/src/features/updates/model/types.ts b/src/features/updates/model/types.ts
+new file mode 100644
+index 0000000..c3dfb1f
+--- /dev/null
++++ b/src/features/updates/model/types.ts
+@@ -0,0 +1,23 @@
++import type { CatalogEntryState } from '../../../utils/catalogStore.jsx';
++
++export type UpdatesItem = CatalogEntryState;
++
++export interface ItemUpdateProgress {
++  ratio: number;
++  label: string;
++}
++
++export type ItemUpdateProgressMap = Record<string, ItemUpdateProgress>;
++
++export interface BulkUpdateProgress {
++  ratio: number;
++  itemName?: string;
++  status?: string;
++  current: number;
++  total: number;
++}
++
++export interface InstallerProgressPayload {
++  ratio?: number;
++  label?: string;
++}

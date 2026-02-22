@@ -1,0 +1,18 @@
+diff --git a/src/features/home/ui/sections/PackageGridSection.tsx b/src/features/home/ui/sections/PackageGridSection.tsx
+new file mode 100644
+index 0000000..475249e
+--- /dev/null
++++ b/src/features/home/ui/sections/PackageGridSection.tsx
+@@ -0,0 +1,12 @@
++import PackageCard from '../../../../components/package-card/PackageCard';
++import type { PackageGridSectionProps } from '../types';
++
++export default function PackageGridSection({ filteredPackages, listSearch }: PackageGridSectionProps) {
++  return (
++    <div className="grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-6 pb-10">
++      {filteredPackages.map((item) => (
++        <PackageCard key={item.id} item={item} listSearch={listSearch} />
++      ))}
++    </div>
++  );
++}

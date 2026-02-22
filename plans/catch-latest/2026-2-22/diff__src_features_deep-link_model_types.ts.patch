@@ -1,0 +1,11 @@
+diff --git a/src/features/deep-link/model/types.ts b/src/features/deep-link/model/types.ts
+new file mode 100644
+index 0000000..b72dec2
+--- /dev/null
++++ b/src/features/deep-link/model/types.ts
+@@ -0,0 +1,5 @@
++export interface DeepLinkAction {
++  rawUrl: string;
++  internalPath: string;
++  internalUrl: string;
++}

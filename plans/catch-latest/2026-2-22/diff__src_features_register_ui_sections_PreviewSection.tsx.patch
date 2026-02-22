@@ -1,0 +1,13 @@
+diff --git a/src/features/register/ui/sections/PreviewSection.tsx b/src/features/register/ui/sections/PreviewSection.tsx
+index c44fffe..5ef9d6c 100644
+--- a/src/features/register/ui/sections/PreviewSection.tsx
++++ b/src/features/register/ui/sections/PreviewSection.tsx
+@@ -3,7 +3,7 @@
+  */
+ import React, { useMemo, useRef } from 'react';
+ import { Moon, Sun } from 'lucide-react';
+-import PackageCard from '../../../../components/PackageCard.jsx';
++import PackageCard from '../../../../components/package-card/PackageCard';
+ import type { RegisterPreviewSectionProps } from '../types';
+ 
+ export default function RegisterPreviewSection({

@@ -1,0 +1,35 @@
+diff --git a/src/features/niconi-commons/ui/types.ts b/src/features/niconi-commons/ui/types.ts
+new file mode 100644
+index 0000000..2c37d59
+--- /dev/null
++++ b/src/features/niconi-commons/ui/types.ts
+@@ -0,0 +1,29 @@
++import type { CopyState, EligibleItem, SelectedMap } from '../model/types';
++
++export interface HeaderSectionProps {
++  copyState: CopyState;
++  selectedCount: number;
++  onCopySelected: () => void;
++}
++
++export interface GuideSectionProps {
++  onOpenGuide: () => void;
++}
++
++export interface ToolbarSectionProps {
++  visibleCount: number;
++  selectedCount: number;
++  query: string;
++  onQueryChange: (next: string) => void;
++}
++
++export interface TableSectionProps {
++  visibleCount: number;
++  totalEligible: number;
++  filteredItems: EligibleItem[];
++  allVisibleSelected: boolean;
++  selectedMap: SelectedMap;
++  onToggleAllVisible: () => void;
++  onToggleItem: (id: string) => void;
++  onCopyCommonsId: (commonsId: string) => void;
++}

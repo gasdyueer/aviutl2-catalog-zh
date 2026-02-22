@@ -1,0 +1,12 @@
+diff --git a/src-tauri/Cargo.toml b/src-tauri/Cargo.toml
+index 331a6f0..15570e2 100644
+--- a/src-tauri/Cargo.toml
++++ b/src-tauri/Cargo.toml
+@@ -1,6 +1,6 @@
+ [package]
+ name = "aviutl2-catalog"
+-version = "0.3.1"
++version = "0.3.2"
+ description = "AviUtl2 Catalog"
+ authors = ["Neosku"]
+ edition = "2021"

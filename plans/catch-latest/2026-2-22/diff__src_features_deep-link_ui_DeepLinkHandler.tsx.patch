@@ -1,0 +1,14 @@
+diff --git a/src/features/deep-link/ui/DeepLinkHandler.tsx b/src/features/deep-link/ui/DeepLinkHandler.tsx
+new file mode 100644
+index 0000000..31a0397
+--- /dev/null
++++ b/src/features/deep-link/ui/DeepLinkHandler.tsx
+@@ -0,0 +1,8 @@
++import { useNavigate } from 'react-router-dom';
++import useDeepLinkHandler from './hooks/useDeepLinkHandler';
++
++export default function DeepLinkHandler() {
++  const navigate = useNavigate();
++  useDeepLinkHandler(navigate);
++  return null;
++}

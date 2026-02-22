@@ -1,0 +1,35 @@
+diff --git a/src/main.jsx b/src/main.jsx
+index 59140fa..52fe440 100644
+--- a/src/main.jsx
++++ b/src/main.jsx
+@@ -1,8 +1,8 @@
+ import React, { useEffect, useState } from 'react';
+ import { createRoot } from 'react-dom/client';
+ import AppRouter from './Router.jsx';
+-import TitleBar from './components/TitleBar.jsx';
+-import UpdateDialog from './components/UpdateDialog.jsx';
++import TitleBar from './layouts/app-shell/title-bar/TitleBar';
++import UpdateDialog from './features/app-update/UpdateDialog';
+ import { CatalogProvider, useCatalogDispatch, initCatalog } from './utils/catalogStore.jsx';
+ import {
+   loadInstalledMap,
+@@ -14,8 +14,8 @@ import {
+   flushPackageStateQueue,
+   maybeSendPackageStateSnapshot,
+ } from './utils/index.js';
+-import { useUpdatePrompt } from './utils/useUpdatePrompt.js';
+-import InitSetupApp from './pages/InitSetupApp.jsx';
++import { useUpdatePrompt } from './features/app-update/useUpdatePrompt';
++import InitSetupPage from './features/init-setup/ui/InitSetupPage';
+ // eslint-disable-next-line import/no-unassigned-import
+ import './styles/index.css';
+ import { getCurrentWindow } from '@tauri-apps/api/window';
+@@ -296,7 +296,7 @@ function RootApp() {
+     return null;
+   }
+   if (mode === 'init') {
+-    return <InitSetupApp />;
++    return <InitSetupPage />;
+   }
+   return <App />;
+ }

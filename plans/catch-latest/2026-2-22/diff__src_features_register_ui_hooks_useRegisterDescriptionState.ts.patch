@@ -1,0 +1,13 @@
+diff --git a/src/features/register/ui/hooks/useRegisterDescriptionState.ts b/src/features/register/ui/hooks/useRegisterDescriptionState.ts
+index f9d9e56..6e367af 100644
+--- a/src/features/register/ui/hooks/useRegisterDescriptionState.ts
++++ b/src/features/register/ui/hooks/useRegisterDescriptionState.ts
+@@ -2,7 +2,7 @@
+  * 詳細説明入力の状態とプレビュー生成を扱う hook
+  */
+ import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+-import { renderMarkdown } from '../../../../utils/markdown.js';
++import { renderMarkdown } from '../../../../utils/markdown';
+ import { getDescriptionSourceUrl, isHttpsUrl } from '../../model/helpers';
+ import type { RegisterPackageForm } from '../../model/types';
+ 
