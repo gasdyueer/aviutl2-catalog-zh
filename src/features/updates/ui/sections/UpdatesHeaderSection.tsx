@@ -1,3 +1,4 @@
+import React from 'react';
 import type { UpdatesHeaderSectionProps } from '../types';
 
 export default function UpdatesHeaderSection({
