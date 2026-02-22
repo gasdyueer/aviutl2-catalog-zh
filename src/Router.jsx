@@ -1,16 +1,16 @@
 // アプリケーションのルーティング設定
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AppShell from './components/AppShell.jsx';
-import DeepLinkHandler from './components/DeepLinkHandler.jsx';
+import AppShell from './layouts/app-shell/AppShell.tsx';
+import DeepLinkHandler from './features/deep-link/ui/DeepLinkHandler.tsx';
 
-import Home from './pages/Home.jsx';
-const Package = lazy(() => import('./pages/Package.jsx'));
-const Updates = lazy(() => import('./pages/Updates.jsx'));
-const Settings = lazy(() => import('./pages/Settings.jsx'));
+import Home from './features/home/ui/HomePage.tsx';
+const Package = lazy(() => import('./features/package/ui/PackagePage.tsx'));
+const Updates = lazy(() => import('./features/updates/ui/UpdatesPage.tsx'));
+const Settings = lazy(() => import('./features/settings/ui/SettingsPage.tsx'));
 const Register = lazy(() => import('./features/register/ui/RegisterPage.tsx'));
-const Feedback = lazy(() => import('./pages/Feedback.jsx'));
-const NiconiCommons = lazy(() => import('./pages/NiconiCommons.jsx'));
+const Feedback = lazy(() => import('./features/feedback/ui/FeedbackPage.tsx'));
+const NiconiCommons = lazy(() => import('./features/niconi-commons/ui/NiconiCommonsPage.tsx'));
 
 export default function AppRouter() {
   return (
