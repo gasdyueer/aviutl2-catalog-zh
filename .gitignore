@@ -30,3 +30,5 @@
 /src-tauri/src/api_key.rs
 
 archive
+.alma-snapshots
+*.py

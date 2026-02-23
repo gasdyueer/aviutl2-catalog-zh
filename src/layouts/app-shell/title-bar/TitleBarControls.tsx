@@ -35,7 +35,7 @@ export default function TitleBarControls({
         className={`${baseBtn} ${controlBtn}`}
         onClick={() => void onToggleMaximize()}
         onDoubleClick={() => void onToggleMaximize()}
-        title={max ? '元に戻す' : '最大化'}
+        title={max ? '还原' : '最大化'}
         aria-label="最大化"
         type="button"
         style={noDragStyle}
@@ -45,8 +45,8 @@ export default function TitleBarControls({
       <button
         className={`${baseBtn} hover:bg-red-600 hover:text-white active:bg-red-700`}
         onClick={() => void onClose()}
-        title="閉じる"
-        aria-label="閉じる"
+        title="关闭"
+        aria-label="关闭"
         type="button"
         style={noDragStyle}
       >

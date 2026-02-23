@@ -18,7 +18,7 @@ export default function HomeSearchHeader({ searchQuery, onSearchQueryChange }: H
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
-            placeholder="パッケージ名、作者、キーワードで検索..."
+            placeholder="按包名、作者、关键词搜索..."
             className="w-full pl-10 pr-10 py-2 bg-white/95 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 shadow-sm"
             value={searchQuery}
             onChange={handleChange}

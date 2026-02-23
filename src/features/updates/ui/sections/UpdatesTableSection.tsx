@@ -12,17 +12,17 @@ export default function UpdatesTableSection({
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
       {updatableItems.length === 0 ? (
         <div className="p-8 text-center text-slate-500 dark:text-slate-400">
-          <p>すべて最新の状態です</p>
+          <p>全部已是最新状态</p>
         </div>
       ) : (
         <div className="overflow-x-auto">
           <div className="min-w-[760px]">
             <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide grid grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)_7.5rem] gap-2">
-              <span>パッケージ</span>
+              <span>包</span>
               <span>作者</span>
-              <span>種類</span>
-              <span>更新前</span>
-              <span>更新後</span>
+              <span>类型</span>
+              <span>当前版本</span>
+              <span>新版本</span>
               <span className="text-right"></span>
             </div>
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -53,7 +53,7 @@ export default function UpdatesTableSection({
                             value={progress.ratio}
                             size={24}
                             strokeWidth={3}
-                            ariaLabel={`${item.name} の更新進捗`}
+                            ariaLabel={`${item.name} 的更新进度`}
                           />
                         </div>
                       ) : (

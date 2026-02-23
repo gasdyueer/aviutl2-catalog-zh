@@ -63,12 +63,12 @@ export default function AppSidebar({
     >
       <div className="border-b border-slate-100 dark:border-slate-800 h-16 flex items-center shrink-0 overflow-hidden">
         <div className="w-20 shrink-0 flex items-center justify-center">
-          <img src={appIcon} alt="AviUtl2カタログ" className="h-7 w-7 object-contain" />
+          <img src={appIcon} alt="AviUtl2目录" className="h-7 w-7 object-contain" />
         </div>
         {!isSidebarCollapsed ? (
           <div className="flex-1 flex items-center min-w-0 pr-4">
             <span className="font-bold text-lg text-slate-900 dark:text-slate-50 truncate tracking-tight">
-              AviUtl2カタログ
+              AviUtl2目录
             </span>
           </div>
         ) : null}
@@ -76,11 +76,11 @@ export default function AppSidebar({
 
       <div className="flex-1 overflow-y-auto flex flex-col">
         <div className="p-3 space-y-1">
-          <SidebarSectionLabel label="メインメニュー" isCollapsed={isSidebarCollapsed} hideDivider className="mb-1" />
+          <SidebarSectionLabel label="主菜单" isCollapsed={isSidebarCollapsed} hideDivider className="mb-1" />
 
           <SidebarButton
             icon={PackageSearch}
-            label="パッケージ一覧"
+            label="包列表"
             isActive={activePage === 'home'}
             isCollapsed={isSidebarCollapsed}
             onClick={onGoHome}
@@ -89,7 +89,7 @@ export default function AppSidebar({
 
           <SidebarButton
             icon={RefreshCw}
-            label="アップデートセンター"
+            label="更新中心"
             isActive={activePage === 'updates'}
             isCollapsed={isSidebarCollapsed}
             onClick={onGoUpdates}
@@ -99,7 +99,7 @@ export default function AppSidebar({
 
           <SidebarButton
             icon={niconiCommonsIcon}
-            label="ニコニコモンズ"
+            label="NicoNico Commons"
             variant="ghost"
             isActive={activePage === 'niconi-commons'}
             isCollapsed={isSidebarCollapsed}
@@ -108,7 +108,7 @@ export default function AppSidebar({
 
           <SidebarButton
             icon={PlusCircle}
-            label="パッケージ登録"
+            label="包注册"
             variant="ghost"
             isActive={activePage === 'register'}
             isCollapsed={isSidebarCollapsed}
@@ -119,11 +119,11 @@ export default function AppSidebar({
 
         <div className="p-3 pt-2 mt-auto sm:mt-0">
           <div className="space-y-1">
-            <SidebarSectionLabel label="ショートカット" isCollapsed={isSidebarCollapsed} className="mt-2 mb-1" />
+            <SidebarSectionLabel label="快捷键" isCollapsed={isSidebarCollapsed} className="mt-2 mb-1" />
 
             <SidebarButton
               icon={AviUtlIcon}
-              label="AviUtl2を起動"
+              label="启动 AviUtl2"
               isActive={false}
               isCollapsed={isSidebarCollapsed}
               onClick={onLaunchAviUtl2}
@@ -133,7 +133,7 @@ export default function AppSidebar({
 
             <SidebarButton
               icon={FolderOpen}
-              label="データフォルダを開く"
+              label="打开数据文件夹"
               isActive={false}
               isCollapsed={isSidebarCollapsed}
               onClick={onOpenDataDir}
@@ -147,7 +147,7 @@ export default function AppSidebar({
       <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 flex flex-col gap-1">
         <SidebarButton
           icon={MessagesSquare}
-          label="フィードバック"
+          label="反馈"
           variant="ghost"
           isActive={activePage === 'feedback'}
           isCollapsed={isSidebarCollapsed}
@@ -156,7 +156,7 @@ export default function AppSidebar({
         />
         <SidebarButton
           icon={Settings}
-          label="設定"
+          label="设置"
           variant="ghost"
           isActive={activePage === 'settings'}
           isCollapsed={isSidebarCollapsed}
@@ -165,7 +165,7 @@ export default function AppSidebar({
         />
         <SidebarButton
           icon={isSidebarCollapsed ? PanelLeftOpen : PanelLeftClose}
-          label={isSidebarCollapsed ? 'サイドバーを開く' : 'サイドバーを閉じる'}
+          label={isSidebarCollapsed ? '打开侧边栏' : '关闭侧边栏'}
           variant="ghost"
           isCollapsed={isSidebarCollapsed}
           onClick={onToggleSidebar}

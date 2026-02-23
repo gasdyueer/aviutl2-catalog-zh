@@ -1,10 +1,10 @@
 import type { HomeSortOption, HomeSortOrder, SortDir, SortKey } from './types';
 
 export const SORT_OPTIONS: readonly HomeSortOption[] = [
-  { value: 'popularity_desc', label: '人気順' },
-  { value: 'trend_desc', label: 'トレンド順' },
-  { value: 'added_desc', label: '新着順' },
-  { value: 'updated_desc', label: '最終更新日順' },
+  { value: 'popularity_desc', label: '人气排序' },
+  { value: 'trend_desc', label: '趋势排序' },
+  { value: 'added_desc', label: '最新添加' },
+  { value: 'updated_desc', label: '最后更新' },
 ];
 
 export function sortOrderFromQuery(sortKey: string): HomeSortOrder {

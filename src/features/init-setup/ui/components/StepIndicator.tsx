@@ -5,11 +5,11 @@ import type { StepIndicatorProps } from '../types';
 export default function StepIndicator({ step, installed }: StepIndicatorProps) {
   const steps = useMemo(
     () => [
-      { id: 'intro', label: '開始' },
-      { id: 'installStatus', label: 'インストールの状況' },
-      { id: 'details', label: installed ? 'フォルダの指定' : 'インストール' },
-      { id: 'packages', label: '推奨パッケージ' },
-      { id: 'done', label: '完了' },
+      { id: 'intro', label: '开始' },
+      { id: 'installStatus', label: '安装状态' },
+      { id: 'details', label: installed ? '文件夹指定' : '安装' },
+      { id: 'packages', label: '推荐包' },
+      { id: 'done', label: '完成' },
     ],
     [installed],
   );

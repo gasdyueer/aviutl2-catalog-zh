@@ -24,8 +24,8 @@ export default function SettingsPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-7 animate-in slide-in-from-bottom-2 duration-300 select-none">
       <div>
-        <h2 className="text-2xl font-bold mb-2">設定</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm">アプリケーションの設定とカスタマイズ</p>
+        <h2 className="text-2xl font-bold mb-2">设置</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">应用程序设置与自定义</p>
       </div>
 
       {error ? (

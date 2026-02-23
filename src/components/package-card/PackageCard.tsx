@@ -24,7 +24,7 @@ export default function PackageCard({ item, listSearch = '' }: PackageCardProps)
   } = usePackageCardActions(item);
 
   const thumbnail = useMemo(() => pickThumbnail(item), [item]);
-  const category = typeof item.type === 'string' ? item.type : 'その他';
+  const category = typeof item.type === 'string' ? item.type : '其他';
   const isInstalled = Boolean(item.installed);
   const hasUpdate = isInstalled && !item.isLatest;
   const canInstall = hasInstaller(item);

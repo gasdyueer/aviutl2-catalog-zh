@@ -74,12 +74,12 @@ export default function PackageCardActionSection({
             ) : (
               <div className="h-9 flex-1 bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-lg flex items-center justify-center gap-1 cursor-default border border-slate-200 dark:border-slate-700">
                 <CheckCircle2 size={14} />
-                <span>導入済</span>
+                <span>已安装</span>
               </div>
             )}
             <button
               className="h-9 w-9 shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
-              title="削除"
+              title="删除"
               onClick={handleActionClick(onRemove)}
               disabled={removing}
             >
@@ -97,7 +97,7 @@ export default function PackageCardActionSection({
             ) : (
               <Download size={14} strokeWidth={2.5} />
             )}
-            <span>インストール</span>
+            <span>安装</span>
           </button>
         )}
       </div>
